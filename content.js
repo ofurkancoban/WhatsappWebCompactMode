@@ -142,7 +142,7 @@ function injectStyles() {
     width: var(--waw-cw) !important;
     min-width: var(--waw-cw) !important;
     max-width: var(--waw-cw) !important;
-    border-right: 1px solid rgba(255,255,255,0.08) !important;
+    border: none !important; /* Dikey çizgiyi kaldırdık! */
     overflow: hidden !important;
   }
 
@@ -156,6 +156,7 @@ function injectStyles() {
     overflow: hidden !important;
     transition: width var(--waw-tr) !important;
     flex-shrink: 0 !important;
+    border: none !important;
   }
 
   /* SOHBET EKRANI PANELI (Geriye kalan boşluğu kapla) */
@@ -164,6 +165,34 @@ function injectStyles() {
       flex: 1 1 0 !important;
       min-width: 0 !important;
       overflow: hidden !important;
+      border: none !important;
+  }
+
+  /* --- WHATSAPP'IN Orijinal Arayüz Ayırıcılarını (Ghost Lines) YOK ET --- */
+  /* 1. Sayfanın Ortasındaki Çizgi (Atomic Sınıflar ve Taşıyıcılar) */
+  body.waw-compact .two > div,
+  body.waw-compact .three > div,
+  body.waw-compact .x1iyjqo2,
+  body.waw-compact .xjdofhw {
+      border-left: none !important;
+      border-right: none !important;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-left-width: 0 !important;
+      border-right-width: 0 !important;
+  }
+  
+  /* 2. Avatarların Sağındaki Çizgi */
+  body.waw-compact #side,
+  body.waw-compact ._aigw {
+      border-right: none !important;
+      border-left: none !important;
+  }
+
+  /* Ana ayırıcı tutamakları (Karanlık ekrana yol açan ._aigs silindi, sadece resize iptal) */
+  body.waw-compact [data-testid="sidebar-resize-handle"] {
+      display: none !important;
+      pointer-events: none !important;
   }
 
   /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI VE HIGHLIGHTER'I) HİZALAMA --- */
@@ -254,6 +283,21 @@ function injectStyles() {
   }
   body.waw-compact [data-waw-name]:hover::after {
     opacity: 1;
+  }
+
+  /* KULLANICI ÖZEL SINIF GEÇERSİZ KILMALARI (USER DIRECT OVERRIDES) */
+  body.waw-compact ._ak8h {
+      display: flex !important;
+      flex: none !important;
+      align-items: center !important;
+      padding: 0 var(--chat-spacing) 0 2px !important;
+      margin-top: -1px !important;
+  }
+
+  body.waw-compact ._ap1- {
+      border-radius: 12px !important;
+      margin-left: 2px !important;
+      margin-right:2px !important;
   }
   `;
   document.head.appendChild(st);
