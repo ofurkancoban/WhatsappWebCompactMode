@@ -312,14 +312,14 @@ function injectStyles() {
       --background-default-active: #27272a !important;
       
       --panel-background-lighter: #18181b !important;
-      --panel-background-deep: #09090b !important; 
+      --panel-background-deep: #18181b !important; 
       --panel-background: #18181b !important;
       --panel-background-rgb: 24, 24, 27 !important;
       --panel-background-hover: #27272a !important;
       
-      /* Chat Paneli Wallpaper Katmanı (Çok daha ferah siyaha kaçmayan renk) */
-      --chat-background: #09090b !important;
-      --bg-folder: #09090b !important;
+      /* Chat Paneli Wallpaper Katmanı (Eski karanlık #09090b yerine çok daha aydınlık menü rengi #18181b) */
+      --chat-background: #18181b !important;
+      --bg-folder: #18181b !important;
       
       /* Gelen (Açık Gri) ve Giden (Canlı Azure/Apple Mavi) Balonlar */
       --incoming-background: #27272a !important;
