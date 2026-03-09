@@ -90,7 +90,6 @@ function injectStyles() {
     pointer-events: none !important;
   }
 
-  /* --- 2. ÖZEL TOP BAR KENDİ STİLİ (JS ile Eklenir) --- */
   #waw-custom-topbar {
     position: fixed;
     top: 0;
@@ -98,8 +97,11 @@ function injectStyles() {
     width: 100%;
     height: 54px;
     z-index: 999999;
-    background-color: #111b21;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* Glassmorphism Effect */
+    background-color: rgba(15, 23, 42, 0.7) !important;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -301,6 +303,96 @@ function injectStyles() {
       border-radius: 12px !important;
       margin-left: 2px !important;
       margin-right:2px !important;
+  }
+
+  /* =========================================================
+     MODERN PREMIUM THEME (DARK SLATE & INDIGO)
+     WhatsApp'ın yerel Değişkenlerini Zorla Geçersiz Kıl !
+     ========================================================= */
+  html.dark body.waw-compact, 
+  body.waw-compact.dark {
+      /* Ana Arkaplanlar (Deep Slate) */
+      --background-default: #0f172a !important; /* Sohbet Listesi */
+      --background-default-hover: #1e293b !important;
+      --background-default-active: #1e293b !important;
+      --panel-background-lighter: #0f172a !important;
+      --panel-background-deep: #020617 !important; /* Sohbet Paneli Duvar Kağıdı vs */
+      --panel-background: #0f172a !important;
+      --panel-background-rgb: 15, 23, 42 !important;
+      --panel-background-hover: #1e293b !important;
+      
+      /* Chat Paneli Wallpaper Katmanı - Tamamen Temizle ve Slate Yap */
+      --chat-background: #020617 !important;
+      --bg-folder: #020617 !important;
+      
+      /* Gelen ve Giden Mesaj Balonları */
+      --incoming-background: #1e293b !important;
+      --incoming-background-rgb: 30, 41, 59 !important;
+      --outgoing-background: #4f46e5 !important; /* Premium Indigo */
+      --outgoing-background-rgb: 79, 70, 229 !important;
+      --outgoing-background-deeper: #4338ca !important;
+
+      /* Metin ve İkon Renkleri */
+      --primary: #f8fafc !important; /* Beyaz Metinler */
+      --primary-strong: #ffffff !important;
+      --secondary: #94a3b8 !important; /* Açık Gri Alt Başlıklar */
+      --secondary-lighter: #cbd5e1 !important;
+      --icon: #cbd5e1 !important; /* Soluk İkonlar */
+      --icon-fixed: #cbd5e1 !important;
+      --icon-lighter: #ffffff !important;
+      --icon-search-back: #4f46e5 !important;
+      
+      /* Vurgu Rengi (Mesaj Oku Tikleri vb. veya Butonlar) */
+      --teal-light: #818cf8 !important; /* İndigo Açık */
+      --teal: #6366f1 !important;
+      --teal-rgb: 99, 102, 241 !important;
+      --drawer-header-title: #f8fafc !important;
+      --highlight: #4f46e5 !important;
+      
+      /* Arama Kutusu ve Input (Mesaj Yazma Alanı) */
+      --search-input-background: #1e293b !important;
+      --compose-input-background: #1e293b !important;
+      --compose-input-border: transparent !important;
+  }
+
+  /* Sohbet Arkaplanı Desenini (Doodles) Kapat/Hafiflet */
+  body.waw-compact ._aigs,
+  body.waw-compact [data-asset-chat-background] {
+      opacity: 0.05 !important;
+      background-color: var(--chat-background) !important;
+  }
+
+  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding) */
+  body.waw-compact .copyable-area,
+  body.waw-compact [data-testid="conversation-panel-wrapper"],
+  body.waw-compact #main {
+      border-top-left-radius: 20px !important;
+      overflow: hidden !important;
+  }
+
+  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi) */
+  body.waw-compact [data-testid="msg-container"] {
+      border-radius: 18px !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; /* Modern Derinlik */
+  }
+
+  /* Mikro Animasyonlar: Sohbet Listesi / Avatarlar Hover Efekti */
+  body.waw-compact ._ak8q,
+  body.waw-compact [data-testid="cell-frame-container"] {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  body.waw-compact ._ak8q:hover,
+  body.waw-compact [data-testid="cell-frame-container"]:hover {
+      transform: translateY(-2px) scale(1.02) !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+      background-color: var(--background-default-hover) !important;
+  }
+  
+  /* Input Alanlarını Yumuşat (Yuvarlak Mesaj Yazma Kutusu) */
+  body.waw-compact [data-testid="conversation-compose-box-input"] {
+      border-radius: 24px !important;
+      padding: 12px 20px !important;
   }
   `;
   document.head.appendChild(st);
