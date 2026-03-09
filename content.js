@@ -86,68 +86,100 @@ function injectStyles() {
     justify-content: center !important;
   }
 
-  /* 1. Profil Resmi (Üstte ve Büyük) */
-  body.waw-compact #main > header > div:first-child {
-    display: flex !important;
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    order: 1 !important;
-  }
-  body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(1.8) !important; /* Biraz daha büyütelim (Apple Style) */
-    margin: 0 !important;
-    border: 2px solid rgba(255, 255, 255, 0.1) !important; /* Hafif çerçeve */
-    padding: 2px !important;
-    border-radius: 50% !important;
+  /* WhatsApp'ın kendi çocuk elementlerindeki tüm gölge, maske ve arka planları temizle */
+  body.waw-compact #main > header,
+  body.waw-compact #main > header * {
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
-  /* 2. İsim ve Numara (Ortada) */
-  body.waw-compact #main > header > div:nth-child(2) {
+  /* Ana Header'ın Kendi Glassy Zeminini Geri Getir */
+  body.waw-compact #main > header {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    text-align: center !important;
-    width: 100% !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 220px !important;
+    padding: 30px 20px !important;
+    background-color: rgba(24, 24, 27, 0.7) !important; /* Biraz daha koyu ve kararlı */
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+    gap: 16px !important;
+  }
+
+  /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt (width:100% KALDIRILDI) */
+  body.waw-compact #main > header > div {
+    display: flex !important;
+    width: auto !important; /* İçerik kadar genişlik */
+    max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: static !important;
+  }
+
+  /* 1. Profil Resmi (Avatara özel background lazım!) */
+  body.waw-compact #main > header [data-testid="chat-head-button"] {
+    transform: scale(1.8) !important; 
+    margin-bottom: 20px !important;
+    border: 2.5px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    background-color: #2a2a2e !important; /* Avatar boşsa arkası boş kalmasın */
+    order: 1 !important;
+  }
+  /* Avatar resminin kendisi (SVG veya IMG) görünmeli */
+  body.waw-compact #main > header [data-testid="chat-head-button"] img,
+  body.waw-compact #main > header [data-testid="chat-head-button"] svg {
+    display: block !important;
+  }
+
+  /* 2. İsim ve Numara Alanı */
+  body.waw-compact #main > header > div:nth-child(2) {
+    flex-direction: column !important;
     order: 2 !important;
   }
   body.waw-compact #main > header span[title] {
-    font-size: 20px !important; /* Daha okunaklı */
+    font-size: 22px !important;
     font-weight: 700 !important;
     color: #ffffff !important;
-    display: block !important;
-    margin-bottom: 4px !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
   }
   /* Status/Last Seen */
   body.waw-compact #main > header ._aj-8 {
     font-size: 14px !important;
-    color: #94a3b8 !important; /* Zinc color */
-    opacity: 0.8 !important;
+    color: #94a3b8 !important;
+    margin-top: 5px !important;
   }
 
-  /* 3. Buton Grubu (En Altta ve Ortada) */
+  /* 3. Buton Grubu */
   body.waw-compact #main > header > div:last-child {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 24px !important;
-    margin-top: 5px !important;
-    width: 100% !important;
+    gap: 30px !important;
+    margin-top: 15px !important;
     order: 3 !important;
-    background: transparent !important;
   }
   body.waw-compact #main > header [role="button"] {
-    padding: 10px !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-radius: 50% !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    color: #fff !important;
+    padding: 12px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important; /* Apple tarzı butonlar */
+    transition: all 0.2s !important;
   }
   body.waw-compact #main > header [role="button"]:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    transform: translateY(-2px) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: scale(1.05) !important;
+  }
+  /* Butonların içindeki SVG'ler görünmeli */
+  body.waw-compact #main > header [role="button"] svg {
+    display: block !important;
+    color: #fff !important;
   }
 
   /* --- 1. UYGULAMANIN ANA WRAPPER'INI AŞAĞI İT --- */
