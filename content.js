@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.7 (Stable 2-Line Header)";
+const VERSION = "1.8 (Surgical Alignment)";
 
 'use strict';
 
@@ -53,30 +53,47 @@ function injectStyles() {
     align-items: stretch !important;
     visibility: visible !important;
     opacity: 1 !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
+    width: 100% !important;
+    max-width: 100% !important;
     min-width: 0 !important;
     flex: 1 1 auto !important;
     overflow: hidden !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+    z-index: 10 !important;
   }
 
-  #main, [data-testid="conversation-panel-wrapper"] {
-    display: flex !important;
-    flex: 1 1 0 !important; /* Kalan boşluğu doldur, taşma yapma */
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+  /* WhatsApp'ın araya soktuğu gereksiz absolute katmanları (arka plan vb.) GİZLE */
+  .two > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]),
+  .three > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]) {
+    display: none !important;
   }
 
-  /* Chat listesi sütunu - Genişlik sabitlenmeli */
+  /* Chat listesi sütunu - Genişlik ve Z-Index Sabitlendi */
   #waw-compact-sidebar-col {
     flex: 0 0 72px !important;
     width: 72px !important;
     min-width: 72px !important;
     max-width: 72px !important;
     overflow: hidden !important;
+    z-index: 500 !important; /* En üstte kalsın */
+    position: relative !important;
+    left: 0 !important;
+  }
+
+  /* Mesaj Alanı Sütunu - Koordinat ve Z-Index Sıfırlandı */
+  #waw-chat-pane-col, #main, [data-testid="conversation-panel-wrapper"] {
+    display: flex !important;
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 400 !important;
+    position: relative !important;
+    left: 0 !important;
+    margin-left: 0 !important;
   }
 
   /* Mesaj balonlarının sağdan taşmasını engelle */
@@ -686,28 +703,32 @@ function syncCustomTopBar() {
       });
   }
 
-  // 2. Chat List Sütununu 72px yap ve filtre tablarını gizle
+  // 2. Chat List Sütununu 72px yap
   const side = document.querySelector('#side') || document.querySelector('._ak9p');
   if (side) {
       // Hatalı atamaları temizle
-      document.querySelectorAll('#waw-compact-sidebar-col').forEach(el => {
-          if (el.querySelector('#main') || el.querySelector('[data-testid="conversation-panel-wrapper"]')) {
-              el.id = '';
-          }
+      document.querySelectorAll('#waw-compact-sidebar-col, #waw-chat-pane-col').forEach(el => {
+          el.id = '';
       });
 
       let sideCol = side.parentElement;
-      // .two veya .three'nin direkt çocuğu olan sütunu bulana kadar çık
       while (sideCol && sideCol.parentElement && 
              !sideCol.parentElement.classList.contains('two') && 
              !sideCol.parentElement.classList.contains('three')) {
           sideCol = sideCol.parentElement;
       }
 
-      if (sideCol && sideCol.id !== 'waw-compact-sidebar-col') {
-          // İçinde chat pane (sağ taraf) olmadığından emin ol
-          if (!sideCol.querySelector('#main') && !sideCol.querySelector('[data-testid="conversation-panel-wrapper"]')) {
-              sideCol.id = 'waw-compact-sidebar-col';
+      if (sideCol) {
+          sideCol.id = 'waw-compact-sidebar-col';
+          
+          // Chat Pane Sütununu Bul (Sidebar'ın yanındaki kardeş)
+          let next = sideCol.nextElementSibling;
+          while (next) {
+              if (next.querySelector('#main') || next.querySelector('[data-testid="conversation-panel-wrapper"]')) {
+                  next.id = 'waw-chat-pane-col';
+                  break;
+              }
+              next = next.nextElementSibling;
           }
       }
 
