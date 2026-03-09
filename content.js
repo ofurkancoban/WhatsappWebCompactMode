@@ -306,11 +306,10 @@ function injectStyles() {
   }
 
   /* =========================================================
-     MODERN PREMIUM THEME (DARK SLATE & INDIGO)
-     WhatsApp'ın yerel Değişkenlerini Zorla Geçersiz Kıl !
+     MODERN PREMIUM THEME (DARK SLATE & INDIGO) - GLOBAL (TÜM ARAYÜZ)
      ========================================================= */
-  html.dark body.waw-compact, 
-  body.waw-compact.dark {
+  body.dark,
+  html.dark {
       /* Ana Arkaplanlar (Deep Slate) */
       --background-default: #0f172a !important; /* Sohbet Listesi */
       --background-default-hover: #1e293b !important;
@@ -348,6 +347,7 @@ function injectStyles() {
       --teal-rgb: 99, 102, 241 !important;
       --drawer-header-title: #f8fafc !important;
       --highlight: #4f46e5 !important;
+      --panel-header-background: #0f172a !important;
       
       /* Arama Kutusu ve Input (Mesaj Yazma Alanı) */
       --search-input-background: #1e293b !important;
@@ -355,42 +355,43 @@ function injectStyles() {
       --compose-input-border: transparent !important;
   }
 
-  /* Sohbet Arkaplanı Desenini (Doodles) Kapat/Hafiflet */
-  body.waw-compact ._aigs,
-  body.waw-compact [data-asset-chat-background] {
+  /* Sohbet Arkaplanı Desenini (Doodles) Kapat/Hafiflet (Global) */
+  ._aigs,
+  [data-asset-chat-background] {
       opacity: 0.05 !important;
       background-color: var(--chat-background) !important;
   }
 
-  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding) */
-  body.waw-compact .copyable-area,
-  body.waw-compact [data-testid="conversation-panel-wrapper"],
-  body.waw-compact #main {
+  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding - Global) */
+  .copyable-area,
+  [data-testid="conversation-panel-wrapper"],
+  #main {
       border-top-left-radius: 20px !important;
       overflow: hidden !important;
   }
 
-  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi) */
-  body.waw-compact [data-testid="msg-container"] {
+  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi) - Global */
+  [data-testid="msg-container"] {
       border-radius: 18px !important;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; /* Modern Derinlik */
   }
 
-  /* Mikro Animasyonlar: Sohbet Listesi / Avatarlar Hover Efekti */
-  body.waw-compact ._ak8q,
-  body.waw-compact [data-testid="cell-frame-container"] {
+  /* Mikro Animasyonlar: Sohbet Listesi Hoverl Efekti - Global */
+  ._ak8q,
+  [data-testid="cell-frame-container"] {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
   
-  body.waw-compact ._ak8q:hover,
-  body.waw-compact [data-testid="cell-frame-container"]:hover {
+  ._ak8q:hover,
+  [data-testid="cell-frame-container"]:hover {
       transform: translateY(-2px) scale(1.02) !important;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
       background-color: var(--background-default-hover) !important;
+      border-radius: 12px !important;
   }
   
-  /* Input Alanlarını Yumuşat (Yuvarlak Mesaj Yazma Kutusu) */
-  body.waw-compact [data-testid="conversation-compose-box-input"] {
+  /* Input Alanlarını Yumuşat (Yuvarlak Mesaj Yazma Kutusu) - Global */
+  [data-testid="conversation-compose-box-input"] {
       border-radius: 24px !important;
       padding: 12px 20px !important;
   }
