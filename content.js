@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.2 (Structural Fix)";
+const VERSION = "1.3 (Surgical Fix)";
 
 'use strict';
 
@@ -44,6 +44,13 @@ function injectStyles() {
     opacity: 1 !important; /* Sayfa karartmasını kesinlikle iptal et */
     visibility: visible !important;
     display: flex !important;
+  }
+  
+  /* SAFETY: Eğer bir şekilde nav-col-hidden hata yaparsa .two ve .three kesinlikle GÖRÜNMELİ */
+  .two, .three {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   body.waw-compact [data-asset-chat-background] {
@@ -457,9 +464,11 @@ function getFarLeftColumn() {
   let p = icon.parentElement;
   while (p && p !== document.body) {
       // Navigasyon menüsü incedir (40-100px) ve oldukça uzundur. 
-      // div.two veya div.three olmamasını garanti ediyoruz.
+      // div.two veya div.three içeren bir babayı KESİNLİKLE ALMA!
       const isStructure = p.classList.contains('two') || p.classList.contains('three') || p.classList.contains('_aigs');
-      if (!isStructure && p.clientWidth > 40 && p.clientWidth < 100 && p.clientHeight > window.innerHeight * 0.5) {
+      const hasStructureChild = p.querySelector('.two') || p.querySelector('.three') || p.querySelector('._aigs');
+      
+      if (!isStructure && !hasStructureChild && p.clientWidth > 40 && p.clientWidth < 100 && p.clientHeight > window.innerHeight * 0.5) {
           return p;
       }
       p = p.parentElement;
