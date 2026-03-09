@@ -78,6 +78,16 @@ function injectStyles() {
     width: 100% !important;
     height: auto !important; /* height yerine top/bottom kullanıyoruz */
     box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  
+  /* WhatsApp'ın React mount noktasını yayılmaya zorla */
+  #app > div, 
+  #app > div > div,
+  .two, .three {
+    flex-grow: 1 !important;
+    height: 100% !important;
   }
 
   /* WhatsApp'ın ORİJİNAL dikey Navigasyon Sütununu GİZLE (JS id atar) */
@@ -446,8 +456,10 @@ function getFarLeftColumn() {
 
   let p = icon.parentElement;
   while (p && p !== document.body) {
-      // Navigasyon menüsü her zaman incedir (40-100px) ve oldukça uzundur (ekranın yarısından büyük)
-      if (p.clientWidth > 40 && p.clientWidth < 100 && p.clientHeight > window.innerHeight * 0.5) {
+      // Navigasyon menüsü incedir (40-100px) ve oldukça uzundur. 
+      // div.two veya div.three olmamasını garanti ediyoruz.
+      const isStructure = p.classList.contains('two') || p.classList.contains('three') || p.classList.contains('_aigs');
+      if (!isStructure && p.clientWidth > 40 && p.clientWidth < 100 && p.clientHeight > window.innerHeight * 0.5) {
           return p;
       }
       p = p.parentElement;
