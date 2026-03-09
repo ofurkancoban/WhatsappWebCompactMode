@@ -110,14 +110,14 @@ function injectStyles() {
     max-width: 250px !important;
   }
 
-  /* 2-SATIRLI HEADER TASARIMI (v1.8 Revize) */
+  /* 2-SATIRLI HEADER TASARIMI (v1.8 Final) */
   body.waw-compact header {
     height: 94px !important;
     min-height: 94px !important;
     display: flex !important;
     flex-direction: column !important;
     padding: 0 !important;
-    background: #111b21 !important; /* Koyu arka planı sabitle */
+    background: #111b21 !important;
     border-bottom: 1px solid var(--border-panel) !important;
     overflow: hidden !important;
     z-index: 600 !important;
@@ -153,22 +153,6 @@ function injectStyles() {
   }
 
   /* Avatar ve İkon Ölçeklendirme */
-  body.waw-compact header [role="button"] img, 
-  body.waw-compact header img {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 50% !important;
-    object-fit: cover !important;
-  }
-
-  /* Mesaj alanını aşağı kaydır (Overlap Engelleme) */
-  body.waw-compact #main > div > div:last-child,
-  body.waw-compact .x10l6tqk,
-  body.waw-compact ._akbu {
-      margin-top: 100px !important;
-  }
-
-  /* Avatar ve İkon Ölçeklendirme (Dome Engelleme) */
   body.waw-compact header [role="button"] img, 
   body.waw-compact header img {
     width: 32px !important;
