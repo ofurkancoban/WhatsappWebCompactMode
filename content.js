@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.9 (Grid & Space Fix)";
+const VERSION = "2.0 (Gold Master)";
 
 'use strict';
 
@@ -59,13 +59,17 @@ function injectStyles() {
     flex: 1 1 auto !important;
     overflow: hidden !important;
     background: var(--background-default) !important;
+    position: absolute !important; /* WhatsApp'ın yerini koru */
+    left: 0 !important;
+    right: 0 !important;
   }
 
   /* WhatsApp'ın araya soktuğu gereksiz absolute katmanları (arka plan vb.) Pasifleştir */
   .two > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]),
   .three > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]) {
-    opacity: 0.1 !important;
+    opacity: 0 !important;
     pointer-events: none !important;
+    display: none !important;
   }
 
   /* Chat listesi sütunu - Izgara Yerleşimi */
@@ -92,16 +96,19 @@ function injectStyles() {
     opacity: 1 !important;
     z-index: 400 !important;
     position: relative !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
   }
 
   /* Mesaj balonlarının sağdan ve soldan sıkışmasını engelle (RECLAIM SPACE) */
   .message-in, .message-out {
-    max-width: 90% !important;
-    padding-left: 0 !important; /* Native 60px padding'i yok et */
+    max-width: 92% !important;
+    padding-left: 0 !important;
     padding-right: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+
 
   /* Mesajların içindeki gereksiz boşlukları sil */
   div[data-testid="msg-container"] {
@@ -119,7 +126,7 @@ function injectStyles() {
     max-width: 250px !important;
   }
 
-  /* 2-SATIRLI HEADER TASARIMI (v1.8 Final) */
+  /* 2-SATIRLI HEADER TASARIMI (v2.0 Gold Master) */
   body.waw-compact header {
     height: 94px !important;
     min-height: 94px !important;
@@ -130,6 +137,7 @@ function injectStyles() {
     border-bottom: 1px solid var(--border-panel) !important;
     overflow: hidden !important;
     z-index: 600 !important;
+    width: 100% !important;
   }
 
   /* Satır 1: İsim ve Avatar */
@@ -139,17 +147,29 @@ function injectStyles() {
     height: 50px !important;
     align-items: center !important;
     justify-content: center !important;
+    position: relative !important;
+    left: 0 !important;
+    width: auto !important;
   }
   
-  /* Satır 2: Butonlar */
+  /* Satır 2: Butonlar - Uçup Giden İkonları Topla */
   body.waw-compact header > div:first-child > div:nth-child(3) {
     display: flex !important;
     width: 100% !important;
     height: 44px !important;
     align-items: center !important;
-    justify-content: space-around !important;
+    justify-content: space-evenly !important; /* Butonları sığdır */
     border-top: 1px solid rgba(255,255,255,0.1) !important;
-    padding: 0 10px !important;
+    padding: 0 5px !important;
+    position: relative !important;
+    left: 0 !important; /* WhatsApp'ın uçuk koordinatlarını sıfırla */
+  }
+
+  /* Butonların içindeki gereksiz mutlak pozisyonları kır */
+  body.waw-compact header [role="button"] {
+    position: relative !important;
+    left: 0 !important;
+    margin: 0 !important;
   }
 
   /* Mesaj alanını aşağı kaydır (Overlap Engelleme) */
@@ -160,6 +180,7 @@ function injectStyles() {
       padding-left: 0 !important;
       margin-left: 0 !important;
   }
+
 
   /* Avatar ve İkon Ölçeklendirme */
   body.waw-compact header [role="button"] img, 
