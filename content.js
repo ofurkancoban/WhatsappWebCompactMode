@@ -53,12 +53,83 @@ function injectStyles() {
   body.waw-compact #waw-chat-pane-col,
   body.waw-compact #main,
   body.waw-compact #main > div,
-  body.waw-compact #main > header,
   body.waw-compact #main > footer {
     min-width: 0 !important;
     max-width: 100% !important;
-    width: auto !important; /* React inline "width: 700px" atarsa EZ! */
+    width: auto !important;
     opacity: 1 !important;
+  }
+
+  /* --- CHAT HEADER REDESIGN (Vertical Stack) --- */
+  body.waw-compact #main > header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 180px !important;
+    padding: 24px 15px !important;
+    background-color: rgba(24, 24, 27, 0.45) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    position: relative !important;
+    gap: 12px !important;
+  }
+
+  /* 1. Profil Resmi (Üstte ve Büyük) */
+  body.waw-compact #main > header > div:first-child {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.waw-compact #main > header [data-testid="chat-head-button"] {
+    transform: scale(1.6) !important; /* Avatarı büyüt */
+    margin-bottom: 15px !important;
+  }
+
+  /* 2. İsim ve Numara (Ortada) */
+  body.waw-compact #main > header > div:nth-child(2) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+  }
+  body.waw-compact #main > header span[title] {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #f8fafc !important;
+    display: block !important;
+  }
+  /* Status/Last Seen */
+  body.waw-compact #main > header ._aj-8 {
+    font-size: 13px !important;
+    color: var(--secondary) !important;
+    margin-top: 4px !important;
+  }
+
+  /* 3. Buton Grubu (En Altta ve Ortada) */
+  body.waw-compact #main > header > div:last-child {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important; /* Butonlar arası boşluk */
+    margin-top: 10px !important;
+    width: 100% !important;
+  }
+  body.waw-compact #main > header [role="button"] {
+    padding: 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 50% !important;
+    transition: background 0.2s !important;
+  }
+  body.waw-compact #main > header [role="button"]:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
   }
 
   /* --- 1. UYGULAMANIN ANA WRAPPER'INI AŞAĞI İT --- */
