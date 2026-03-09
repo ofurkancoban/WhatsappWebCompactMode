@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.5 (Precision Fit)";
+const VERSION = "1.6 (Dual-Line Header)";
 
 'use strict';
 
@@ -84,14 +84,70 @@ function injectStyles() {
     max-width: 85% !important;
   }
 
-  /* Grup başlıklarının 40.000 piksele uzayıp ekranı patlatmasını engelle */
+  /* Grup başlıklarının taşmasını engelle */
   header [role="button"] span, 
   header div[dir="auto"] {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    max-width: 300px !important;
+    max-width: 250px !important;
   }
+
+  /* 2-SATIRLI HEADER TASARIMI (v1.6) */
+  body.waw-compact header {
+    height: 90px !important;
+    min-height: 90px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 8px 0 !important;
+    background: var(--panel-header-background) !important;
+  }
+
+  /* Ana sarmalayıcıyı dikey stack yap ve ortala */
+  body.waw-compact header > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* Satır 1: Profil Bilgisi (Avatar + İsim) */
+  body.waw-compact header > div:first-child > div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 35px !important;
+    gap: 10px !important;
+  }
+
+  /* Satır 2: Aksiyon Butonları */
+  body.waw-compact header > div:first-child > div:nth-child(2) {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 35px !important;
+    gap: 24px !important; /* Butonlar arası ferah boşluk */
+  }
+
+  /* Avatar ve İkon Ölçeklendirme */
+  body.waw-compact header [role="button"] img, 
+  body.waw-compact header img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+  }
+
+  body.waw-compact header span {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+  }
+
 
   body.waw-compact [data-asset-chat-background] {
     opacity: 0.05 !important; /* Sadece duvar kağıdı desenini hafiflet */
