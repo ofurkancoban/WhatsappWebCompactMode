@@ -104,14 +104,14 @@ function injectStyles() {
     align-items: center !important;
     justify-content: center !important;
     height: auto !important;
-    min-height: 100px !important; /* DAHA DA AZALTILDI (Ultra Compact) */
-    padding: 10px 10px !important; /* Minimum padding */
-    background-color: rgba(24, 24, 27, 0.8) !important;
+    min-height: 0 !important; /* MİNİMUM YÜKSEKLİK KALDIRILDI */
+    padding: 8px 10px !important; /* Ultra dar padding */
+    background-color: rgba(24, 24, 27, 0.85) !important;
     backdrop-filter: blur(40px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     position: relative !important;
-    gap: 4px !important; /* Minimum gap */
+    gap: 2px !important; /* Minimum boşluk */
     box-shadow: none !important;
   }
 
@@ -129,10 +129,9 @@ function injectStyles() {
 
   /* 1. Profil Resmi */
   body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(1.1) !important; /* Biraz daha küçültüldü */
+    transform: scale(0.9) !important; /* Daha da ufalttık */
     margin: 0 !important;
-    margin-bottom: 2px !important;
-    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     background-color: #2a2a2e !important;
@@ -157,21 +156,21 @@ function injectStyles() {
   }
   /* Status/Last Seen */
   body.waw-compact #main > header ._aj-8 {
-    font-size: 14px !important;
+    font-size: 11px !important; /* Daha küçük */
     color: #94a3b8 !important;
-    margin-top: 5px !important;
+    margin: 0 !important;
   }
 
   /* 3. Buton Grubu */
   body.waw-compact #main > header > div:last-child {
-    gap: 20px !important;
-    margin-top: 5px !important;
+    gap: 15px !important;
+    margin-top: 2px !important;
     order: 3 !important;
   }
   body.waw-compact #main > header [role="button"] {
-    padding: 8px !important;
+    padding: 6px !important;
     background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 12px !important;
+    border-radius: 8px !important;
     transition: all 0.2s !important;
   }
   body.waw-compact #main > header [role="button"]:hover {
