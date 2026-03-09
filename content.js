@@ -98,10 +98,10 @@ function injectStyles() {
     height: 54px;
     z-index: 999999;
     /* Glassmorphism Effect */
-    background-color: rgba(15, 23, 42, 0.7) !important;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(24, 24, 27, 0.8) !important;
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -306,86 +306,96 @@ function injectStyles() {
   }
 
   /* =========================================================
-     MODERN PREMIUM THEME (DARK SLATE & INDIGO) - GLOBAL (TÜM ARAYÜZ)
+     APPLE iMESSAGE / GLASS PREMIUM THEME - GLOBAL
+     Daha ferah, aydınlık ve enerjik (Vibrant Azure & Soft Zinc)
      ========================================================= */
   body.dark,
   html.dark {
-      /* Ana Arkaplanlar (Deep Slate) */
-      --background-default: #0f172a !important; /* Sohbet Listesi */
-      --background-default-hover: #1e293b !important;
-      --background-default-active: #1e293b !important;
-      --panel-background-lighter: #0f172a !important;
-      --panel-background-deep: #020617 !important; /* Sohbet Paneli Duvar Kağıdı vs */
-      --panel-background: #0f172a !important;
-      --panel-background-rgb: 15, 23, 42 !important;
-      --panel-background-hover: #1e293b !important;
+      /* Daha aydınlık/ferah bir Koyu Mod Zemin (Zinc 900/950) */
+      --background-default: #18181b !important; /* Sohbet Listesi Sol */
+      --background-default-hover: #27272a !important;
+      --background-default-active: #27272a !important;
       
-      /* Chat Paneli Wallpaper Katmanı - Tamamen Temizle ve Slate Yap */
-      --chat-background: #020617 !important;
-      --bg-folder: #020617 !important;
+      --panel-background-lighter: #18181b !important;
+      --panel-background-deep: #09090b !important; 
+      --panel-background: #18181b !important;
+      --panel-background-rgb: 24, 24, 27 !important;
+      --panel-background-hover: #27272a !important;
       
-      /* Gelen ve Giden Mesaj Balonları */
-      --incoming-background: #1e293b !important;
-      --incoming-background-rgb: 30, 41, 59 !important;
-      --outgoing-background: #4f46e5 !important; /* Premium Indigo */
-      --outgoing-background-rgb: 79, 70, 229 !important;
-      --outgoing-background-deeper: #4338ca !important;
+      /* Chat Paneli Wallpaper Katmanı (Çok daha ferah siyaha kaçmayan renk) */
+      --chat-background: #09090b !important;
+      --bg-folder: #09090b !important;
+      
+      /* Gelen (Açık Gri) ve Giden (Canlı Azure/Apple Mavi) Balonlar */
+      --incoming-background: #27272a !important;
+      --incoming-background-rgb: 39, 39, 42 !important;
+      --outgoing-background: #0ea5e9 !important; /* Apple iMessage tarzı muazzam Mavi */
+      --outgoing-background-rgb: 14, 165, 233 !important;
+      --outgoing-background-deeper: #0284c7 !important;
 
-      /* Metin ve İkon Renkleri */
-      --primary: #f8fafc !important; /* Beyaz Metinler */
+      /* Metin ve İkon Renkleri - Yüksek Kontrast */
+      --primary: #f8fafc !important; /* Net Beyaz Metinler */
       --primary-strong: #ffffff !important;
-      --secondary: #94a3b8 !important; /* Açık Gri Alt Başlıklar */
-      --secondary-lighter: #cbd5e1 !important;
-      --icon: #cbd5e1 !important; /* Soluk İkonlar */
-      --icon-fixed: #cbd5e1 !important;
+      --secondary: #a1a1aa !important; /* İnce Gri Alt Başlıklar */
+      --secondary-lighter: #d4d4d8 !important;
+      --icon: #a1a1aa !important; /* Zengin İkon Renkleri */
+      --icon-fixed: #a1a1aa !important;
       --icon-lighter: #ffffff !important;
-      --icon-search-back: #4f46e5 !important;
+      --icon-search-back: #0ea5e9 !important;
       
       /* Vurgu Rengi (Mesaj Oku Tikleri vb. veya Butonlar) */
-      --teal-light: #818cf8 !important; /* İndigo Açık */
-      --teal: #6366f1 !important;
-      --teal-rgb: 99, 102, 241 !important;
+      --teal-light: #7dd3fc !important; /* Açık Mavi (Okundu tikler vb.) */
+      --teal: #0ea5e9 !important;
+      --teal-rgb: 14, 165, 233 !important;
       --drawer-header-title: #f8fafc !important;
-      --highlight: #4f46e5 !important;
-      --panel-header-background: #0f172a !important;
+      --highlight: #0ea5e9 !important;
+      --panel-header-background: #18181b !important;
       
-      /* Arama Kutusu ve Input (Mesaj Yazma Alanı) */
-      --search-input-background: #1e293b !important;
-      --compose-input-background: #1e293b !important;
+      /* Arama Kutusu ve Input (Mesaj Yazma Alanı) - Zarif Yuvarlak Hatlar */
+      --search-input-background: #27272a !important;
+      --compose-input-background: #27272a !important;
       --compose-input-border: transparent !important;
   }
 
-  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding - Global) */
+  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding) */
   .copyable-area,
   [data-testid="conversation-panel-wrapper"],
   #main {
       border-top-left-radius: 20px !important;
+      /* Cam çeperli kenarlık */
+      border-left: 1px solid rgba(255,255,255,0.04) !important;
+      border-top: 1px solid rgba(255,255,255,0.04) !important;
   }
 
-  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi) - Global */
+  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi / Glass) */
   [data-testid="msg-container"] {
-      border-radius: 18px !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; /* Modern Derinlik */
+      border-radius: 22px !important; /* Çok daha yuvarlak ve organik */
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important; /* Ferah Derinlik */
+      border: 1px solid rgba(255,255,255,0.06) !important; /* Mesaj balonlarına hafif cam çerçevesi */
+      padding: 0 4px !important; /* Çok hafif ekstra dolgu hissiyatı */
   }
 
-  /* Mikro Animasyonlar: Sohbet Listesi Hoverl Efekti - Global */
+  /* Mikro Animasyonlar: Sohbet Listesi Hoverl Efekti */
   ._ak8q,
   [data-testid="cell-frame-container"] {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+      border: 1px solid transparent !important;
   }
   
   ._ak8q:hover,
   [data-testid="cell-frame-container"]:hover {
-      transform: translateY(-2px) scale(1.02) !important;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
       background-color: var(--background-default-hover) !important;
-      border-radius: 12px !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(255,255,255,0.05) !important; /* Hover da parlayan cam viyadük */
   }
   
-  /* Input Alanlarını Yumuşat (Yuvarlak Mesaj Yazma Kutusu) - Global */
+  /* Input Alanlarını Yumuşat (Apple iOS Yuvarlak Mesaj Yazma Kutusu) */
   [data-testid="conversation-compose-box-input"] {
-      border-radius: 24px !important;
-      padding: 12px 20px !important;
+      border-radius: 30px !important;
+      padding: 14px 22px !important; /* Daha da ferah ve esnek input text alanı */
+      border: 1px solid rgba(255,255,255,0.05) !important; /* Metin giriş kısmında glassy parıltı */
   }
   `;
   document.head.appendChild(st);
