@@ -42,6 +42,7 @@ function injectStyles() {
   body.waw-compact .three {
     min-width: 0 !important;
     max-width: 100% !important;
+    opacity: 1 !important; /* WhatsApp'ın dar ekranda arayüzü 'karartmak' (fade) için kullandığı atomic sınıfları ez! */
   }
   
   html, body.waw-compact {
@@ -57,6 +58,7 @@ function injectStyles() {
     min-width: 0 !important;
     max-width: 100% !important;
     width: auto !important; /* React inline "width: 700px" atarsa EZ! */
+    opacity: 1 !important;
   }
 
   /* --- 1. UYGULAMANIN ANA WRAPPER'INI AŞAĞI İT --- */
