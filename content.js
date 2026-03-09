@@ -421,48 +421,46 @@ function injectStyles() {
       opacity: 1;
       pointer-events: auto;
   }
-  #waw-search-input {
-      display: none; /* Artık orijinal elementi taşıdığımız için buna gerek yok */
+  /* --- SEARCH DROPDOWN (Native Element Container) --- */
+  #waw-search-dropdown {
+      position: fixed;
+      top: -100px; /* Hidden initially */
+      left: 0;
+      width: 100%;
+      height: 64px;
+      z-index: 999998;
+      background-color: rgba(24, 24, 27, 0.4) !important; /* Mesajlaşma ekranı üstünde çok hafif karartma */
+      backdrop-filter: blur(25px) saturate(200%);
+      -webkit-backdrop-filter: blur(25px) saturate(200%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+      opacity: 0;
+      pointer-events: none;
   }
-
-  /* Taşınan Orijinal WhatsApp Arama Kutusu CSS Overrides */
-  .waw-search-inner > div {
-      width: 100% !important;
-      background: transparent !important;
-      border: none !important;
+  #waw-search-dropdown.open {
+      top: 54px;
+      opacity: 1;
+      pointer-events: auto;
   }
-  
-  /* WhatsApp'ın iç padding'lerini ve arka planlarını sıfırla */
-  .waw-search-inner [role="textbox"],
-  .waw-search-inner .lexical-rich-text-input,
-  .waw-search-inner .x1n2onr6 {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-  }
-
-  /* Orijinal kutuyu glassy bir kapsayıcıya oturt */
   .waw-search-inner {
       width: 100%;
       max-width: 600px;
       position: relative;
-      background: rgba(255, 255, 255, 0.08); /* Glassy background */
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 2px 10px;
-      transition: all 0.2s;
-  }
-  .waw-search-inner:focus-within {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: var(--outgoing-background);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+      /* Orijinal kutunun kendi stili kalsın diye tüm özel background/borderları kaldırdık */
   }
 
-  /* Orijinaldeki büyüteç ikonunu gizleyebiliriz çünkü bizimki var, 
-     ya da orijinali koruyup bizimkini kaldırabiliriz. Kullanıcı orijinali istedi. */
-  .waw-search-icon-fixed {
-      display: none; 
+  /* Orijinal kutuyu dropdown içinde biraz daha ferah gösterelim */
+  .waw-search-inner > div {
+      width: 100% !important;
   }
+
+  /* Orijinaldeki büyüteç ikonunu gizleme (bizim dropdown butonumuz zaten arama butonu) */
+  /* Ama kullanıcı "orijinali kalsın" dediği için artık hiçbir şeyi gizlemiyoruz. */
 
   /* Native arama kutusu gizliyken saklanacak yer */
   #waw-search-stash {
