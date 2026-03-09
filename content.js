@@ -104,14 +104,14 @@ function injectStyles() {
     align-items: center !important;
     justify-content: center !important;
     height: auto !important;
-    min-height: 140px !important; /* Yükseklik azaltıldı */
-    padding: 15px 10px !important; /* Padding daraltıldı */
-    background-color: rgba(24, 24, 27, 0.75) !important;
+    min-height: 100px !important; /* DAHA DA AZALTILDI (Ultra Compact) */
+    padding: 10px 10px !important; /* Minimum padding */
+    background-color: rgba(24, 24, 27, 0.8) !important;
     backdrop-filter: blur(40px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     position: relative !important;
-    gap: 8px !important; /* Boşluklar daraltıldı */
+    gap: 4px !important; /* Minimum gap */
     box-shadow: none !important;
   }
 
@@ -129,8 +129,9 @@ function injectStyles() {
 
   /* 1. Profil Resmi */
   body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(1.3) !important; /* Boyut makul seviyeye çekildi */
-    margin-bottom: 5px !important;
+    transform: scale(1.1) !important; /* Biraz daha küçültüldü */
+    margin: 0 !important;
+    margin-bottom: 2px !important;
     border: 2px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
@@ -163,14 +164,14 @@ function injectStyles() {
 
   /* 3. Buton Grubu */
   body.waw-compact #main > header > div:last-child {
-    gap: 30px !important;
-    margin-top: 15px !important;
+    gap: 20px !important;
+    margin-top: 5px !important;
     order: 3 !important;
   }
   body.waw-compact #main > header [role="button"] {
-    padding: 12px !important;
+    padding: 8px !important;
     background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 20px !important; /* Apple tarzı butonlar */
+    border-radius: 12px !important;
     transition: all 0.2s !important;
   }
   body.waw-compact #main > header [role="button"]:hover {
