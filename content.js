@@ -132,13 +132,11 @@ function injectStyles() {
     background-color: rgba(255, 255, 255, 0.1);
   }
 
-  /* Mavi veya bildirim noktalı badge'lerin görünürlüğünü sağla */
-  #waw-custom-topbar .waw-topbar-btn > div,
-  #waw-custom-topbar .waw-topbar-btn svg {
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* Klonlanmış ikonların ve bildirim baloncuklarının (badge) WhatsApp'ın orijinal 
+     CSS kurallarıyla kendi yerlerini bulması için iç yapıya müdahale etmiyoruz! 
+     Sadece tıklamaların üst butona geçmesini sağlıyoruz. */
+  #waw-custom-topbar .waw-topbar-btn * {
+    pointer-events: none !important;
   }
 
   /* --- 3. SOHBET LİSTESİ SÜTUNU (En Sola Yaslı, Daraltılmış) --- */
@@ -381,8 +379,8 @@ function syncCustomTopBar() {
                   // Her tıklamada DOM'daki orijinal elementi yeniden bul (React destroy etmiş olabilir)
                   const activeCol = getFarLeftColumn();
                   if (activeCol) {
-                      const currentBtn = Array.from(activeCol.querySelectorAll('[role="button"], [role="tab"], button')).find(b => {
-                          let l = b.getAttribute('aria-label') || b.getAttribute('title') || b.querySelector('span[data-icon]')?.getAttribute('data-icon') || '';
+                      const currentBtn = Array.from(activeCol.querySelectorAll('[role="button"], [role="tab"], button')).find((b, idx2) => {
+                          let l = b.getAttribute('aria-label') || b.getAttribute('title') || b.querySelector('span[data-icon]')?.getAttribute('data-icon') || 'btn-' + idx2;
                           let sl = l.trim().replace(/['"\\s]/g, '-');
                           try { sl = CSS.escape(sl); } catch(e) {}
                           return sl === safeLabel;
