@@ -104,14 +104,15 @@ function injectStyles() {
     align-items: center !important;
     justify-content: center !important;
     height: auto !important;
-    min-height: 220px !important;
-    padding: 30px 20px !important;
-    background-color: rgba(24, 24, 27, 0.7) !important; /* Biraz daha koyu ve kararlı */
+    min-height: 140px !important; /* Yükseklik azaltıldı */
+    padding: 15px 10px !important; /* Padding daraltıldı */
+    background-color: rgba(24, 24, 27, 0.75) !important;
     backdrop-filter: blur(40px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     position: relative !important;
-    gap: 16px !important;
+    gap: 8px !important; /* Boşluklar daraltıldı */
+    box-shadow: none !important;
   }
 
   /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt (width:100% KALDIRILDI) */
@@ -126,14 +127,14 @@ function injectStyles() {
     position: static !important;
   }
 
-  /* 1. Profil Resmi (Avatara özel background lazım!) */
+  /* 1. Profil Resmi */
   body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(1.8) !important; 
-    margin-bottom: 20px !important;
-    border: 2.5px solid rgba(255, 255, 255, 0.15) !important;
+    transform: scale(1.3) !important; /* Boyut makul seviyeye çekildi */
+    margin-bottom: 5px !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
-    background-color: #2a2a2e !important; /* Avatar boşsa arkası boş kalmasın */
+    background-color: #2a2a2e !important;
     order: 1 !important;
   }
   /* Avatar resminin kendisi (SVG veya IMG) görünmeli */
@@ -148,7 +149,7 @@ function injectStyles() {
     order: 2 !important;
   }
   body.waw-compact #main > header span[title] {
-    font-size: 22px !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
     color: #ffffff !important;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
