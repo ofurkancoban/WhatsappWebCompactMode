@@ -104,15 +104,35 @@ function injectStyles() {
     align-items: center !important;
     justify-content: center !important;
     height: auto !important;
-    min-height: 0 !important; /* MİNİMUM YÜKSEKLİK KALDIRILDI */
-    padding: 8px 10px !important; /* Ultra dar padding */
-    background-color: rgba(24, 24, 27, 0.85) !important;
-    backdrop-filter: blur(40px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    min-height: 0 !important;
+    padding: 12px 10px !important;
+    background-color: rgba(24, 24, 27, 0.5) !important; /* Arka planı biraz daha şeffaf yapalım ki alttaki görsel görünsün */
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     position: relative !important;
-    gap: 2px !important; /* Minimum boşluk */
+    overflow: hidden !important; /* Blur taşmasın */
+    gap: 4px !important;
     box-shadow: none !important;
+    z-index: 1 !important;
+  }
+
+  /* --- DİNAMİK BULANIK ARKA PLAN (Vibrant Header) --- */
+  body.waw-compact #main > header::before {
+    content: "" !important;
+    position: absolute !important;
+    top: -50% !important;
+    left: -50% !important;
+    width: 200% !important;
+    height: 200% !important;
+    background-image: var(--waw-header-bg) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    filter: blur(60px) brightness(0.55) saturate(140%) !important;
+    -webkit-filter: blur(60px) brightness(0.55) saturate(140%) !important;
+    z-index: -1 !important;
+    transition: background-image 0.6s ease-in-out !important;
+    opacity: 0.8 !important;
   }
 
   /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt (width:100% KALDIRILDI) */
@@ -831,8 +851,29 @@ function syncCustomTopBar() {
   }
 }
 
+// SOHBET BAŞLIĞI ARKA PLANINI SENKRONİZE ET
+function syncHeaderBackground() {
+    const header = document.querySelector('#main > header');
+    if (!header) return;
+
+    // Profil resmini bul
+    const img = header.querySelector('[data-testid="chat-head-button"] img') || 
+                header.querySelector('img[src*="profile"]');
+    
+    const avatarSrc = img ? img.getAttribute('src') : '';
+    
+    // Mevcut arka planı kontrol et (gereksiz DOM update'ten kaçınmak için)
+    const currentBg = header.style.getPropertyValue('--waw-header-bg');
+    const newBgValue = avatarSrc ? `url("${avatarSrc}")` : 'none';
+
+    if (currentBg !== newBgValue) {
+        header.style.setProperty('--waw-header-bg', newBgValue);
+    }
+}
+
 function annotateRows() {
   syncCustomTopBar();
+  syncHeaderBackground(); // Dinamik arka planı güncelle
   
   if (!isCompact) return;
 
