@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.8 (Surgical Alignment)";
+const VERSION = "1.9 (Grid & Space Fix)";
 
 'use strict';
 
@@ -48,8 +48,8 @@ function injectStyles() {
   
   /* SAFETY & ANTI-CRUSH: .two ve .three KESİNLİKLE daraltılmamalıdır */
   .two, .three {
-    display: flex !important;
-    flex-direction: row !important;
+    display: grid !important;
+    grid-template-columns: 64px 72px 1fr !important; /* Nav + Sidebar + Chat */
     align-items: stretch !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -58,33 +58,33 @@ function injectStyles() {
     min-width: 0 !important;
     flex: 1 1 auto !important;
     overflow: hidden !important;
-    left: 0 !important;
-    margin-left: 0 !important;
-    z-index: 10 !important;
+    background: var(--background-default) !important;
   }
 
-  /* WhatsApp'ın araya soktuğu gereksiz absolute katmanları (arka plan vb.) GİZLE */
+  /* WhatsApp'ın araya soktuğu gereksiz absolute katmanları (arka plan vb.) Pasifleştir */
   .two > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]),
   .three > div:not([id="waw-compact-sidebar-col"]):not([id="waw-chat-pane-col"]) {
-    display: none !important;
+    opacity: 0.1 !important;
+    pointer-events: none !important;
   }
 
-  /* Chat listesi sütunu - Genişlik ve Z-Index Sabitlendi */
+  /* Chat listesi sütunu - Izgara Yerleşimi */
   #waw-compact-sidebar-col {
-    flex: 0 0 72px !important;
+    grid-column: 2 !important;
     width: 72px !important;
     min-width: 72px !important;
     max-width: 72px !important;
     overflow: hidden !important;
-    z-index: 500 !important; /* En üstte kalsın */
+    z-index: 500 !important;
     position: relative !important;
-    left: 0 !important;
+    border-right: 1px solid var(--border-panel) !important;
   }
 
-  /* Mesaj Alanı Sütunu - Koordinat ve Z-Index Sıfırlandı */
+  /* Mesaj Alanı Sütunu - Izgara Yerleşimi */
   #waw-chat-pane-col, #main, [data-testid="conversation-panel-wrapper"] {
+    grid-column: 3 !important;
     display: flex !important;
-    flex: 1 1 0 !important;
+    flex-direction: column !important;
     width: auto !important;
     min-width: 0 !important;
     max-width: none !important;
@@ -92,14 +92,23 @@ function injectStyles() {
     opacity: 1 !important;
     z-index: 400 !important;
     position: relative !important;
-    left: 0 !important;
-    margin-left: 0 !important;
   }
 
-  /* Mesaj balonlarının sağdan taşmasını engelle */
+  /* Mesaj balonlarının sağdan ve soldan sıkışmasını engelle (RECLAIM SPACE) */
   .message-in, .message-out {
-    max-width: 85% !important;
+    max-width: 90% !important;
+    padding-left: 0 !important; /* Native 60px padding'i yok et */
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
+
+  /* Mesajların içindeki gereksiz boşlukları sil */
+  div[data-testid="msg-container"] {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
 
   /* Grup başlıklarının taşmasını engelle */
   header [role="button"] span, 
