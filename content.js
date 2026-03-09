@@ -1,12 +1,8 @@
 /* ================================================================
-   WhatsApp Web Compact — content.js  (v3 — Pure Compact Mode)
-   
-   Strateji:
-   - WhatsApp'ın kendi sol menüsü (Communities, Status, vb.) zaten var.
-   - Bizim özel Drawer'a gerek yok.
-   - Bu eklenti sadece pencere 820px'in altına inince chat listesini
-     (sadece avatarlar görünecek şekilde) daraltır.
+   WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
+
+const VERSION = "1.1 (Zinc Azure)";
 
 'use strict';
 
@@ -19,7 +15,9 @@ function log(...a) { console.log('%c[WAW Compact]', 'color:#00a884;font-weight:b
 
 // ── CSS Injection (Pure Compact Mode Styles) ─────────────────────
 function injectStyles() {
-  if (document.getElementById('waw-styles')) return;
+  const existing = document.getElementById('waw-styles');
+  if (existing) existing.remove(); // Force refresh
+
   const st = document.createElement('style');
   st.id = 'waw-styles';
   st.textContent = `
@@ -115,6 +113,17 @@ function injectStyles() {
     overflow-y: hidden;
     scrollbar-width: none; /* Firefox */
   }
+  
+  #waw-version-badge {
+    position: absolute;
+    right: 12px;
+    bottom: 4px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    font-family: monospace;
+    pointer-events: none;
+  }
+
   #waw-custom-topbar::-webkit-scrollbar {
     display: none; /* Chrome/Safari */
   }
@@ -471,6 +480,12 @@ function syncCustomTopBar() {
       if (!topBar) {
           topBar = document.createElement('div');
           topBar.id = 'waw-custom-topbar';
+          
+          const vBadge = document.createElement('div');
+          vBadge.id = 'waw-version-badge';
+          vBadge.textContent = 'v' + VERSION;
+          topBar.appendChild(vBadge);
+
           document.body.appendChild(topBar); // Body'nin sonuna ekle
       }
       topBar.style.display = 'flex';
@@ -627,7 +642,7 @@ function waitReady(cb, ms = 30000) {
 
 // ── Başlatıcı ───────────────────────────────────────────────────
 function bootstrap() {
-  log('Sistem başlatılıyor...');
+  log(`Sistem v${VERSION} başlatılıyor...`);
   
   // Önceki overlay'leri, butonları temizle
   document.getElementById('waw-overlay')?.remove();
