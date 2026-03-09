@@ -173,7 +173,7 @@ function injectStyles() {
   }
 
   /* --- WHATSAPP'IN Orijinal Arayüz Ayırıcılarını (Ghost Lines) YOK ET --- */
-  /* 1. Sayfanın Ortasındaki Çizgi (Atomic Sınıflar ve Taşıyıcılar) */
+  /* 1. Sayfanın Ortasındaki Çizgi, Native Gölgeler ve Karanlık Katman (Atomic Sınıflar) */
   body.waw-compact .two > div,
   body.waw-compact .three > div,
   body.waw-compact .x1iyjqo2,
@@ -184,13 +184,24 @@ function injectStyles() {
       border-right-color: transparent !important;
       border-left-width: 0 !important;
       border-right-width: 0 !important;
+      /* KARANLIK EKRANI YARATAN ZEMİNİ/GÖLGEYİ YOK ET */
+      background: transparent !important;
+      box-shadow: none !important;
   }
   
-  /* 2. Avatarların Sağındaki Çizgi */
+  /* 2. Avatarların Sağındaki Çizgi ve Karanlık Backdrop Taşıyıcısı */
   body.waw-compact #side,
   body.waw-compact ._aigw {
       border-right: none !important;
       border-left: none !important;
+  }
+  
+  /* Kullanıcının yakaladığı, WhatsApp'ın içindeki gizli overlay atan spanler */
+  body.waw-compact ._aigw,
+  body.waw-compact .x1iyjqo2,
+  body.waw-compact ._aigw * {
+      background-color: transparent !important;
+      box-shadow: none !important;
   }
 
   /* Ana ayırıcı tutamakları (Karanlık ekrana yol açan ._aigs silindi, sadece resize iptal) */
