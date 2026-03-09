@@ -253,10 +253,13 @@ function injectStyles() {
       display: none !important;
   }
 
-  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI GİZLE (Sıkışıklığı Engeller) --- */
+  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ARAMA KUTULARINI GİZLE (Sıkışıklığı Engeller) --- */
   body.waw-compact #waw-compact-sidebar-col header,
   body.waw-compact #side header,
-  body.waw-compact [data-testid="chat-list-search-container"] {
+  body.waw-compact [data-testid="chat-list-search-container"],
+  body.waw-compact [data-testid="chat-list-search"],
+  body.waw-compact #side > div:not([data-testid="chat-list"]):has([role="textbox"]),
+  body.waw-compact #side > div:nth-child(2):not([data-testid="chat-list"]):not(#pane-side) {
     display: none !important;
   }
 
