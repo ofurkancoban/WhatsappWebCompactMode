@@ -39,7 +39,9 @@ function injectStyles() {
   body.waw-compact #app > div,
   body.waw-compact #app > div > div,
   body.waw-compact .two,
-  body.waw-compact .three {
+  body.waw-compact .three,
+  body.waw-compact ._aigs,
+  body.waw-compact [data-asset-chat-background] {
     min-width: 0 !important;
     max-width: 100% !important;
     opacity: 1 !important; /* WhatsApp'ın dar ekranda arayüzü 'karartmak' (fade) için kullandığı atomic sınıfları ez! */
