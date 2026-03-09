@@ -595,7 +595,8 @@ function syncCustomTopBar() {
       const sBtn = document.createElement('div');
       sBtn.className = 'waw-topbar-btn';
       sBtn.setAttribute('data-waw-special', 'search');
-      sBtn.innerHTML = `<span data-icon="search"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M15.9 14.3H15l-.3-.3c1-1.1 1.6-2.7 1.6-4.3 0-3.7-3-6.7-6.7-6.7S3 6 3 9.7s3 6.7 6.7 6.7c1.6 0 3.2-.6 4.3-1.6l.3.3v.8l5.1 5.1 1.5-1.5-5-5.2zm-6.2 0c-2.6 0-4.6-2.1-4.6-4.6s2.1-4.6 4.6-4.6 4.6 2.1 4.6 4.6-2.1 4.6-4.6 4.6z"></path></svg></span>`;
+      // WhatsApp'ın paylaştığı yeni "search-refreshed-thin" ikonunu kullanıyoruz
+      sBtn.innerHTML = `<span data-icon="search-refreshed-thin"><svg viewBox="0 0 20 20" height="20" width="20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.36653 4.3664C5.36341 3.36953 6.57714 2.87 8.00012 2.87C9.42309 2.87 10.6368 3.36953 11.6337 4.3664C12.6306 5.36329 13.1301 6.57724 13.1301 8.00062C13.1301 8.57523 13.0412 9.11883 12.8624 9.63057C12.6972 10.1038 12.4733 10.5419 12.1909 10.9444L16.5712 15.3247C16.7454 15.4989 16.8385 15.7046 16.8385 15.9375C16.8385 16.1704 16.7454 16.3761 16.5712 16.5503C16.396 16.7254 16.1866 16.8175 15.948 16.8175C15.7095 16.8175 15.5001 16.7254 15.3249 16.5503L10.9448 12.1906C10.5421 12.4731 10.104 12.697 9.63069 12.8623C9.11895 13.041 8.57535 13.13 8.00074 13.13C6.57736 13.13 5.36341 12.6305 4.36653 11.6336C3.36965 10.6367 2.87012 9.42297 2.87012 8C2.87012 6.57702 3.36965 5.36328 4.36653 4.3664ZM8.00012 4.63C7.06198 4.63 6.26877 4.95685 5.61287 5.61275C4.95698 6.26865 4.63012 7.06186 4.63012 8C4.63012 8.93813 4.95698 9.73134 5.61287 10.3872C6.26877 11.0431 7.06198 11.37 8.00012 11.37C8.93826 11.37 9.73146 11.0431 10.3874 10.3872C11.0433 9.73134 11.3701 8.93813 11.3701 8C11.3701 7.06186 11.0433 6.26865 10.3874 5.61275C9.73146 4.95685 8.93826 4.63 8.00012 4.63Z" fill="currentColor"></path></svg></span>`;
       
       // "Chats" butonundan hemen sonraya ekle (Sıralama: Chats, SEARCH, Status...)
       const first = parent.querySelector('.waw-topbar-btn');
@@ -616,7 +617,7 @@ function syncCustomTopBar() {
           dd.innerHTML = `
               <div class="waw-search-inner">
                   <span class="waw-search-icon-fixed">
-                      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.9 14.3H15l-.3-.3c1-1.1 1.6-2.7 1.6-4.3 0-3.7-3-6.7-6.7-6.7S3 6 3 9.7s3 6.7 6.7 6.7c1.6 0 3.2-.6 4.3-1.6l.3.3v.8l5.1 5.1 1.5-1.5-5-5.2zm-6.2 0c-2.6 0-4.6-2.1-4.6-4.6s2.1-4.6 4.6-4.6 4.6 2.1 4.6 4.6-2.1 4.6-4.6 4.6z"></path></svg>
+                      <svg viewBox="0 0 20 20" height="20" width="20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.36653 4.3664C5.36341 3.36953 6.57714 2.87 8.00012 2.87C9.42309 2.87 10.6368 3.36953 11.6337 4.3664C12.6306 5.36329 13.1301 6.57724 13.1301 8.00062C13.1301 8.57523 13.0412 9.11883 12.8624 9.63057C12.6972 10.1038 12.4733 10.5419 12.1909 10.9444L16.5712 15.3247C16.7454 15.4989 16.8385 15.7046 16.8385 15.9375C16.8385 16.1704 16.7454 16.3761 16.5712 16.5503C16.396 16.7254 16.1866 16.8175 15.948 16.8175C15.7095 16.8175 15.5001 16.7254 15.3249 16.5503L10.9448 12.1906C10.5421 12.4731 10.104 12.697 9.63069 12.8623C9.11895 13.041 8.57535 13.13 8.00074 13.13C6.57736 13.13 5.36341 12.6305 4.36653 11.6336C3.36965 10.6367 2.87012 9.42297 2.87012 8C2.87012 6.57702 3.36965 5.36328 4.36653 4.3664ZM8.00012 4.63C7.06198 4.63 6.26877 4.95685 5.61287 5.61275C4.95698 6.26865 4.63012 7.06186 4.63012 8C4.63012 8.93813 4.95698 9.73134 5.61287 10.3872C6.26877 11.0431 7.06198 11.37 8.00012 11.37C8.93826 11.37 9.73146 11.0431 10.3874 10.3872C11.0433 9.73134 11.3701 8.93813 11.3701 8C11.3701 7.06186 11.0433 6.26865 10.3874 5.61275C9.73146 4.95685 8.93826 4.63 8.00012 4.63Z" fill="currentColor"></path></svg>
                   </span>
                   <input type="text" id="waw-search-input" placeholder="Sohbet ara veya yeni sohbet başlat..." autocomplete="off">
               </div>
@@ -628,7 +629,8 @@ function syncCustomTopBar() {
           // SEARCH BRIDGE: Orijinal WhatsApp arama kutusuna pasla
           input.addEventListener('input', (e) => {
               const val = e.target.value;
-              const nativeInput = document.querySelector('[data-testid="chat-list-search"]') || 
+              const nativeInput = document.querySelector('[aria-label="Search input textbox"]') ||
+                                  document.querySelector('[data-testid="chat-list-search"]') || 
                                   document.querySelector('#side .copyable-text.selectable-text[contenteditable="true"]');
               
               if (nativeInput) {
@@ -643,7 +645,11 @@ function syncCustomTopBar() {
                       cancelable: true
                   }));
                   // Fallback:
-                  nativeInput.textContent = val;
+                  if (nativeInput.tagName === 'DIV') {
+                      nativeInput.textContent = val;
+                  } else {
+                      nativeInput.value = val;
+                  }
                   nativeInput.dispatchEvent(new Event('input', { bubbles: true }));
               }
           });
