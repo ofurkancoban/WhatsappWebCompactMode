@@ -95,7 +95,7 @@ function injectStyles() {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 54px;
     z-index: 999999;
     background-color: #111b21;
@@ -103,9 +103,14 @@ function injectStyles() {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 8px;
     box-sizing: border-box;
-    transition: opacity var(--waw-tr);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+  }
+  #waw-custom-topbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 
   /* İçindeki klon butonlar */
@@ -113,9 +118,9 @@ function injectStyles() {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    margin: 0 12px;
+    width: 40px;
+    height: 40px;
+    margin: 0 6px;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -372,7 +377,25 @@ function syncCustomTopBar() {
               clone.className = 'waw-topbar-btn';
               clone.setAttribute('data-waw-label', safeLabel);
               
-              clone.addEventListener('click', () => originalBtn.click());
+              clone.addEventListener('click', () => {
+                  // Her tıklamada DOM'daki orijinal elementi yeniden bul (React destroy etmiş olabilir)
+                  const activeCol = getFarLeftColumn();
+                  if (activeCol) {
+                      const currentBtn = Array.from(activeCol.querySelectorAll('[role="button"], [role="tab"], button')).find(b => {
+                          let l = b.getAttribute('aria-label') || b.getAttribute('title') || b.querySelector('span[data-icon]')?.getAttribute('data-icon') || '';
+                          let sl = l.trim().replace(/['"\\s]/g, '-');
+                          try { sl = CSS.escape(sl); } catch(e) {}
+                          return sl === safeLabel;
+                      });
+                      if (currentBtn) {
+                          currentBtn.click();
+                      } else {
+                          originalBtn.click(); // Fallback
+                      }
+                  } else {
+                      originalBtn.click(); // Fallback
+                  }
+              });
               
               // Sağ gruplama (Settings / Profil). Bunlardan ilkine marginLeft:auto atarsak sağa itilirler.
               const t = label.toLowerCase();
