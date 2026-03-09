@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.6 (Dual-Line Header)";
+const VERSION = "1.7 (Stable 2-Line Header)";
 
 'use strict';
 
@@ -93,54 +93,80 @@ function injectStyles() {
     max-width: 250px !important;
   }
 
-  /* 2-SATIRLI HEADER TASARIMI (v1.6) */
+  /* 2-SATIRLI HEADER TASARIMI (v1.7) */
   body.waw-compact header {
-    height: 90px !important;
-    min-height: 90px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 8px 0 !important;
-    background: var(--panel-header-background) !important;
-  }
-
-  /* Ana sarmalayıcıyı dikey stack yap ve ortala */
-  body.waw-compact header > div:first-child {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 8px !important;
-  }
-
-  /* Satır 1: Profil Bilgisi (Avatar + İsim) */
-  body.waw-compact header > div:first-child > div:first-child {
+    height: 100px !important;
+    min-height: 100px !important;
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
+    flex-wrap: wrap !important;
+    padding: 0 !important;
+    background: var(--panel-header-background) !important;
+    border-bottom: 1px solid var(--border-panel) !important;
+    overflow: hidden !important;
+  }
+
+  /* WhatsApp header'ının ana iç sarmalayıcısı */
+  body.waw-compact header > div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
     width: 100% !important;
-    height: 35px !important;
-    gap: 10px !important;
+    height: 100% !important;
+    padding: 0 !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Satır 1: Profil + İsim */
+  /* Avatar Konteynırı */
+  body.waw-compact header > div:first-child > div:first-child {
+      display: flex !important;
+      width: 50px !important;
+      height: 50px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex: 0 0 50px !important;
+  }
+
+  /* İsim/Bilgi Konteynırı */
+  body.waw-compact header > div:first-child > div:nth-child(2) {
+      display: flex !important;
+      flex: 1 1 auto !important;
+      height: 50px !important;
+      align-items: center !important;
+      padding-left: 5px !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
   }
 
   /* Satır 2: Aksiyon Butonları */
-  body.waw-compact header > div:first-child > div:nth-child(2) {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 35px !important;
-    gap: 24px !important; /* Butonlar arası ferah boşluk */
+  body.waw-compact header > div:first-child > div:nth-child(3) {
+      display: flex !important;
+      width: 100% !important;
+      height: 44px !important;
+      align-items: center !important;
+      justify-content: space-around !important;
+      border-top: 1px solid rgba(255,255,255,0.05) !important;
+      flex: 0 0 100% !important;
+      padding: 0 20px !important;
+      box-sizing: border-box !important;
   }
 
-  /* Avatar ve İkon Ölçeklendirme */
+  /* Mesaj alanını aşağı kaydır (Overlap Engelleme) */
+  body.waw-compact #main > div > div:last-child,
+  body.waw-compact .x10l6tqk,
+  body.waw-compact ._akbu {
+      margin-top: 100px !important;
+  }
+
+  /* Avatar ve İkon Ölçeklendirme (Dome Engelleme) */
   body.waw-compact header [role="button"] img, 
   body.waw-compact header img {
     width: 32px !important;
     height: 32px !important;
     border-radius: 50% !important;
+    object-fit: cover !important;
   }
 
   body.waw-compact header span {
