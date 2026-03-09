@@ -32,11 +32,6 @@ function injectStyles() {
      COMPACT MOD (body.waw-compact)
      ========================================================= */
 
-  /* GENEL KÜÇÜLTME (HER ŞEYİ %18 KÜÇÜLT) */
-  body.waw-compact {
-    zoom: 0.82 !important; /* Mobile Widget Hissi */
-  }
-
   /* PENCEREYİ İSTEDİĞİMİZ KADAR DARALTABİLMEK İÇİN KÖK MİNİMUM GENİŞLİKLERİ SIFIRLIYORUZ */
   html,
   body.waw-compact,
