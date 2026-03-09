@@ -40,11 +40,16 @@ function injectStyles() {
   body.waw-compact #app > div > div,
   body.waw-compact .two,
   body.waw-compact .three,
-  body.waw-compact ._aigs,
-  body.waw-compact [data-asset-chat-background] {
+  body.waw-compact ._aigs {
     min-width: 0 !important;
     max-width: 100% !important;
-    opacity: 1 !important; /* WhatsApp'ın dar ekranda arayüzü 'karartmak' (fade) için kullandığı atomic sınıfları ez! */
+    opacity: 1 !important; /* Sayfa karartmasını kesinlikle iptal et */
+    visibility: visible !important;
+    display: flex !important;
+  }
+
+  body.waw-compact [data-asset-chat-background] {
+    opacity: 0.05 !important; /* Sadece duvar kağıdı desenini hafiflet */
   }
   
   html, body.waw-compact {
@@ -199,9 +204,13 @@ function injectStyles() {
   /* Kullanıcının yakaladığı, WhatsApp'ın içindeki gizli overlay atan spanler */
   body.waw-compact ._aigw,
   body.waw-compact .x1iyjqo2,
-  body.waw-compact ._aigw * {
+  body.waw-compact ._aigw *,
+  body.waw-compact .x1ey2m1c {
+      background: transparent !important;
       background-color: transparent !important;
       box-shadow: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
   }
 
   /* Ana ayırıcı tutamakları (Karanlık ekrana yol açan ._aigs silindi, sadece resize iptal) */
