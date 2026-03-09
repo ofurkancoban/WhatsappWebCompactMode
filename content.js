@@ -257,9 +257,7 @@ function injectStyles() {
   body.waw-compact #waw-compact-sidebar-col header,
   body.waw-compact #side header,
   body.waw-compact [data-testid="chat-list-search-container"],
-  body.waw-compact [data-testid="chat-list-search"],
-  body.waw-compact #side > div:not([data-testid="chat-list"]):has([role="textbox"]),
-  body.waw-compact #side > div:nth-child(2):not([data-testid="chat-list"]):not(#pane-side) {
+  body.waw-compact [data-testid="chat-list-search"] {
     display: none !important;
   }
 
