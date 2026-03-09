@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.1 (Zinc Azure)";
+const VERSION = "1.2 (Structural Fix)";
 
 'use strict';
 
