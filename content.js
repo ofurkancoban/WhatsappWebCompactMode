@@ -355,19 +355,11 @@ function injectStyles() {
       --compose-input-border: transparent !important;
   }
 
-  /* Sohbet Arkaplanı Desenini (Doodles) Kapat/Hafiflet (Global) */
-  ._aigs,
-  [data-asset-chat-background] {
-      opacity: 0.05 !important;
-      background-color: var(--chat-background) !important;
-  }
-
   /* Yumuşatılmış Köşeler (Sleek Geometric Rounding - Global) */
   .copyable-area,
   [data-testid="conversation-panel-wrapper"],
   #main {
       border-top-left-radius: 20px !important;
-      overflow: hidden !important;
   }
 
   /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi) - Global */
