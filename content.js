@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.4 (Final Fix)";
+const VERSION = "1.5 (Precision Fit)";
 
 'use strict';
 
@@ -47,13 +47,50 @@ function injectStyles() {
   }
   
   /* SAFETY & ANTI-CRUSH: .two ve .three KESİNLİKLE daraltılmamalıdır */
-  .two, .three, #main, [data-testid="conversation-panel-wrapper"] {
+  .two, .three {
     display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
     visibility: visible !important;
     opacity: 1 !important;
-    width: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     min-width: 0 !important;
     flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+
+  #main, [data-testid="conversation-panel-wrapper"] {
+    display: flex !important;
+    flex: 1 1 0 !important; /* Kalan boşluğu doldur, taşma yapma */
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Chat listesi sütunu - Genişlik sabitlenmeli */
+  #waw-compact-sidebar-col {
+    flex: 0 0 72px !important;
+    width: 72px !important;
+    min-width: 72px !important;
+    max-width: 72px !important;
+    overflow: hidden !important;
+  }
+
+  /* Mesaj balonlarının sağdan taşmasını engelle */
+  .message-in, .message-out {
+    max-width: 85% !important;
+  }
+
+  /* Grup başlıklarının 40.000 piksele uzayıp ekranı patlatmasını engelle */
+  header [role="button"] span, 
+  header div[dir="auto"] {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 300px !important;
   }
 
   body.waw-compact [data-asset-chat-background] {
