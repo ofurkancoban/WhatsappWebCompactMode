@@ -2,7 +2,7 @@
    WhatsApp Web Compact — content.js  (v1.1 - Definitive Darkness Fix)
    ================================================================ */
 
-const VERSION = "1.3 (Surgical Fix)";
+const VERSION = "1.4 (Final Fix)";
 
 'use strict';
 
@@ -46,11 +46,14 @@ function injectStyles() {
     display: flex !important;
   }
   
-  /* SAFETY: Eğer bir şekilde nav-col-hidden hata yaparsa .two ve .three kesinlikle GÖRÜNMELİ */
-  .two, .three {
+  /* SAFETY & ANTI-CRUSH: .two ve .three KESİNLİKLE daraltılmamalıdır */
+  .two, .three, #main, [data-testid="conversation-panel-wrapper"] {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
   }
 
   body.waw-compact [data-asset-chat-background] {
@@ -566,13 +569,31 @@ function syncCustomTopBar() {
 
   // 2. Chat List Sütununu 72px yap ve filtre tablarını gizle
   const side = document.querySelector('#side') || document.querySelector('._ak9p');
-  if (side && side.parentElement) {
-      if (side.parentElement.id !== 'waw-compact-sidebar-col') {
-          side.parentElement.id = 'waw-compact-sidebar-col';
+  if (side) {
+      // Hatalı atamaları temizle
+      document.querySelectorAll('#waw-compact-sidebar-col').forEach(el => {
+          if (el.querySelector('#main') || el.querySelector('[data-testid="conversation-panel-wrapper"]')) {
+              el.id = '';
+          }
+      });
+
+      let sideCol = side.parentElement;
+      // .two veya .three'nin direkt çocuğu olan sütunu bulana kadar çık
+      while (sideCol && sideCol.parentElement && 
+             !sideCol.parentElement.classList.contains('two') && 
+             !sideCol.parentElement.classList.contains('three')) {
+          sideCol = sideCol.parentElement;
+      }
+
+      if (sideCol && sideCol.id !== 'waw-compact-sidebar-col') {
+          // İçinde chat pane (sağ taraf) olmadığından emin ol
+          if (!sideCol.querySelector('#main') && !sideCol.querySelector('[data-testid="conversation-panel-wrapper"]')) {
+              sideCol.id = 'waw-compact-sidebar-col';
+          }
       }
 
       // Filtre tablarını JS ile yok et (All, Unread vb.)
-      const filters = side.parentElement.querySelectorAll('button, [role="button"]');
+      const filters = sideCol ? sideCol.querySelectorAll('button, [role="button"]') : [];
       filters.forEach(btn => {
           const text = btn.textContent.toLowerCase().trim();
           if (text === 'all' || text === 'tümü' || text === 'unread' || text === 'okunmayanlar' || 
