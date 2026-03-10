@@ -510,6 +510,19 @@ function injectStyles() {
       display: none !important;
   }
 
+  /* WhatsApp DOM yapısı değiştiğinde (isimlerin göründüğü o geniş sağ sütun) metin kutularını acımasızca yok et */
+  body.waw-compact ._ak8i,
+  body.waw-compact .x11i5rnm,
+  body.waw-compact ._ak8j,
+  body.waw-compact [data-testid="cell-frame-title"],
+  body.waw-compact [data-testid="chat-subtitle"] {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      opacity: 0 !important;
+      overflow: hidden !important;
+  }
+
   /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
   body.pattern-bg-color ._ak9p header,
   body.waw-compact #waw-compact-sidebar-col header,
