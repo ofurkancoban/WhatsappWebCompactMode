@@ -616,7 +616,7 @@ function injectStyles() {
       background-image: var(--header-bg-image, none);
       background-size: cover;
       background-position: center;
-      filter: blur(25px) brightness(0.6); 
+      filter: blur(12px) brightness(0.65); 
       z-index: 0;
       pointer-events: none;
       transition: background-image 0.3s ease;
