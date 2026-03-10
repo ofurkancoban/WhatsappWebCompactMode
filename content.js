@@ -422,12 +422,99 @@ function injectStyles() {
       fill: var(--outgoing-background) !important;
   }
 
+  /* --- 3. SOHBET LİSTESİ SÜTUN YÖNETİMİ --- */
+  body.waw-compact #waw-compact-sidebar-col {
+    flex: 0 0 var(--waw-cw) !important;
+    width: var(--waw-cw) !important;
+    min-width: var(--waw-cw) !important;
+    max-width: var(--waw-cw) !important;
+    overflow: hidden !important;
+  }
+
+  body.waw-compact #side,
+  body.waw-compact ._ak9p {
+    overflow: hidden !important;
+    transition: width var(--waw-tr) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI) HİZALAMA --- */
+  
+  /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
+  body.waw-compact [role="listitem"] > div,
+  body.waw-compact [role="listitem"] > div > div {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+  }
+  
+  /* Seçili Sohbet Zemini (Cell Frame) - Ortalanmış Kutu */
+  body.waw-compact ._ak8q,
+  body.waw-compact [data-testid="cell-frame-container"] {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 48px !important; 
+      min-width: 48px !important;
+      max-width: 48px !important;
+      height: 48px !important;
+      margin: 4px auto !important;
+      padding: 0 !important;
+      border-radius: 12px !important;
+      box-sizing: border-box !important;
+  }
+
+  /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
+  body.waw-compact ._ak8q > div:first-child,
+  body.waw-compact [data-testid="cell-frame-container"] > div:first-child,
+  body.waw-compact ._ak8q img,
+  body.waw-compact [data-testid="cell-frame-container"] img,
+  body.waw-compact ._ak8q svg,
+  body.waw-compact [data-testid="cell-frame-container"] svg {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+  }
+
+  /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
+  body.waw-compact ._ak8q > :nth-child(n+2),
+  body.waw-compact [data-testid="cell-frame-container"] > :nth-child(n+2) {
+      display: none !important;
+  }
+
+  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
+  body.pattern-bg-color ._ak9p header,
+  body.waw-compact #waw-compact-sidebar-col header,
+  body.waw-compact #side header,
+  body.waw-compact [data-testid="chat-list-search-container"],
+  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe,
+  body.waw-compact [role="heading"], /* "Chats", "Messages" başlıklarını nükle */
+  body.waw-compact span._ak8l, /* Okunmamış sayısı/tarih gibi yandaki kalıntıları gizle */
+  body.waw-compact ._ak8j {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* DROPDOWN İÇİNDEYKEN GÖRÜNÜR YAP (Özel Override) */
+  #waw-search-dropdown [data-testid="chat-list-search-container"],
+  #waw-search-dropdown div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
+    display: flex !important;
+    height: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
   /* USER DIRECT OVERRIDES */
   body.waw-compact ._ak8h {
-      display: flex !important;
-      flex: none !important;
-      align-items: center !important;
-      padding: 0 var(--chat-spacing) 0 13px !important;
       margin-top: -1px !important;
   }
   `;
