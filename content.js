@@ -245,9 +245,26 @@ function injectStyles() {
   body.waw-compact #side,
   body.waw-compact ._ak9p {
     overflow: hidden !important;
-    transition: width var(--waw-tr) !important;
     flex-shrink: 0 !important;
     border: none !important;
+  }
+
+  /* --- NEW CHAT / DRAWER GENİŞLETME --- */
+  /* WhatsApp'ın yan tarafta açtığı "Yeni Sohbet", "Profil" gibi çekmeceleri 
+     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz. */
+  body.waw-compact #side > div[role="button"] + div, 
+  body.waw-compact #side ._aigv._aikw, /* Olası drawer class'ı */
+  body.waw-compact [data-testid="drawer-left"] {
+      width: 350px !important;
+      min-width: 350px !important;
+      max-width: 350px !important;
+      transition: width 0.3s ease !important;
+      z-index: 200 !important;
+  }
+
+  /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
+  body.waw-compact #waw-compact-sidebar-col {
+      overflow: visible !important;
   }
 
   /* SOHBET EKRANI PANELI (Geriye kalan boşluğu kapla) */
