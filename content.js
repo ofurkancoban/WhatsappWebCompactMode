@@ -254,10 +254,10 @@ function injectStyles() {
      sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz. */
   body.waw-compact [data-testid="drawer-left"],
   body.waw-compact ._aigw {
-      width: 350px !important;
-      min-width: 350px !important;
-      max-width: 350px !important;
-      flex: 0 0 350px !important;
+      width: 450px !important;
+      min-width: 450px !important;
+      max-width: 450px !important;
+      flex: 0 0 450px !important;
       transition: width 0.3s ease !important;
       z-index: 200 !important;
   }
