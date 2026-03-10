@@ -309,12 +309,11 @@ function injectStyles() {
     left: 0;
     width: 100%;
     height: 54px;
-    z-index: 999999;
-    /* Glassmorphism Effect */
-    background-color: rgba(24, 24, 27, 0.8) !important;
+    /* Glassmorphism — Neon Glass Effect */
+    background-color: rgba(8, 8, 12, 0.92) !important;
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -558,13 +557,14 @@ function injectStyles() {
     box-shadow: 5px 0 20px rgba(0,0,0,0.5) !important;
   }
 
-  /* Custom Top Bar - Neon Border */
-  #waw-custom-top-bar {
-    border-bottom: 2px solid var(--primary) !important;
-    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2) !important;
+  /* Custom Top Bar — Neon Glow */
+  #waw-custom-topbar {
+    background-color: rgba(8, 8, 12, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 242, 255, 0.15) !important;
+    box-shadow: 0 2px 15px rgba(0, 242, 255, 0.08) !important;
   }
 
-  /* 8. Tooltip (Hover kısmında isim çıksın) */
+  /* 8. Tooltip — Neon Glass */
   body.waw-compact [data-waw-name] {
     position: relative !important;
   }
@@ -574,15 +574,16 @@ function injectStyles() {
     left: calc(100% + 8px);
     top: 50%;
     transform: translateY(-50%);
-    background: #111b21;
-    color: #e9edef;
-    font-size: 11px; /* 13px'den 11px'e çekildi */
-    font-weight: 500;
+    background: rgba(8, 8, 12, 0.95);
+    color: #00f2ff;
+    font-size: 11px;
+    font-weight: 600;
     padding: 4px 10px;
     border-radius: 6px;
     white-space: nowrap;
     pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 242, 255, 0.2);
     opacity: 0;
     transition: opacity var(--waw-tr);
     z-index: 9999;
@@ -607,76 +608,98 @@ function injectStyles() {
   }
 
   /* =========================================================
-     APPLE iMESSAGE / GLASS PREMIUM THEME - GLOBAL
-     Daha ferah, aydınlık ve enerjik (Vibrant Azure & Soft Zinc)
+     CYBER-NEON GLASS — THE REAL THEME ENGINE
+     WhatsApp respects body.dark / html.dark selectors.
      ========================================================= */
   body.dark,
   html.dark {
-      /* Daha aydınlık/ferah bir Koyu Mod Zemin (Zinc 900/950) */
-      --background-default: #18181b !important; /* Sohbet Listesi Sol */
-      --background-default-hover: #27272a !important;
-      --background-default-active: #27272a !important;
-      
-      --panel-background-lighter: #18181b !important;
-      --panel-background-deep: #18181b !important; 
-      --panel-background: #18181b !important;
-      --panel-background-rgb: 24, 24, 27 !important;
-      --panel-background-hover: #27272a !important;
-      
-      /* Chat Paneli Wallpaper Katmanı (Eski karanlık #09090b yerine çok daha aydınlık menü rengi #18181b) */
-      --chat-background: #18181b !important;
-      --bg-folder: #18181b !important;
-      
-      /* Gelen (Açık Gri) ve Giden (Canlı Azure/Apple Mavi) Balonlar */
-      --incoming-background: #27272a !important;
-      --incoming-background-rgb: 39, 39, 42 !important;
-      --outgoing-background: #0ea5e9 !important; /* Apple iMessage tarzı muazzam Mavi */
-      --outgoing-background-rgb: 14, 165, 233 !important;
-      --outgoing-background-deeper: #0284c7 !important;
+      /* === OBSIDIAN VOID BACKGROUNDS === */
+      --background-default: #08080c !important;
+      --background-default-hover: #12121a !important;
+      --background-default-active: #1a1a28 !important;
+      --panel-background: #08080c !important;
+      --panel-background-rgb: 8, 8, 12 !important;
+      --panel-background-lighter: #0e0e16 !important;
+      --panel-background-deep: #050508 !important;
+      --panel-background-hover: #12121a !important;
+      --chat-background: #050508 !important;
+      --bg-folder: #08080c !important;
 
-      /* Metin ve İkon Renkleri - Yüksek Kontrast */
-      --primary: #f8fafc !important; /* Net Beyaz Metinler */
+      /* === NEON MESSAGE BUBBLES === */
+      --incoming-background: rgba(20, 15, 30, 0.9) !important;      /* Deep Purple-Black Glass */
+      --incoming-background-rgb: 20, 15, 30 !important;
+      --outgoing-background: rgba(0, 40, 50, 0.9) !important;       /* Deep Cyan-Black Glass */
+      --outgoing-background-rgb: 0, 40, 50 !important;
+      --outgoing-background-deeper: rgba(0, 30, 40, 0.95) !important;
+
+      /* === NEON TEXT & ICONS === */
+      --primary: #e0e6ed !important;
       --primary-strong: #ffffff !important;
-      --secondary: #a1a1aa !important; /* İnce Gri Alt Başlıklar */
-      --secondary-lighter: #d4d4d8 !important;
-      --icon: #a1a1aa !important; /* Zengin İkon Renkleri */
-      --icon-fixed: #a1a1aa !important;
+      --secondary: #7a8a9e !important;
+      --secondary-lighter: #9ab0c8 !important;
+      --icon: #00f2ff !important;           /* Neon Cyan Icons */
+      --icon-fixed: #00f2ff !important;
       --icon-lighter: #ffffff !important;
-      --icon-search-back: #0ea5e9 !important;
-      
-      /* Vurgu Rengi (Mesaj Oku Tikleri vb. veya Butonlar) */
-      --teal-light: #7dd3fc !important; /* Açık Mavi (Okundu tikler vb.) */
-      --teal: #0ea5e9 !important;
-      --teal-rgb: 14, 165, 233 !important;
-      --drawer-header-title: #f8fafc !important;
-      --highlight: #0ea5e9 !important;
-      --panel-header-background: #18181b !important;
-      
-      /* Arama Kutusu ve Input (Mesaj Yazma Alanı) - Zarif Yuvarlak Hatlar */
-      --search-input-background: #27272a !important;
-      --compose-input-background: #27272a !important;
-      --compose-input-border: transparent !important;
+      --icon-search-back: #ff007f !important; /* Neon Pink */
+
+      /* === ACCENT COLORS (Teal/Checkmarks) === */
+      --teal-light: #00f2ff !important;      /* Neon Cyan Ticks */
+      --teal: #00d4e0 !important;
+      --teal-rgb: 0, 212, 224 !important;
+      --highlight: #ff007f !important;       /* Neon Pink Highlights */
+      --unread-marker-background: #ff007f !important;
+
+      /* === PANEL HEADERS === */
+      --panel-header-background: rgba(8, 8, 12, 0.95) !important;
+      --drawer-header-title: #00f2ff !important;
+
+      /* === INPUT FIELDS === */
+      --search-input-background: rgba(15, 15, 25, 0.8) !important;
+      --compose-input-background: rgba(15, 15, 25, 0.8) !important;
+      --compose-input-border: rgba(0, 242, 255, 0.15) !important;
+
+      /* === BORDERS & SEPARATORS === */
+      --border-list: rgba(0, 242, 255, 0.08) !important;
+      --border-stronger: rgba(0, 242, 255, 0.12) !important;
+      --border-panel: rgba(0, 242, 255, 0.08) !important;
+
+      /* === SYSTEM & MISC === */
+      --system-message-background: rgba(10, 10, 20, 0.7) !important;
+      --dropdown-background: rgba(10, 10, 18, 0.95) !important;
+      --dropdown-background-hover: rgba(0, 242, 255, 0.08) !important;
+      --checkbox-mark-color: #00f2ff !important;
   }
 
-  /* Yumuşatılmış Köşeler (Sleek Geometric Rounding) */
+  /* Yumuşatılmış Köşeler — Neon Glass Edges */
   .copyable-area,
   [data-testid="conversation-panel-wrapper"],
   #main {
-      border-top-left-radius: 20px !important;
-      /* Cam çeperli kenarlık */
-      border-left: 1px solid rgba(255,255,255,0.04) !important;
-      border-top: 1px solid rgba(255,255,255,0.04) !important;
+      border-top-left-radius: 16px !important;
+      border-left: 1px solid rgba(0, 242, 255, 0.06) !important;
+      border-top: 1px solid rgba(0, 242, 255, 0.06) !important;
   }
 
-  /* Chat Balonlarının (Bubbles) Köşelerini Modernleştir (Ovalimsi / Glass) */
+  /* Chat Balonları — Liquid Glass with Neon Edge */
   [data-testid="msg-container"] {
-      border-radius: 22px !important; /* Çok daha yuvarlak ve organik */
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important; /* Ferah Derinlik */
-      border: 1px solid rgba(255,255,255,0.06) !important; /* Mesaj balonlarına hafif cam çerçevesi */
-      padding: 0 4px !important; /* Çok hafif ekstra dolgu hissiyatı */
+      border-radius: 18px !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+      padding: 0 3px !important;
   }
 
-  /* Mikro Animasyonlar: Sohbet Listesi Hoverl Efekti */
+  /* Outgoing bubble — Cyan left-glow */
+  .message-out [data-testid="msg-container"] {
+      border-right: 2px solid rgba(0, 242, 255, 0.4) !important;
+      box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Incoming bubble — Magenta left-glow */
+  .message-in [data-testid="msg-container"] {
+      border-left: 2px solid rgba(255, 0, 127, 0.4) !important;
+      box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Mikro Animasyonlar: Sohbet Listesi Hover Efekti */
   ._ak8q,
   [data-testid="cell-frame-container"] {
       transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
@@ -686,17 +709,21 @@ function injectStyles() {
   ._ak8q:hover,
   [data-testid="cell-frame-container"]:hover {
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
-      background-color: var(--background-default-hover) !important;
+      box-shadow: 0 6px 20px rgba(0, 242, 255, 0.08) !important;
+      background-color: rgba(0, 242, 255, 0.05) !important;
       border-radius: 14px !important;
-      border: 1px solid rgba(255,255,255,0.05) !important; /* Hover da parlayan cam viyadük */
+      border: 1px solid rgba(0, 242, 255, 0.1) !important;
   }
   
-  /* Input Alanlarını Yumuşat (Apple iOS Yuvarlak Mesaj Yazma Kutusu) */
+  /* Input Alanı — Neon Bordered Capsule */
   [data-testid="conversation-compose-box-input"] {
-      border-radius: 30px !important;
-      padding: 14px 22px !important; /* Daha da ferah ve esnek input text alanı */
-      border: 1px solid rgba(255,255,255,0.05) !important; /* Metin giriş kısmında glassy parıltı */
+      border-radius: 24px !important;
+      padding: 12px 20px !important;
+      border: 1px solid rgba(0, 242, 255, 0.1) !important;
+  }
+  [data-testid="conversation-compose-box-input"]:focus-within {
+      border: 1px solid rgba(0, 242, 255, 0.3) !important;
+      box-shadow: 0 0 12px rgba(0, 242, 255, 0.1) !important;
   }
 
   /* --- SEARCH DROPDOWN (Modern Glassy Bar) --- */
