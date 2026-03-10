@@ -1030,19 +1030,12 @@ function syncSelectedHighlight() {
     );
 
     selectedEls.forEach(sel => {
-        const row = sel.closest('[role="row"]') || sel;
-
-        // ._ak8q veya cell-frame-container: her contact türü için aynı kapsayıcı.
-        // Bu element block-level ve sabit boyutlu olduğundan outline+border-radius çalışır.
-        const cellFrame =
-            row.querySelector('._ak8q') ||
-            row.querySelector('[data-testid="cell-frame-container"]') ||
-            row.querySelector('._ak8i') ;
-
-        const ringTarget = cellFrame || row;
-        if (ringTarget) {
-            ringTarget.classList.add('waw-selected-ring');
-        }
+        // En basit ve tutarlı yaklaşım: aria-selected="true" olan elementin
+        // kendisine ring ekle. Bu tüm contact tipleri için aynı çalışır.
+        // Eğer sel çok küçükse, parent row'u hedefle.
+        const w = sel.offsetWidth;
+        const ringTarget = (w > 20) ? sel : (sel.closest('[role="row"]') || sel);
+        ringTarget.classList.add('waw-selected-ring');
     });
 }
 
