@@ -23,39 +23,59 @@ function injectStyles() {
   const st = document.createElement('style');
   st.id = 'waw-styles';
   st.textContent = `
-  :root {
+  :root, .dark, .light {
     --waw-cw: 68px;  
     --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* --- CYBER-NEON HUD PALETTE --- */
-    --app-background: #050505 !important;
-    --main-panel-background: #0a0a0f !important;
-    --panel-header-background: rgba(10, 10, 15, 0.8) !important;
-    --primary: #00f2ff !important; /* Neon Cyan */
-    --accent: #ff007f !important;  /* Neon Magenta */
-    --incoming-msg-bg: rgba(255, 0, 127, 0.1) !important;
-    --outgoing-msg-bg: rgba(0, 242, 255, 0.1) !important;
+    /* --- CYBER-NEON HUD NUCLEAR PALETTE --- */
+    --primary: #00f2ff !important;
+    --accent: #ff007f !important;
     --border-glow: rgba(0, 242, 255, 0.3) !important;
     --border-glow-alt: rgba(255, 0, 127, 0.3) !important;
     --bubble-radius: 20px !important;
+
+    /* ASSASSINATING WHATSAPP INTERNAL VARIABLES */
+    --background-app: #050505 !important;
+    --background-default: #050505 !important;
+    --background-default-hover: #10101a !important;
+    --background-default-active: #1a1a25 !important;
+    --main-panel-background: #050505 !important;
+    --conversation-panel-background: #050505 !important;
+    --panel-header-background: rgba(10, 10, 15, 0.9) !important;
+    --dropdown-background: #111b21 !important;
+    --incoming-msg: rgba(255, 0, 127, 0.15) !important;
+    --incoming-msg-rgb: 255, 0, 127 !important;
+    --outgoing-msg: rgba(0, 242, 255, 0.15) !important;
+    --outgoing-msg-rgb: 0, 242, 255 !important;
+    --system-message-background: rgba(20, 20, 30, 0.7) !important;
+    --border-list: transparent !important;
+    --border-panel: rgba(0, 242, 255, 0.2) !important;
+    --border-stronger: rgba(0, 242, 255, 0.3) !important;
+    --checkbox-mark-color: var(--primary) !important;
+    --unread-marker-background: var(--accent) !important;
   }
 
   /* Futuristic Typography & Global Glow */
-  body, body * {
+  html[class] body[class] {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+    background-color: #050505 !important;
+    color: #e0e0e0 !important;
   }
   
-  /* FORCE OBSIDIAN BACKGROUND - ALL LAYERS */
-  html[class] body[class].web,
-  html[class] body[class].pattern-bg-color,
-  #app,
-  .app-wrapper-web,
-  ._ak9p, /* Sidebar parent */
-  ._ak9y, /* Main chat parent */
-  #side,
-  #main {
-    background-color: var(--app-background) !important;
+  /* FORCE OBSIDIAN BACKGROUND - ALL LAYERS - MAXIMUM SPECIFICITY */
+  html[class] body[class] .web,
+  html[class] body[class] .pattern-bg-color,
+  html[class] body[class] #app,
+  html[class] body[class] .app-wrapper-web,
+  html[class] body[class] ._ak9p, 
+  html[class] body[class] ._ak9y, 
+  html[class] body[class] #side,
+  html[class] body[class] #main,
+  html[class] body[class] section,
+  html[class] body[class] footer {
+    background-color: #050505 !important;
     background-image: none !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
   }
 
   /* Neon Scrollbar */
@@ -1038,16 +1058,20 @@ function syncHeaderBackground() {
     }
 }
 
-// THEME FORCE: WhatsApp bazen değişkenleri sıfırlayabiliyor, periyodik olarak zorla
-function forceNeonTheme() {
+// NUCLEAR THEME FORCE: Periyodik olarak WhatsApp değişkenlerini kazı
+function forceNuclearTheme() {
     const root = document.documentElement;
     const neonVars = {
-        '--app-background': '#050505',
-        '--main-panel-background': '#0a0a0f',
+        '--background-default': '#050505',
+        '--background-app': '#050505',
+        '--main-panel-background': '#050505',
+        '--conversation-panel-background': '#050505',
+        '--background-default-hover': '#10101a',
+        '--incoming-msg': 'rgba(255, 0, 127, 0.15)',
+        '--outgoing-msg': 'rgba(0, 242, 255, 0.15)',
+        '--panel-header-background': 'rgba(10, 10, 15, 0.9)',
         '--primary': '#00f2ff',
-        '--accent': '#ff007f',
-        '--incoming-msg-bg': 'rgba(255, 0, 127, 0.1)',
-        '--outgoing-msg-bg': 'rgba(0, 242, 255, 0.1)'
+        '--accent': '#ff007f'
     };
     
     for (const [key, value] of Object.entries(neonVars)) {
@@ -1057,8 +1081,11 @@ function forceNeonTheme() {
     }
 }
 
+// Persistence Engine: Saniyenin 10'da birinde bir tekrarla
+setInterval(forceNuclearTheme, 100);
+
 function annotateRows() {
-  forceNeonTheme(); // Temayı her mutasyonda zorla
+  forceNuclearTheme(); 
   syncCustomTopBar();
   syncHeaderBackground(); 
 
