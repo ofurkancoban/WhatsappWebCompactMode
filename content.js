@@ -372,7 +372,7 @@ function injectStyles() {
   /* Kayıtlı kontakt: profil resmi img */
   body.waw-compact #pane-side [aria-selected="true"] img,
   body.waw-compact [data-testid="chat-list"] [aria-selected="true"] img {
-      box-shadow: 0 0 0 2.5px rgba(37, 211, 102, 0.85) !important;
+      box-shadow: 0 0 0 5px rgb(183 183 183) !important;
       border-radius: 50% !important;
   }
 
@@ -385,7 +385,7 @@ function injectStyles() {
   body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="wa-chat-psa"] {
       display: inline-flex !important;
       border-radius: 50% !important;
-      box-shadow: 0 0 0 2.5px rgba(37, 211, 102, 0.85) !important;
+      box-shadow: 0 0 0 5px rgb(183 183 183) !important;
       overflow: hidden !important;
   }
 
@@ -681,8 +681,8 @@ function injectStyles() {
       top: 10px;
       left: 40%;
       transform: translateX(-50%);
-      width: 49px;
-      height: 49px;
+      width: 55px;
+      height: 55px;
       background-color: var(--background-default-hover, rgba(255, 255, 255, 0.05));
       border-radius: 50%;
       justify-content: center;
