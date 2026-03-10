@@ -339,43 +339,38 @@ function injectStyles() {
       width: 100% !important;
   }
 
-  /* --- HOVER ARKA PLAN KALDIR + TOOLTIP EKLE --- */
-  /* Hover arka planlarını kaldır */
+  /* --- HOVER ARKA PLAN KALDIR --- */
+  /* [role="row"] ve tüm alt elementlerin hover arka planlarını kaldır */
+  body.waw-compact #pane-side [role="row"]:hover *,
   body.waw-compact #pane-side [role="row"]:hover,
   body.waw-compact [data-testid="chat-list"] [role="row"]:hover,
-  body.waw-compact #pane-side [role="row"]:hover > div,
-  body.waw-compact [data-testid="chat-list"] [role="row"]:hover > div {
+  body.waw-compact [data-testid="chat-list"] [role="row"]:hover * {
       background-color: transparent !important;
       background: transparent !important;
   }
 
-  /* Tooltip - hover olduğunda isim görünsün */
-  body.waw-compact #pane-side [role="row"][data-waw-name],
-  body.waw-compact [data-testid="chat-list"] [role="row"][data-waw-name] {
-      position: relative !important;
-  }
-
-  body.waw-compact #pane-side [role="row"][data-waw-name]:hover::after,
-  body.waw-compact [data-testid="chat-list"] [role="row"][data-waw-name]:hover::after {
-      content: attr(data-waw-name);
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-left: 10px;
-      background: rgba(30, 30, 35, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #ffffff;
+  /* JS Floating Tooltip Stili */
+  #waw-tooltip {
+      position: fixed;
+      z-index: 999999;
+      padding: 5px 11px;
+      background: rgba(28, 28, 32, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #fff;
       font-size: 12px;
       font-weight: 500;
+      font-family: inherit;
       white-space: nowrap;
-      padding: 5px 10px;
       border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.45);
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+  }
+  #waw-tooltip.visible {
+      opacity: 1;
   }
   
   /* Seçili Sohbet Zemini (Cell Frame) - Bunu kusursuz bir KARE BALON (Bubble) yapıyoruz!
@@ -1216,6 +1211,33 @@ function startMutation() {
   }, { passive: true });
 }
 
+// ── Floating Tooltip ───────────────────────────────────────────
+function initTooltip() {
+  if (document.getElementById('waw-tooltip')) return;
+
+  const tip = document.createElement('div');
+  tip.id = 'waw-tooltip';
+  document.body.appendChild(tip);
+
+  document.addEventListener('mouseover', (e) => {
+    if (!isCompact) return;
+    const row = e.target.closest('#pane-side [role="row"], [data-testid="chat-list"] [role="row"]');
+    if (!row || !row.dataset.wawName) return;
+
+    tip.textContent = row.dataset.wawName;
+    const rect = row.getBoundingClientRect();
+    tip.style.left = (rect.right + 12) + 'px';
+    tip.style.top = (rect.top + rect.height / 2) + 'px';
+    tip.style.transform = 'translateY(-50%)';
+    tip.classList.add('visible');
+  }, { passive: true });
+
+  document.addEventListener('mouseout', (e) => {
+    const row = e.target.closest('#pane-side [role="row"], [data-testid="chat-list"] [role="row"]');
+    if (row) tip.classList.remove('visible');
+  }, { passive: true });
+}
+
 // ── Sayfa Yüklenme Bekleyicisi ─────────────────────────────────
 function waitReady(cb, ms = 30000) {
   const t0 = Date.now();
@@ -1252,6 +1274,7 @@ function bootstrap() {
   
   startResize();
   startMutation();
+  initTooltip();
   log('Sistem aktif ✓');
 }
 
