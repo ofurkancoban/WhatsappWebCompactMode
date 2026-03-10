@@ -45,10 +45,15 @@ function injectStyles() {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
   }
   
-  body.pattern-bg-color, 
-  body.web,
+  /* FORCE OBSIDIAN BACKGROUND - ALL LAYERS */
+  html[class] body[class].web,
+  html[class] body[class].pattern-bg-color,
   #app,
-  .app-wrapper-web {
+  .app-wrapper-web,
+  ._ak9p, /* Sidebar parent */
+  ._ak9y, /* Main chat parent */
+  #side,
+  #main {
     background-color: var(--app-background) !important;
     background-image: none !important;
   }
@@ -1033,11 +1038,29 @@ function syncHeaderBackground() {
     }
 }
 
+// THEME FORCE: WhatsApp bazen değişkenleri sıfırlayabiliyor, periyodik olarak zorla
+function forceNeonTheme() {
+    const root = document.documentElement;
+    const neonVars = {
+        '--app-background': '#050505',
+        '--main-panel-background': '#0a0a0f',
+        '--primary': '#00f2ff',
+        '--accent': '#ff007f',
+        '--incoming-msg-bg': 'rgba(255, 0, 127, 0.1)',
+        '--outgoing-msg-bg': 'rgba(0, 242, 255, 0.1)'
+    };
+    
+    for (const [key, value] of Object.entries(neonVars)) {
+        if (root.style.getPropertyValue(key) !== value) {
+            root.style.setProperty(key, value, 'important');
+        }
+    }
+}
+
 function annotateRows() {
+  forceNeonTheme(); // Temayı her mutasyonda zorla
   syncCustomTopBar();
-  syncHeaderBackground(); // Dinamik arka planı güncelle
-  
-  if (!isCompact) return;
+  syncHeaderBackground(); 
 
   // Sohbet satırlarını bul (_ak8q güncel class)
   const rows = document.querySelectorAll('._ak8q, [data-testid="cell-frame-container"]');
