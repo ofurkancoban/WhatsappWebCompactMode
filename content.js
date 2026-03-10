@@ -1025,22 +1025,27 @@ function syncSelectedHighlight() {
         el.classList.remove('waw-selected-ring');
     });
 
-    // aria-selected="true" olan tüm elementleri bul (row veya içindeki div)
     const selectedEls = document.querySelectorAll(
         '#pane-side [aria-selected="true"], [data-testid="chat-list"] [aria-selected="true"]'
     );
+
     selectedEls.forEach(sel => {
         const row = sel.closest('[role="row"]') || sel;
-        // Avatar: img (kayıtlı), svg veya avatar container div (kayıtsız/varsayılan)
-        const avatarTarget = 
-            row.querySelector('img') ||        // Gerçek profil resmi
-            row.querySelector('._ao3e') ||      // WhatsApp avatar wrapper
-            row.querySelector('[data-testid="default-user"]') ||
-            row.querySelector('circle') ||     // SVG circle (default avatar)
-            row.querySelector('svg');           // Fallback: herhangi bir svg
 
-        if (avatarTarget) {
-            avatarTarget.classList.add('waw-selected-ring');
+        // Avatar container: WhatsApp her contact için (kayıtlı&kayıtsız) aynı
+        // kapsayıcı div'i kullanır. İlk çocukDiv = avatar bölgesi.
+        // data-testid="avatar-container" veya ._ak8i / ._uixk deneyelim.
+        const avatarContainer =
+            row.querySelector('[data-testid="avatar-container"]') ||
+            row.querySelector('[data-testid*="avatar"]') ||
+            row.querySelector('._uixk') ||      // Avatar outer wrap
+            row.querySelector('._ak8i') ||      // Avatar block
+            row.querySelector('._ao3e') ||      // Avatar img wrap
+            row.querySelector('img') ||          // Kayıtlı: gerçek resim
+            row.querySelector('svg');            // Kayıtsız: varsayılan ikon
+
+        if (avatarContainer) {
+            avatarContainer.classList.add('waw-selected-ring');
         }
     });
 }
