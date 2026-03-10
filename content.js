@@ -572,6 +572,49 @@ function injectStyles() {
     width: 100% !important;
   }
 
+  /* --- 6. "YENİ SOHBET" BUTONUNU SİDEBAR'IN EN ÜSTÜNE SABİTLEME --- */
+  
+  /* Sidebar'a üstten boşluk aç ki avatarın üstünü örtmesin */
+  body.waw-compact #side {
+      position: relative !important;
+      padding-top: 60px !important; /* Buton için alan aç */
+  }
+
+  /* Yeni Sohbet butonunu (Aria veya ikon üzerinden tespit edip) mutlak pozisyona al */
+  body.waw-compact #side header button[title="New chat"],
+  body.waw-compact #side header button[title="Yeni sohbet"],
+  body.waw-compact #side header [aria-label="New chat"],
+  body.waw-compact #side header [aria-label="Yeni sohbet"],
+  body.waw-compact #side header [data-icon="chat"],
+  body.waw-compact #side header [data-waw-label="New-chat"],
+  body.waw-compact #side header [data-waw-label="Yeni-sohbet"] {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 48px !important;
+      height: 48px !important;
+      position: absolute !important;
+      top: 6px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      background-color: var(--background-default-hover, rgba(255,255,255,0.05)) !important;
+      border-radius: 12px !important;
+      justify-content: center !important;
+      align-items: center !important;
+      z-index: 100 !important;
+      pointer-events: auto !important;
+  }
+  
+  /* İkon rengini vurgula */
+  body.waw-compact #side header [aria-label="New chat"] svg,
+  body.waw-compact #side header [aria-label="Yeni sohbet"] svg,
+  body.waw-compact #side header [data-icon="chat"] svg {
+      color: #00f2ff !important; /* Ya da var(--primary) */
+      width: 24px !important;
+      height: 24px !important;
+      fill: currentColor !important;
+  }
+
   /* USER DIRECT OVERRIDES */
   body.waw-compact #side ._ak8h {
       display: flex !important;
