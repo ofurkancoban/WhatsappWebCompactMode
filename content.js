@@ -26,63 +26,6 @@ function injectStyles() {
   :root, .dark, .light {
     --waw-cw: 68px;  
     --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* --- CYBER-NEON HUD NUCLEAR PALETTE --- */
-    --primary: #00f2ff !important;
-    --accent: #ff007f !important;
-    --border-glow: rgba(0, 242, 255, 0.3) !important;
-    --border-glow-alt: rgba(255, 0, 127, 0.3) !important;
-    --bubble-radius: 20px !important;
-
-    /* ASSASSINATING WHATSAPP INTERNAL VARIABLES */
-    --background-app: #050505 !important;
-    --background-default: #050505 !important;
-    --background-default-hover: #10101a !important;
-    --background-default-active: #1a1a25 !important;
-    --main-panel-background: #050505 !important;
-    --conversation-panel-background: #050505 !important;
-    --panel-header-background: rgba(10, 10, 15, 0.9) !important;
-    --dropdown-background: #111b21 !important;
-    --incoming-msg: rgba(255, 0, 127, 0.15) !important;
-    --incoming-msg-rgb: 255, 0, 127 !important;
-    --outgoing-msg: rgba(0, 242, 255, 0.15) !important;
-    --outgoing-msg-rgb: 0, 242, 255 !important;
-    --system-message-background: rgba(20, 20, 30, 0.7) !important;
-    --border-list: transparent !important;
-    --border-panel: rgba(0, 242, 255, 0.2) !important;
-    --border-stronger: rgba(0, 242, 255, 0.3) !important;
-    --checkbox-mark-color: var(--primary) !important;
-    --unread-marker-background: var(--accent) !important;
-  }
-
-  /* Futuristic Typography & Global Glow */
-  html[class] body[class] {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    background-color: #050505 !important;
-    color: #e0e0e0 !important;
-  }
-  
-  /* FORCE OBSIDIAN BACKGROUND - ALL LAYERS - MAXIMUM SPECIFICITY */
-  html[class] body[class] .web,
-  html[class] body[class] .pattern-bg-color,
-  html[class] body[class] #app,
-  html[class] body[class] .app-wrapper-web,
-  html[class] body[class] ._ak9p, 
-  html[class] body[class] ._ak9y, 
-  html[class] body[class] #side,
-  html[class] body[class] #main,
-  html[class] body[class] section,
-  html[class] body[class] footer {
-    background-color: #050505 !important;
-    background-image: none !important;
-    border-color: rgba(255, 255, 255, 0.05) !important;
-  }
-
-  /* Neon Scrollbar */
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--primary), var(--accent)) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 0 5px var(--primary) !important;
   }
 
   /* =========================================================
@@ -135,67 +78,29 @@ function injectStyles() {
     box-shadow: none !important;
   }
 
+  /* Ana Header */
   /* WhatsApp'ın kendi çocuk elementlerindeki arka planları ve maskeleri temizle */
   body.waw-compact #main > header > div {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
     justify-content: center !important;
   }
 
-  /* WhatsApp'ın kendi çocuk elementlerindeki tüm gölge, maske ve arka planları temizle */
-  body.waw-compact #main > header,
-  body.waw-compact #main > header * {
-    background-color: transparent !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  /* Ana Header'ın Kendi Glassy Zeminini Geri Getir */
   body.waw-compact #main > header {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     height: auto !important;
-    min-height: 0 !important;
-    padding: 12px 10px !important;
-    background-color: rgba(11, 14, 17, 0.5) !important; 
-    backdrop-filter: blur(25px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
-    border-bottom: 1px solid var(--border-panel) !important;
+    min-height: 200px !important;
+    padding: 30px 20px !important;
     position: relative !important;
-    overflow: hidden !important; 
-    gap: 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    gap: 16px !important;
     z-index: 10 !important;
   }
 
-  /* --- DİNAMİK BULANIK ARKA PLAN (Vibrant Header) --- */
-  body.waw-compact #main > header::before {
-    content: "" !important;
-    position: absolute !important;
-    top: -50% !important;
-    left: -50% !important;
-    width: 200% !important;
-    height: 200% !important;
-    background-image: var(--waw-header-bg) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    filter: blur(60px) brightness(0.55) saturate(140%) !important;
-    -webkit-filter: blur(60px) brightness(0.55) saturate(140%) !important;
-    z-index: -1 !important;
-    transition: background-image 0.6s ease-in-out !important;
-    opacity: 0.8 !important;
-  }
-
-  /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt (width:100% KALDIRILDI) */
+  /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt */
   body.waw-compact #main > header > div {
     display: flex !important;
-    width: auto !important; /* İçerik kadar genişlik */
+    width: auto !important;
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -206,15 +111,13 @@ function injectStyles() {
 
   /* 1. Profil Resmi */
   body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(0.8) !important; /* 0.9'dan 0.8'e çekildi */
+    transform: scale(0.8) !important;
     margin: 0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
-    background-color: #2a2a2e !important;
     order: 1 !important;
   }
-  /* Avatar resminin kendisi (SVG veya IMG) görünmeli */
+  
   body.waw-compact #main > header [data-testid="chat-head-button"] img,
   body.waw-compact #main > header [data-testid="chat-head-button"] svg {
     display: block !important;
@@ -231,17 +134,11 @@ function injectStyles() {
     justify-content: center !important;
   }
   body.waw-compact #main > header span[title] {
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
     line-height: 1.4 !important;
   }
   /* Status/Last Seen / Member List */
   body.waw-compact #main > header ._aj-8,
   body.waw-compact #main > header [data-testid="chat-subtitle"] {
-    font-size: 11px !important;
-    color: #94a3b8 !important;
     margin: 4px 0 0 0 !important;
     text-align: center !important;
   }
@@ -253,20 +150,12 @@ function injectStyles() {
     order: 3 !important;
   }
   body.waw-compact #main > header [role="button"] {
-    padding: 4px !important; /* 6px'den 4px'e çekildi */
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 6px !important; /* Daha keskin köşeler */
     transition: all 0.2s !important;
   }
   body.waw-compact #main > header [role="button"]:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05) !important;
   }
-  /* Butonların içindeki SVG'ler görünmeli */
-  body.waw-compact #main > header [role="button"] svg {
-    display: block !important;
-    color: #fff !important;
-  }
+
 
   /* --- 1. UYGULAMANIN ANA WRAPPER'INI AŞAĞI İT --- */
   /* Üste asacağımız Özel Navigasyon Barı için 54px yer açıyoruz */
@@ -301,11 +190,8 @@ function injectStyles() {
     width: 100%;
     height: 54px;
     z-index: 999999 !important; /* CRITICAL: Must be above WA native header */
-    /* Glassmorphism — Neon Glass Effect */
-    background-color: rgba(8, 8, 12, 0.92) !important;
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.1) !important;
+    background-color: var(--panel-header-background, #202c33); /* Standard WA color */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -447,278 +333,13 @@ function injectStyles() {
       align-items: center !important;
   }
 
-  /* Avatar HUD Glow */
-  body.waw-compact ._ak8q img,
-  body.waw-compact [data-testid="cell-frame-container"] img {
-      border: 1px solid var(--border-glow) !important;
-      box-shadow: 0 0 8px var(--border-glow) !important;
-  }
-  
-  /* Active Contact Pulse */
+  /* Default Active Contact Style Minimal Override */
   body.waw-compact ._ak8q[aria-selected="true"],
   body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] {
-      border: 1px solid var(--primary) !important;
-      box-shadow: 0 0 15px var(--primary) !important;
-      animation: waw-neon-pulse 2s infinite alternate !important;
-  }
-
-  @keyframes waw-neon-pulse {
-    from { box-shadow: 0 0 5px var(--primary); }
-    to { box-shadow: 0 0 20px var(--primary); }
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
-  body.waw-compact ._ak8q > :nth-child(n+2),
-  body.waw-compact [data-testid="cell-frame-container"] > :nth-child(n+2) {
-      display: none !important;
-  }
-
-  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
-  body.pattern-bg-color ._ak9p header,
-  body.waw-compact #waw-compact-sidebar-col header,
-  body.waw-compact #side header,
-  body.waw-compact [data-testid="chat-list-search-container"],
-  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe,
-  body.waw-compact [role="heading"], /* "Chats", "Messages" başlıklarını nükle */
-  body.waw-compact span._ak8l, /* Okunmamış sayısı/tarih gibi yandaki kalıntıları gizle */
-  body.waw-compact ._ak8j {
-    display: none !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
-  /* DROPDOWN İÇİNDEYKEN GÖRÜNÜR YAP (Özel Override) */
-  #waw-search-dropdown [data-testid="chat-list-search-container"],
-  #waw-search-dropdown div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
-    display: flex !important;
-    height: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    overflow: visible !important;
-    width: 100% !important;
-  }
-
-  /* --- 7. CYBER-NEON LIQUID GLASS BUBBLES --- */
-  
-  /* Global Message Bubble Overrides */
-  [data-testid="msg-container"] > div,
-  ._akbu, 
-  ._akbv {
-    border-radius: var(--bubble-radius) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
-  }
-  
-  /* Outgoing (Cyan Glow) */
-  .message-out [data-testid="msg-container"] > div,
-  [data-testid="msg-container"].message-out > div {
-    background: var(--outgoing-msg-bg) !important;
-    border-right: 3px solid var(--primary) !important;
-    box-shadow: -5px 0 15px rgba(0, 242, 255, 0.1) !important;
-  }
-
-  /* Incoming (Magenta Glow) */
-  .message-in [data-testid="msg-container"] > div,
-  [data-testid="msg-container"].message-in > div {
-    background: var(--incoming-msg-bg) !important;
-    border-left: 3px solid var(--accent) !important;
-    box-shadow: 5px 0 15px rgba(255, 0, 127, 0.1) !important;
-  }
-
-  /* Chat Background - Deep Void */
-  #main > div[data-testid="conversation-panel-body"],
-  ._ak9y {
-    background: radial-gradient(circle at center, #10101a 0%, #050505 100%) !important;
-    background-image: none !important;
-  }
-
-  /* Sidebar Cyber-Glass */
-  #side,
-  ._ak9p,
-  #waw-compact-sidebar-col {
-    background-color: rgba(5, 5, 10, 0.9) !important;
-    backdrop-filter: blur(20px) !important;
-    border-right: 1px solid var(--border-glow) !important;
-    box-shadow: 5px 0 20px rgba(0,0,0,0.5) !important;
-  }
-
-  /* Custom Top Bar — Neon Glow */
-  #waw-custom-topbar {
-    background-color: rgba(8, 8, 12, 0.95) !important;
-    border-bottom: 1px solid rgba(0, 242, 255, 0.15) !important;
-    box-shadow: 0 2px 15px rgba(0, 242, 255, 0.08) !important;
-  }
-
-  /* 8. Tooltip — Neon Glass */
-  body.waw-compact [data-waw-name] {
-    position: relative !important;
-  }
-  body.waw-compact [data-waw-name]::after {
-    content: attr(data-waw-name);
-    position: absolute;
-    left: calc(100% + 8px);
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(8, 8, 12, 0.95);
-    color: #00f2ff;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 6px;
-    white-space: nowrap;
-    pointer-events: none;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0,0,0,0.5);
-    border: 1px solid rgba(0, 242, 255, 0.2);
-    opacity: 0;
-    transition: opacity var(--waw-tr);
-    z-index: 9999;
-  }
-  body.waw-compact [data-waw-name]:hover::after {
-    opacity: 1;
-  }
-
-  /* KULLANICI ÖZEL SINIF GEÇERSİZ KILMALARI (USER DIRECT OVERRIDES) */
-  body.waw-compact ._ak8h {
-      display: flex !important;
-      flex: none !important;
-      align-items: center !important;
-      padding: 0 var(--chat-spacing) 0 2px !important;
-      margin-top: -1px !important;
-  }
-
-  body.waw-compact ._ap1- {
-      border-radius: 12px !important;
-      margin-left: 2px !important;
-      margin-right:2px !important;
-  }
-
-  /* =========================================================
-     CYBER-NEON GLASS — DIRECT ELEMENT OVERRIDES
-     Bypass CSS variables entirely.
-     ========================================================= */
-
-  /* All possible theme selectors */
-  body.dark, html.dark,
-  body[data-theme="dark"], html[data-theme="dark"],
-  body, html {
-      --background-default: #08080c !important;
-      --background-default-hover: #12121a !important;
-      --background-default-active: #1a1a28 !important;
-      --panel-background: #08080c !important;
-      --panel-background-rgb: 8, 8, 12 !important;
-      --panel-background-lighter: #0e0e16 !important;
-      --panel-background-deep: #050508 !important;
-      --panel-background-hover: #12121a !important;
-      --chat-background: #050508 !important;
-      --bg-folder: #08080c !important;
-      --incoming-background: rgba(20, 15, 30, 0.9) !important;
-      --incoming-background-rgb: 20, 15, 30 !important;
-      --outgoing-background: rgba(0, 40, 50, 0.9) !important;
-      --outgoing-background-rgb: 0, 40, 50 !important;
-      --outgoing-background-deeper: rgba(0, 30, 40, 0.95) !important;
-      --primary: #e0e6ed !important;
-      --primary-strong: #ffffff !important;
-      --secondary: #7a8a9e !important;
-      --secondary-lighter: #9ab0c8 !important;
-      --icon: #00f2ff !important;
-      --icon-fixed: #00f2ff !important;
-      --icon-lighter: #ffffff !important;
-      --icon-search-back: #ff007f !important;
-      --teal-light: #00f2ff !important;
-      --teal: #00d4e0 !important;
-      --teal-rgb: 0, 212, 224 !important;
-      --highlight: #ff007f !important;
-      --unread-marker-background: #ff007f !important;
-      --panel-header-background: rgba(8, 8, 12, 0.95) !important;
-      --drawer-header-title: #00f2ff !important;
-      --search-input-background: rgba(15, 15, 25, 0.8) !important;
-      --compose-input-background: rgba(15, 15, 25, 0.8) !important;
-      --compose-input-border: rgba(0, 242, 255, 0.15) !important;
-      --border-list: rgba(0, 242, 255, 0.08) !important;
-      --border-stronger: rgba(0, 242, 255, 0.12) !important;
-      --border-panel: rgba(0, 242, 255, 0.08) !important;
-      --system-message-background: rgba(10, 10, 20, 0.7) !important;
-      --dropdown-background: rgba(10, 10, 18, 0.95) !important;
-      --dropdown-background-hover: rgba(0, 242, 255, 0.08) !important;
-      --checkbox-mark-color: #00f2ff !important;
-  }
-
-  /* --- WhatsApp Splash / Intro Screen --- */
-  div[data-testid="intro-md-background"], 
-  div[data-asset-intro-image-light] {
-      background-color: #050508 !important;
-  }
-  
-  /* Convert the default green splash graphic to Cyber-Neon Cyan */
-  div[data-asset-intro-image-light] + div, 
-  div[data-asset-intro-image-dark] + div,
-  .x1y1aw1k {
-      filter: hue-rotate(180deg) brightness(1.2) drop-shadow(0 0 20px rgba(0, 242, 255, 0.4)) !important;
-  }
-  
-  /* Yumuşatılmış Köşeler — Neon Glass Edges */
-  .copyable-area,
-  [data-testid="conversation-panel-wrapper"],
-  #main {
-      border-top-left-radius: 16px !important;
-      border-left: 1px solid rgba(0, 242, 255, 0.06) !important;
-      border-top: 1px solid rgba(0, 242, 255, 0.06) !important;
-  }
-
-  /* Chat Balonları — Liquid Glass with Neon Edge */
-  [data-testid="msg-container"] {
-      border-radius: 18px !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
-      border: 1px solid rgba(255, 255, 255, 0.04) !important;
-      padding: 0 3px !important;
-  }
-
-  /* Outgoing bubble — Cyan left-glow */
-  .message-out [data-testid="msg-container"] {
-      border-right: 2px solid rgba(0, 242, 255, 0.4) !important;
-      box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  /* Incoming bubble — Magenta left-glow */
-  .message-in [data-testid="msg-container"] {
-      border-left: 2px solid rgba(255, 0, 127, 0.4) !important;
-      box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  /* Mikro Animasyonlar: Sohbet Listesi Hover Efekti */
-  ._ak8q,
-  [data-testid="cell-frame-container"] {
-      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-      border: 1px solid transparent !important;
-  }
-  
-  ._ak8q:hover,
-  [data-testid="cell-frame-container"]:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 6px 20px rgba(0, 242, 255, 0.08) !important;
-      background-color: rgba(0, 242, 255, 0.05) !important;
-      border-radius: 14px !important;
-      border: 1px solid rgba(0, 242, 255, 0.1) !important;
-  }
-  
-  /* Input Alanı — Neon Bordered Capsule */
-  [data-testid="conversation-compose-box-input"] {
-      border-radius: 24px !important;
-      padding: 12px 20px !important;
-      border: 1px solid rgba(0, 242, 255, 0.1) !important;
-  }
-  [data-testid="conversation-compose-box-input"]:focus-within {
-      border: 1px solid rgba(0, 242, 255, 0.3) !important;
-      box-shadow: 0 0 12px rgba(0, 242, 255, 0.1) !important;
-  }
 
   /* --- SEARCH DROPDOWN (Modern Glassy Bar) --- */
   #waw-search-dropdown {
@@ -1059,185 +680,8 @@ function syncCustomTopBar() {
   }
 }
 
-// SOHBET BAŞLIĞI ARKA PLANINI SENKRONİZE ET
-function syncHeaderBackground() {
-    const header = document.querySelector('#main > header');
-    if (!header) return;
-
-    // Profil resmini bul
-    const img = header.querySelector('[data-testid="chat-head-button"] img') || 
-                header.querySelector('img[src*="profile"]');
-    
-    const avatarSrc = img ? img.getAttribute('src') : '';
-    
-    // Mevcut arka planı kontrol et (gereksiz DOM update'ten kaçınmak için)
-    const currentBg = header.style.getPropertyValue('--waw-header-bg');
-    const newBgValue = avatarSrc ? `url("${avatarSrc}")` : 'none';
-
-    if (currentBg !== newBgValue) {
-        header.style.setProperty('--waw-header-bg', newBgValue);
-    }
-}
-
-// NUCLEAR THEME FORCE: Indestructible Style Block Injection
-function forceNuclearTheme() {
-    let nuclearStyle = document.getElementById('waw-nuclear-style');
-    if (!nuclearStyle) {
-        nuclearStyle = document.createElement('style');
-        nuclearStyle.id = 'waw-nuclear-style';
-        document.head.appendChild(nuclearStyle);
-    }
-
-    const cssContent = `
-        /* ABSOLUTE BACKGROUND OVERRIDES (Base Layers) */
-        body, html, #app, #side, #main, #pane-side, .app-wrapper-web,
-        [data-testid="chat-list"], [data-testid="intro-md-background"],
-        ._ak9p, ._ak9y {
-            background-color: #050508 !important;
-            background-image: none !important;
-        }
-
-        /* CYBER-NEON GRID BACKGROUND FOR CHAT AREA */
-        [data-testid="conversation-panel-body"],
-        [data-asset-chat-background-dark],
-        [data-asset-chat-background-light] {
-            background-color: #050508 !important;
-            background-image: 
-                linear-gradient(rgba(0, 242, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.08) 1px, transparent 1px) !important;
-            background-size: 30px 30px !important;
-            background-position: center center !important;
-            opacity: 1 !important;
-            z-index: 0 !important;
-        }
-        
-        /* DESTROY NATIVE WHATSAPP DOODLE OVERLAY */
-        ._ahn8, [class*="bg-chat-tile"] {
-            background-image: none !important;
-            opacity: 0 !important;
-            display: none !important;
-        }
-        
-        /* ASSASSINATE NATIVE WHATSAPP VARIABLES */
-        *, :root, body, #app {
-            --WDS-systems-bubble-surface-outgoing: #0a0e15 !important;
-            --WDS-systems-bubble-surface-incoming: #0e0a15 !important;
-            --outgoing-background: #0a0e15 !important;
-            --incoming-background: #0e0a15 !important;
-            --outgoing-background-rgb: 10, 14, 21 !important;
-            --incoming-background-rgb: 14, 10, 21 !important;
-            --message-out-bg: #0a0e15 !important;
-            --message-in-bg: #0e0a15 !important;
-        }
-        
-        /* SIDEBAR PROFILES & SECONDARY PANELS */
-        #pane-side, [data-testid="chat-list"], ._ak9p {
-            background-color: #08080c !important;
-        }
-
-        /* HEADER PANELS */
-        header, [data-testid="chat-header"], [data-testid="chat-list-header"] {
-            background-color: rgba(8, 8, 12, 0.95) !important;
-        }
-
-        /* MESSAGE BUBBLES - INCOMING */
-        .message-in [data-testid="msg-container"] > div {
-            background-color: #0e0a15 !important;
-            border-left: 1px solid rgba(255, 0, 127, 0.7) !important;
-            border-radius: 4px 12px 12px 12px !important;
-            box-shadow: 2px 0 10px rgba(255, 0, 127, 0.2), 0 2px 5px rgba(0, 0, 0, 0.5) !important;
-        }
-        /* Make inner text wrappers transparent to avoid double boxes */
-        .message-in .copyable-text[data-pre-plain-text],
-        .message-in ._amk4 {
-            background-color: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-
-        /* MESSAGE BUBBLES - OUTGOING */
-        .message-out [data-testid="msg-container"] > div {
-            background-color: #0a0e15 !important;
-            border-right: 1px solid rgba(0, 242, 255, 0.7) !important;
-            border-radius: 12px 4px 12px 12px !important;
-            box-shadow: -2px 0 10px rgba(0, 242, 255, 0.2), 0 2px 5px rgba(0, 0, 0, 0.5) !important;
-        }
-        .message-out .copyable-text[data-pre-plain-text],
-        .message-out ._amk4 {
-            background-color: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-        
-        /* Ensure any deeply nested native div background is killed */
-        [data-testid="msg-container"] > div > div:first-child {
-            background-color: transparent !important;
-        }
-        
-        /* HIDE DETACHED BUBBLE TAILS */
-        span[data-testid="tail-in"], 
-        span[data-testid="tail-out"],
-        ._amk7 {
-            display: none !important;
-        }
-
-        /* QUOTED MESSAGES / REPLIES */
-        ._aju3 {
-            background-color: rgba(255, 255, 255, 0.03) !important;
-            border-radius: 8px !important;
-            margin-bottom: 5px !important;
-        }
-
-        /* SYSTEM MESSAGES (Dates like "Yesterday", Information Pills) */
-        .x1uvtmcs.x4k7w5x, 
-        [data-testid="system-message"] > div,
-        .xyw6214 {
-            background-color: rgba(10, 10, 15, 0.8) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: #a0aab5 !important;
-            border-radius: 12px !important;
-            backdrop-filter: blur(5px) !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
-            text-shadow: none !important;
-        }
-
-        /* ICONS & SVG */
-        span[data-icon] svg, button span[data-icon] svg {
-            color: #00f2ff !important;
-            fill: #00f2ff !important;
-        }
-
-        /* TEXT / TYPOGRAPHY */
-        span[dir="auto"], [data-testid="cell-frame-title"] span, div.copyable-text {
-            color: #e0e6ed !important;
-        }
-        
-        span[data-testid="last-msg-status"] svg, span[aria-label=" Read "] svg, span[aria-label=" Okundu "] svg {
-            color: #00f2ff !important; 
-        }
-
-        /* INPUT FIELDS */
-        [data-testid="conversation-compose-box-input"], 
-        [data-testid="chat-list-search"] {
-            background-color: rgba(15, 15, 25, 0.8) !important;
-            border: 1px solid rgba(0, 242, 255, 0.15) !important;
-            color: #ffffff !important;
-        }
-    `;
-
-    // Only update if it has changed or is empty
-    if (nuclearStyle.textContent !== cssContent) {
-        nuclearStyle.textContent = cssContent;
-    }
-}
-
-// Ensure it's executed frequently
-setInterval(forceNuclearTheme, 100);
-
 function annotateRows() {
-  forceNuclearTheme(); 
   syncCustomTopBar();
-  syncHeaderBackground(); 
 
   // Sohbet satırlarını bul (_ak8q güncel class)
   const rows = document.querySelectorAll('._ak8q, [data-testid="cell-frame-container"]');
