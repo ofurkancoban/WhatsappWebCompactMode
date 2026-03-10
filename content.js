@@ -1088,56 +1088,86 @@ function syncHeaderBackground() {
     }
 }
 
-// NUCLEAR THEME FORCE: Directly set variables AND apply inline styles
+// NUCLEAR THEME FORCE: Indestructible Style Block Injection
 function forceNuclearTheme() {
-    const root = document.documentElement;
-    const neonVars = {
-        '--background-default': '#08080c',
-        '--background-app': '#050508',
-        '--background-default-hover': '#12121a',
-        '--main-panel-background': '#050508',
-        '--conversation-panel-background': '#050508',
-        '--panel-header-background': 'rgba(8, 8, 12, 0.95)',
-        '--panel-background': '#08080c',
-        '--panel-background-lighter': '#0e0e16',
-        '--panel-background-deep': '#050508',
-        '--chat-background': '#050508',
-        '--incoming-background': 'rgba(20, 15, 30, 0.9)',
-        '--outgoing-background': 'rgba(0, 40, 50, 0.9)',
-        '--outgoing-background-deeper': 'rgba(0, 30, 40, 0.95)',
-        '--icon': '#00f2ff',
-        '--icon-fixed': '#00f2ff',
-        '--teal': '#00d4e0',
-        '--teal-light': '#00f2ff',
-        '--highlight': '#ff007f',
-        '--unread-marker-background': '#ff007f',
-        '--search-input-background': 'rgba(15, 15, 25, 0.8)',
-        '--compose-input-background': 'rgba(15, 15, 25, 0.8)',
-        '--border-list': 'rgba(0, 242, 255, 0.08)',
-        '--dropdown-background': 'rgba(10, 10, 18, 0.95)',
-        '--primary': '#e0e6ed',
-        '--secondary': '#7a8a9e'
-    };
-    
-    for (const [key, value] of Object.entries(neonVars)) {
-        root.style.setProperty(key, value, 'important');
+    let nuclearStyle = document.getElementById('waw-nuclear-style');
+    if (!nuclearStyle) {
+        nuclearStyle = document.createElement('style');
+        nuclearStyle.id = 'waw-nuclear-style';
+        document.head.appendChild(nuclearStyle);
     }
 
-    // DIRECT INLINE OVERRIDE: Force background on actual DOM elements
-    const bgTargets = '#app, #side, #main, #pane-side, ._ak9p, ._ak9y, .app-wrapper-web, .two, .three, [data-testid="chat-list"], [data-testid="conversation-panel-body"], [data-testid="intro-md-background"]';
-    document.querySelectorAll(bgTargets).forEach(el => {
-        if (el.style.backgroundColor !== '#08080c' && el.style.backgroundColor !== 'rgb(8, 8, 12)') {
-            el.style.setProperty('background-color', '#08080c', 'important');
-            el.style.setProperty('background-image', 'none', 'important');
+    const cssContent = `
+        /* ABSOLUTE BACKGROUND OVERRIDES */
+        body, html, #app, #side, #main, #pane-side, .app-wrapper-web, .two, .three,
+        [data-testid="chat-list"], [data-testid="conversation-panel-body"], [data-testid="intro-md-background"],
+        ._ak9p, ._ak9y, ._aigw, ._aigs {
+            background-color: #050508 !important;
+            background-image: none !important;
         }
-    });
+        
+        /* SIDEBAR PROFILES & SECONDARY PANELS */
+        #pane-side, [data-testid="chat-list"], ._ak9p {
+            background-color: #08080c !important;
+        }
 
-    // Force body background
-    document.body.style.setProperty('background-color', '#050508', 'important');
+        /* HEADER PANELS */
+        header, [data-testid="chat-header"], [data-testid="chat-list-header"] {
+            background-color: rgba(8, 8, 12, 0.95) !important;
+        }
+
+        /* MESSAGE BUBBLES - INCOMING */
+        .message-in [data-testid="msg-container"] > div,
+        [data-testid="msg-container"].message-in > div,
+        .message-in .copyable-text[data-pre-plain-text],
+        .message-in ._amk4 {
+            background-color: rgba(20, 15, 30, 0.9) !important;
+            border-left: 2px solid rgba(255, 0, 127, 0.4) !important;
+            box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* MESSAGE BUBBLES - OUTGOING */
+        .message-out [data-testid="msg-container"] > div,
+        [data-testid="msg-container"].message-out > div,
+        .message-out .copyable-text[data-pre-plain-text],
+        .message-out ._amk4 {
+            background-color: rgba(0, 40, 50, 0.9) !important;
+            border-right: 2px solid rgba(0, 242, 255, 0.4) !important;
+            box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* ICONS & SVG */
+        span[data-icon] svg, button span[data-icon] svg {
+            color: #00f2ff !important;
+            fill: #00f2ff !important;
+        }
+
+        /* TEXT / TYPOGRAPHY */
+        span[dir="auto"], [data-testid="cell-frame-title"] span, div.copyable-text {
+            color: #e0e6ed !important;
+        }
+        
+        span[data-testid="last-msg-status"] svg, span[aria-label=" Read "] svg, span[aria-label=" Okundu "] svg {
+            color: #00f2ff !important; 
+        }
+
+        /* INPUT FIELDS */
+        [data-testid="conversation-compose-box-input"], 
+        [data-testid="chat-list-search"] {
+            background-color: rgba(15, 15, 25, 0.8) !important;
+            border: 1px solid rgba(0, 242, 255, 0.15) !important;
+            color: #ffffff !important;
+        }
+    `;
+
+    // Only update if it has changed or is empty
+    if (nuclearStyle.textContent !== cssContent) {
+        nuclearStyle.textContent = cssContent;
+    }
 }
 
-// Persistence Engine: Run every 200ms
-setInterval(forceNuclearTheme, 200);
+// Ensure it's executed frequently
+setInterval(forceNuclearTheme, 100);
 
 function annotateRows() {
   forceNuclearTheme(); 
