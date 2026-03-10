@@ -149,9 +149,9 @@ function injectStyles() {
 
   /* 1. Profil Resmi */
   body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(0.9) !important; /* Daha da ufalttık */
+    transform: scale(0.8) !important; /* 0.9'dan 0.8'e çekildi */
     margin: 0 !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     background-color: #2a2a2e !important;
@@ -188,9 +188,9 @@ function injectStyles() {
     order: 3 !important;
   }
   body.waw-compact #main > header [role="button"] {
-    padding: 6px !important;
+    padding: 4px !important; /* 6px'den 4px'e çekildi */
     background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important; /* Daha keskin köşeler */
     transition: all 0.2s !important;
   }
   body.waw-compact #main > header [role="button"]:hover {
@@ -259,9 +259,9 @@ function injectStyles() {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin: 0 6px;
+    width: 34px; /* 40px'den 34px'e çekildi */
+    height: 34px;
+    margin: 0 4px;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -364,13 +364,13 @@ function injectStyles() {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 48px !important; /* 56px'den 48px'e çekildi */
-      min-width: 48px !important;
-      max-width: 48px !important;
-      height: 48px !important;
-      margin: 6px auto !important; /* Dikey boşluk da biraz daraltıldı */
+      width: 42px !important; /* 48px'den 42px'e çekildi */
+      min-width: 42px !important;
+      max-width: 42px !important;
+      height: 42px !important;
+      margin: 4px auto !important; /* Boşluklar daha da daraltıldı */
       padding: 0 !important;
-      border-radius: 12px !important;
+      border-radius: 10px !important;
       box-sizing: border-box !important;
   }
 
@@ -380,10 +380,10 @@ function injectStyles() {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 41px !important; /* 48px'den 41px'e çekildi */
-      min-width: 41px !important;
-      max-width: 41px !important;
-      height: 41px !important;
+      width: 36px !important; /* 41px'den 36px'e çekildi */
+      min-width: 36px !important;
+      max-width: 36px !important;
+      height: 36px !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
@@ -438,10 +438,10 @@ function injectStyles() {
     transform: translateY(-50%);
     background: #111b21;
     color: #e9edef;
-    font-size: 13px;
+    font-size: 11px; /* 13px'den 11px'e çekildi */
     font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
     white-space: nowrap;
     pointer-events: none;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
