@@ -353,6 +353,7 @@ function injectStyles() {
       padding: 0 !important;
       border-radius: 10px !important;
       box-sizing: border-box !important;
+      overflow: visible !important; /* Pulse efektinin görünmesi için */
   }
 
   /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
@@ -701,6 +702,18 @@ function injectStyles() {
       align-items: center !important;
       margin-top: -1px !important;
   }
+
+  /* Typing Pulse Effect */
+  @keyframes waw-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  }
+
+  .waw-typing-pulse {
+    animation: waw-pulse 1.5s infinite !important;
+    border-radius: 50% !important;
+  }
   `;
   document.head.appendChild(st);
 }
@@ -978,6 +991,34 @@ function annotateRows() {
 
   injectFixedNewChatButton();
   syncChatHeaderBackground();
+  syncTypingStatus();
+}
+
+// "Yazıyor..." durumunu kontrol et ve pulse efekti ekle
+function syncTypingStatus() {
+    if (!isCompact) return;
+    
+    const rows = document.querySelectorAll('#pane-side [role="row"], [data-testid="chat-list"] [role="row"]');
+    rows.forEach(row => {
+        // Status/Mesaj elementi (._ak8j WhatsApp'ın mesaj önizleme sınıfı)
+        const statusElem = row.querySelector('._ak8j'); 
+        // Avatar resmi
+        const avatarImg = row.querySelector('img._ao3e') || row.querySelector('img');
+        
+        if (statusElem && avatarImg) {
+            const text = statusElem.textContent.toLowerCase();
+            // "yazıyor..." veya "typing..." kontrolü
+            const isTyping = text.includes('typing') || text.includes('yazıyor');
+            
+            if (isTyping) {
+                if (!avatarImg.classList.contains('waw-typing-pulse')) {
+                    avatarImg.classList.add('waw-typing-pulse');
+                }
+            } else {
+                avatarImg.classList.remove('waw-typing-pulse');
+            }
+        }
+    });
 }
 
 // Sohbet header'ına profil resmini bulanık arkaplan olarak ata
