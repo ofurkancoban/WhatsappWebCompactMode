@@ -607,17 +607,17 @@ function injectStyles() {
       display: none;
       position: absolute;
       top: 10px;
-      left: 50%;
+      left: 40%;
       transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
-      background-color: var(--background-default-hover, rgba(255,255,255,0.05));
+      width: 49px;
+      height: 49px;
+      background-color: var(--background-default-hover, rgba(255, 255, 255, 0.05));
       border-radius: 50%;
       justify-content: center;
       align-items: center;
       z-index: 1000;
       cursor: pointer;
-      color: #00f2ff;
+      color: #ffffff;
       transition: background-color 0.2s ease;
   }
   
@@ -936,8 +936,8 @@ function injectFixedNewChatButton() {
         btn = document.createElement('div');
         btn.id = 'waw-fixed-new-chat';
         btn.setAttribute('title', 'Yeni Sohbet');
-        // WhatsApp standard 'new-chat-outline' SVG
-        btn.innerHTML = `<svg viewBox="0 0 24 24" height="24" width="24" preserveAspectRatio="xMidYMid meet" class=""><title>new-chat-outline</title><path fill="currentColor" d="M11.9,4C7.5,4,4,7.5,4,11.9S7.5,19.8,11.9,19.8S19.8,16.2,19.8,11.9S16.2,4,11.9,4z M11.9,18C8.5,18,5.8,15.3,5.8,11.9S8.5,5.8,11.9,5.8S18,8.5,18,11.9S15.3,18,11.9,18z M12.8,7.3h-1.8v3.6H7.3v1.8h3.6v3.6h1.8v-3.6h3.6V11H12.8V7.3z"></path></svg>`;
+        // WhatsApp standard 'chat' SVG (Orijinal kareli ikon)
+        btn.innerHTML = `<svg viewBox="0 0 24 24" height="24" width="24" preserveAspectRatio="xMidYMid meet" class="" version="1.1" x="0px" y="0px" enable-background="new 0 0 24 24"><title>chat</title><path fill="currentColor" d="M19.005,3.175H4.674C3.642,3.175,3,3.789,3,4.821V21.02l3.544-3.514h12.461c1.033,0,2.064-1.06,2.064-2.093V4.821C21.069,3.789,20.038,3.175,19.005,3.175z M14.016,13.044H7.041V11.1h6.975V13.044z M17.016,9.044H7.041V7.1h9.975V9.044z"></path></svg>`;
         
         btn.addEventListener('click', () => {
              // Orijinal "Yeni Sohbet" butonlarını ara (birden fazla olası yer)
