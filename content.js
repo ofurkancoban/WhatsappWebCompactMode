@@ -41,11 +41,16 @@ function injectStyles() {
   }
 
   /* Futuristic Typography & Global Glow */
-  body {
-    background-color: var(--app-background) !important;
-    color: #e0e0e0 !important;
+  body, body * {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    letter-spacing: 0.02em !important;
+  }
+  
+  body.pattern-bg-color, 
+  body.web,
+  #app,
+  .app-wrapper-web {
+    background-color: var(--app-background) !important;
+    background-image: none !important;
   }
 
   /* Neon Scrollbar */
@@ -484,7 +489,10 @@ function injectStyles() {
 
   /* --- 7. CYBER-NEON LIQUID GLASS BUBBLES --- */
   
-  [data-testid="msg-container"] > div {
+  /* Global Message Bubble Overrides */
+  [data-testid="msg-container"] > div,
+  ._akbu, 
+  ._akbv {
     border-radius: var(--bubble-radius) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
@@ -493,27 +501,32 @@ function injectStyles() {
   }
   
   /* Outgoing (Cyan Glow) */
-  .message-out [data-testid="msg-container"] > div {
+  .message-out [data-testid="msg-container"] > div,
+  [data-testid="msg-container"].message-out > div {
     background: var(--outgoing-msg-bg) !important;
     border-right: 3px solid var(--primary) !important;
     box-shadow: -5px 0 15px rgba(0, 242, 255, 0.1) !important;
   }
 
   /* Incoming (Magenta Glow) */
-  .message-in [data-testid="msg-container"] > div {
+  .message-in [data-testid="msg-container"] > div,
+  [data-testid="msg-container"].message-in > div {
     background: var(--incoming-msg-bg) !important;
     border-left: 3px solid var(--accent) !important;
     box-shadow: 5px 0 15px rgba(255, 0, 127, 0.1) !important;
   }
 
   /* Chat Background - Deep Void */
-  body.waw-compact #main > div[data-testid="conversation-panel-body"] {
+  #main > div[data-testid="conversation-panel-body"],
+  ._ak9y {
     background: radial-gradient(circle at center, #10101a 0%, #050505 100%) !important;
     background-image: none !important;
   }
 
   /* Sidebar Cyber-Glass */
-  body.waw-compact #waw-compact-sidebar-col {
+  #side,
+  ._ak9p,
+  #waw-compact-sidebar-col {
     background-color: rgba(5, 5, 10, 0.9) !important;
     backdrop-filter: blur(20px) !important;
     border-right: 1px solid var(--border-glow) !important;
