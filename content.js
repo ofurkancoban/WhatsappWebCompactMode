@@ -24,7 +24,7 @@ function injectStyles() {
   st.id = 'waw-styles';
   st.textContent = `
   :root {
-    --waw-cw: 61px;  /* 72px'den 61px'e düşürüldü (%85 ölçek) */
+    --waw-cw: 68px;  /* 61px'den 68px'e çıkarıldı (Daha dengeli bir kompaktlık) */
     --waw-tr: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
