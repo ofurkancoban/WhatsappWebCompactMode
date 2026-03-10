@@ -1030,10 +1030,17 @@ function syncSelectedHighlight() {
         '#pane-side [aria-selected="true"], [data-testid="chat-list"] [aria-selected="true"]'
     );
     selectedEls.forEach(sel => {
-        // O elementin içindeki veya kendisinin avatar img'ini bul
-        const img = sel.querySelector('img') || sel.closest('[role="row"]')?.querySelector('img');
-        if (img) {
-            img.classList.add('waw-selected-ring');
+        const row = sel.closest('[role="row"]') || sel;
+        // Avatar: img (kayıtlı), svg veya avatar container div (kayıtsız/varsayılan)
+        const avatarTarget = 
+            row.querySelector('img') ||        // Gerçek profil resmi
+            row.querySelector('._ao3e') ||      // WhatsApp avatar wrapper
+            row.querySelector('[data-testid="default-user"]') ||
+            row.querySelector('circle') ||     // SVG circle (default avatar)
+            row.querySelector('svg');           // Fallback: herhangi bir svg
+
+        if (avatarTarget) {
+            avatarTarget.classList.add('waw-selected-ring');
         }
     });
 }
