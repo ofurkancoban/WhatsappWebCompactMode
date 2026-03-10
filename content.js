@@ -249,10 +249,9 @@ function injectStyles() {
     border: none !important;
   }
 
-  /* --- NEW CHAT / DRAWER GENİŞLETME VE İSİM DÜZELTME --- */
+  /* --- NEW CHAT / DRAWER GENİŞLETME --- */
   /* WhatsApp'ın yan tarafta açtığı "Yeni Sohbet", "Profil" gibi çekmeceleri 
-     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz ve içindeki isimlerin 
-     düzgün görünmesini sağlıyoruz. */
+     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz. */
   body.waw-compact [data-testid="drawer-left"],
   body.waw-compact ._aigw {
       width: 350px !important;
@@ -263,49 +262,22 @@ function injectStyles() {
       z-index: 200 !important;
   }
 
-  /* Çekmece içindeki satırların hizalamasını SOLA yasla (Sidebar'daki ortalama kuralını ez) */
-  body.waw-compact ._aigw ._ak72 {
-      display: flex !important;
+  /* Çekmece içindeki satırların hizalamasını düzelt (Sidebar'daki ortalama kuralını ez) */
+  body.waw-compact ._aigw div[role="button"] > div,
+  body.waw-compact ._aigw div[role="button"] > div > div {
       justify-content: flex-start !important;
       align-items: center !important;
-      width: 100% !important;
+      text-align: left !important;
   }
 
-  /* Avatar ve metin arasındaki boşluğu koru */
-  body.waw-compact ._aigw ._ak8h {
-      margin-right: 15px !important;
-      flex: none !important;
-      justify-content: center !important;
-  }
-
-  /* Çekmece içindeki tüm metin alanlarını görünür yap ve sola daya */
-  body.waw-compact ._aigw ._ak8l, 
+  /* Çekmece içindeki isimlerin görünmesini sağla */
   body.waw-compact ._aigw ._ak8o,
-  body.waw-compact ._aigw ._ak8i,
-  body.waw-compact ._aigw [data-testid="cell-frame-title"] {
-      display: flex !important;
+  body.waw-compact ._aigw ._ak8l {
+      display: block !important;
+      margin-left: 10px !important;
+      flex: 1 !important;
       visibility: visible !important;
       opacity: 1 !important;
-      width: auto !important;
-      height: auto !important;
-      text-align: left !important;
-      justify-content: flex-start !important;
-      flex: 1 1 auto !important;
-      overflow: visible !important;
-  }
-
-  /* İsimlerin yanındaki o parçalı görünümü (ellipsis/truncation) kontrollü yap */
-  body.waw-compact ._aigw span[title],
-  body.waw-compact ._aigw ._ak8q + div {
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      white-space: nowrap !important;
-      display: block !important;
-  }
-
-  /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
-  body.waw-compact #waw-compact-sidebar-col {
-      overflow: visible !important;
   }
 
   /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
@@ -369,16 +341,15 @@ function injectStyles() {
   
   /* Seçili Sohbet Zemini (Cell Frame) - Bunu kusursuz bir KARE BALON (Bubble) yapıyoruz!
      Sütun 72px. Biz bu arkaplan kutusunu 56px yapıp "margin: auto" ile GÖBEKTEN ortalıyoruz */
-  body.waw-compact ._ak8q,
-  body.waw-compact [data-testid="cell-frame-container"] {
+  body.waw-compact ._ak8q, body.waw-compact [data-testid="cell-frame-container"] {
       display: flex !important;
-      justify-content: center !important;
+      justify-content: left !important;
       align-items: center !important;
-      width: 42px !important; /* 48px'den 42px'e çekildi */
-      min-width: 42px !important;
-      max-width: 42px !important;
-      height: 42px !important;
-      margin: 4px auto !important; /* Boşluklar daha da daraltıldı */
+      width: auto !important;
+      /* min-width: 42px !important; */
+      /* max-width: 42px !important; */
+      /* height: 42px !important; */
+      /* margin: 4px auto !important; */
       padding: 0 !important;
       border-radius: 10px !important;
       box-sizing: border-box !important;
@@ -535,15 +506,15 @@ function injectStyles() {
   body.waw-compact #side ._ak8q,
   body.waw-compact #side [data-testid="cell-frame-container"] {
       display: flex !important;
-      justify-content: center !important;
+      justify-content: left !important;
       align-items: center !important;
-      width: 48px !important; 
-      min-width: 48px !important;
-      max-width: 48px !important;
-      height: 48px !important;
-      margin: 4px auto !important;
+      width: auto !important;
+      /* min-width: 48px !important; */
+      /* max-width: 48px !important; */
+      /* height: 48px !important; */
+      /* margin: 4px auto !important; */
       padding: 0 !important;
-      border-radius: 12px !important;
+      border-radius: 10px !important;
       box-sizing: border-box !important;
   }
 
