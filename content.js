@@ -543,8 +543,6 @@ function injectStyles() {
 
   /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
   body.pattern-bg-color ._ak9p header,
-  body.waw-compact #waw-compact-sidebar-col header,
-  body.waw-compact #side header,
   body.waw-compact [data-testid="chat-list-search-container"],
   body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe,
   body.waw-compact [role="heading"], /* "Chats", "Messages" başlıklarını nükle */
@@ -558,6 +556,30 @@ function injectStyles() {
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+
+  /* Sol panelin header'ını özellikle açığa çıkarıyoruz (İçindeki "Yeni Sohbet" butonu için) */
+  body.waw-compact #waw-compact-sidebar-col header,
+  body.waw-compact #side header {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      height: 60px !important; 
+      justify-content: center !important;
+      align-items: center !important;
+      background: transparent !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      min-height: 0 !important;
+  }
+
+  /* Header içindeki 'Yeni Sohbet' BUTONU HARİÇ her şeyi (Profil resmi, menü vs.) gizle */
+  body.waw-compact #side header > *:not(:has([data-icon="new-chat-outline"])):not(:has([aria-label="New chat"])):not(:has([title="New chat"])) {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
   }
 
   /* DROPDOWN İÇİNDEYKEN GÖRÜNÜR YAP (Özel Override) */
@@ -592,14 +614,14 @@ function injectStyles() {
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
-      width: 48px !important;
-      height: 48px !important;
+      width: 40px !important;
+      height: 40px !important;
       position: absolute !important;
-      top: 6px !important;
+      top: 10px !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
       background-color: var(--background-default-hover, rgba(255,255,255,0.05)) !important;
-      border-radius: 12px !important;
+      border-radius: 50% !important;
       justify-content: center !important;
       align-items: center !important;
       z-index: 100 !important;
