@@ -608,12 +608,14 @@ function injectStyles() {
   }
 
   /* =========================================================
-     CYBER-NEON GLASS — THE REAL THEME ENGINE
-     WhatsApp respects body.dark / html.dark selectors.
+     CYBER-NEON GLASS — DIRECT ELEMENT OVERRIDES
+     Bypass CSS variables entirely.
      ========================================================= */
-  body.dark,
-  html.dark {
-      /* === OBSIDIAN VOID BACKGROUNDS === */
+
+  /* All possible theme selectors */
+  body.dark, html.dark,
+  body[data-theme="dark"], html[data-theme="dark"],
+  body, html {
       --background-default: #08080c !important;
       --background-default-hover: #12121a !important;
       --background-default-active: #1a1a28 !important;
@@ -624,46 +626,32 @@ function injectStyles() {
       --panel-background-hover: #12121a !important;
       --chat-background: #050508 !important;
       --bg-folder: #08080c !important;
-
-      /* === NEON MESSAGE BUBBLES === */
-      --incoming-background: rgba(20, 15, 30, 0.9) !important;      /* Deep Purple-Black Glass */
+      --incoming-background: rgba(20, 15, 30, 0.9) !important;
       --incoming-background-rgb: 20, 15, 30 !important;
-      --outgoing-background: rgba(0, 40, 50, 0.9) !important;       /* Deep Cyan-Black Glass */
+      --outgoing-background: rgba(0, 40, 50, 0.9) !important;
       --outgoing-background-rgb: 0, 40, 50 !important;
       --outgoing-background-deeper: rgba(0, 30, 40, 0.95) !important;
-
-      /* === NEON TEXT & ICONS === */
       --primary: #e0e6ed !important;
       --primary-strong: #ffffff !important;
       --secondary: #7a8a9e !important;
       --secondary-lighter: #9ab0c8 !important;
-      --icon: #00f2ff !important;           /* Neon Cyan Icons */
+      --icon: #00f2ff !important;
       --icon-fixed: #00f2ff !important;
       --icon-lighter: #ffffff !important;
-      --icon-search-back: #ff007f !important; /* Neon Pink */
-
-      /* === ACCENT COLORS (Teal/Checkmarks) === */
-      --teal-light: #00f2ff !important;      /* Neon Cyan Ticks */
+      --icon-search-back: #ff007f !important;
+      --teal-light: #00f2ff !important;
       --teal: #00d4e0 !important;
       --teal-rgb: 0, 212, 224 !important;
-      --highlight: #ff007f !important;       /* Neon Pink Highlights */
+      --highlight: #ff007f !important;
       --unread-marker-background: #ff007f !important;
-
-      /* === PANEL HEADERS === */
       --panel-header-background: rgba(8, 8, 12, 0.95) !important;
       --drawer-header-title: #00f2ff !important;
-
-      /* === INPUT FIELDS === */
       --search-input-background: rgba(15, 15, 25, 0.8) !important;
       --compose-input-background: rgba(15, 15, 25, 0.8) !important;
       --compose-input-border: rgba(0, 242, 255, 0.15) !important;
-
-      /* === BORDERS & SEPARATORS === */
       --border-list: rgba(0, 242, 255, 0.08) !important;
       --border-stronger: rgba(0, 242, 255, 0.12) !important;
       --border-panel: rgba(0, 242, 255, 0.08) !important;
-
-      /* === SYSTEM & MISC === */
       --system-message-background: rgba(10, 10, 20, 0.7) !important;
       --dropdown-background: rgba(10, 10, 18, 0.95) !important;
       --dropdown-background-hover: rgba(0, 242, 255, 0.08) !important;
@@ -1085,31 +1073,56 @@ function syncHeaderBackground() {
     }
 }
 
-// NUCLEAR THEME FORCE: Periyodik olarak WhatsApp değişkenlerini kazı
+// NUCLEAR THEME FORCE: Directly set variables AND apply inline styles
 function forceNuclearTheme() {
     const root = document.documentElement;
     const neonVars = {
-        '--background-default': '#050505',
-        '--background-app': '#050505',
-        '--main-panel-background': '#050505',
-        '--conversation-panel-background': '#050505',
-        '--background-default-hover': '#10101a',
-        '--incoming-msg': 'rgba(255, 0, 127, 0.15)',
-        '--outgoing-msg': 'rgba(0, 242, 255, 0.15)',
-        '--panel-header-background': 'rgba(10, 10, 15, 0.9)',
-        '--primary': '#00f2ff',
-        '--accent': '#ff007f'
+        '--background-default': '#08080c',
+        '--background-app': '#050508',
+        '--background-default-hover': '#12121a',
+        '--main-panel-background': '#050508',
+        '--conversation-panel-background': '#050508',
+        '--panel-header-background': 'rgba(8, 8, 12, 0.95)',
+        '--panel-background': '#08080c',
+        '--panel-background-lighter': '#0e0e16',
+        '--panel-background-deep': '#050508',
+        '--chat-background': '#050508',
+        '--incoming-background': 'rgba(20, 15, 30, 0.9)',
+        '--outgoing-background': 'rgba(0, 40, 50, 0.9)',
+        '--outgoing-background-deeper': 'rgba(0, 30, 40, 0.95)',
+        '--icon': '#00f2ff',
+        '--icon-fixed': '#00f2ff',
+        '--teal': '#00d4e0',
+        '--teal-light': '#00f2ff',
+        '--highlight': '#ff007f',
+        '--unread-marker-background': '#ff007f',
+        '--search-input-background': 'rgba(15, 15, 25, 0.8)',
+        '--compose-input-background': 'rgba(15, 15, 25, 0.8)',
+        '--border-list': 'rgba(0, 242, 255, 0.08)',
+        '--dropdown-background': 'rgba(10, 10, 18, 0.95)',
+        '--primary': '#e0e6ed',
+        '--secondary': '#7a8a9e'
     };
     
     for (const [key, value] of Object.entries(neonVars)) {
-        if (root.style.getPropertyValue(key) !== value) {
-            root.style.setProperty(key, value, 'important');
-        }
+        root.style.setProperty(key, value, 'important');
     }
+
+    // DIRECT INLINE OVERRIDE: Force background on actual DOM elements
+    const bgTargets = '#app, #side, #main, #pane-side, ._ak9p, ._ak9y, .app-wrapper-web, .two, .three, [data-testid="chat-list"], [data-testid="conversation-panel-body"]';
+    document.querySelectorAll(bgTargets).forEach(el => {
+        if (el.style.backgroundColor !== '#08080c') {
+            el.style.setProperty('background-color', '#08080c', 'important');
+            el.style.setProperty('background-image', 'none', 'important');
+        }
+    });
+
+    // Force body background
+    document.body.style.setProperty('background-color', '#050508', 'important');
 }
 
-// Persistence Engine: Saniyenin 10'da birinde bir tekrarla
-setInterval(forceNuclearTheme, 100);
+// Persistence Engine: Run every 200ms
+setInterval(forceNuclearTheme, 200);
 
 function annotateRows() {
   forceNuclearTheme(); 
