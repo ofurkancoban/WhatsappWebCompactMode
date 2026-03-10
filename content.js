@@ -368,34 +368,21 @@ function injectStyles() {
       align-items: center !important;
   }
 
-  /* Seçili Chat - Daire Şeklinde Highlight */
-  body.waw-compact ._ak8q[aria-selected="true"],
-  body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] {
-      border-radius: 50% !important;
-      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
-      outline-offset: 2px !important;
-      background: transparent !important;
-  }
-
-  /* Seçili chatin avatar resminin kendisi de tam yuvarlak görünsün */
-  body.waw-compact ._ak8q[aria-selected="true"] img,
-  body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] img {
+  /* Seçili Chat - Sadece Avatar Elementinı Hedefle (Kayıtlı: img, Kayıtsız: span[data-icon]) */
+  /* Kayıtlı kontakt: profil resmi img */
+  body.waw-compact #pane-side [aria-selected="true"] img,
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] img {
+      box-shadow: 0 0 0 2.5px rgba(37, 211, 102, 0.85) !important;
       border-radius: 50% !important;
   }
 
-  /* Geniş kapsam: [role=row] içinde aria-selected olan herhangi bir elemente bağlı img */
-  body.waw-compact #side [aria-selected="true"] img,
-  body.waw-compact #pane-side [aria-selected="true"] img {
-      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
-      outline-offset: 2px !important;
+  /* Kayıtsız kontakt: varsayılan ikon span */
+  body.waw-compact #pane-side [aria-selected="true"] [data-icon="default-contact-refreshed"],
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-contact-refreshed"] {
+      display: inline-flex !important;
       border-radius: 50% !important;
-  }
-
-  /* JS class ile de uygulanacak: JS syncSelectedHighlight fonksiyonun atağı class */
-  body.waw-compact .waw-selected-ring {
-      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
-      outline-offset: 2px !important;
-      border-radius: 50% !important;
+      box-shadow: 0 0 0 2.5px rgba(37, 211, 102, 0.85) !important;
+      overflow: hidden !important;
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
@@ -1030,12 +1017,9 @@ function syncSelectedHighlight() {
     );
 
     selectedEls.forEach(sel => {
-        // En basit ve tutarlı yaklaşım: aria-selected="true" olan elementin
-        // kendisine ring ekle. Bu tüm contact tipleri için aynı çalışır.
-        // Eğer sel çok küçükse, parent row'u hedefle.
-        const w = sel.offsetWidth;
-        const ringTarget = (w > 20) ? sel : (sel.closest('[role="row"]') || sel);
-        ringTarget.classList.add('waw-selected-ring');
+        // Saf CSS zaten gerekli styling'i handle ediyor.
+        // Burada JS ile ekstra bir şey yapmaya gerek yok.
+        // (Fonksiyon yalnızca eski class'ları temizlemek için burada)
     });
 }
 
