@@ -338,6 +338,45 @@ function injectStyles() {
       margin: 0 !important;
       width: 100% !important;
   }
+
+  /* --- HOVER ARKA PLAN KALDIR + TOOLTIP EKLE --- */
+  /* Hover arka planlarını kaldır */
+  body.waw-compact #pane-side [role="row"]:hover,
+  body.waw-compact [data-testid="chat-list"] [role="row"]:hover,
+  body.waw-compact #pane-side [role="row"]:hover > div,
+  body.waw-compact [data-testid="chat-list"] [role="row"]:hover > div {
+      background-color: transparent !important;
+      background: transparent !important;
+  }
+
+  /* Tooltip - hover olduğunda isim görünsün */
+  body.waw-compact #pane-side [role="row"][data-waw-name],
+  body.waw-compact [data-testid="chat-list"] [role="row"][data-waw-name] {
+      position: relative !important;
+  }
+
+  body.waw-compact #pane-side [role="row"][data-waw-name]:hover::after,
+  body.waw-compact [data-testid="chat-list"] [role="row"][data-waw-name]:hover::after {
+      content: attr(data-waw-name);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+      background: rgba(30, 30, 35, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      z-index: 99999;
+      pointer-events: none;
+  }
   
   /* Seçili Sohbet Zemini (Cell Frame) - Bunu kusursuz bir KARE BALON (Bubble) yapıyoruz!
      Sütun 72px. Biz bu arkaplan kutusunu 56px yapıp "margin: auto" ile GÖBEKTEN ortalıyoruz */
@@ -1006,7 +1045,11 @@ function annotateRows() {
                   row.querySelector('[data-testid="cell-frame-title"] span') ||
                   row.querySelector('span[dir="auto"]');
     if (title && title.textContent) {
-      row.dataset.wawName = title.textContent.trim();
+      const name = title.textContent.trim();
+      row.dataset.wawName = name;
+      // Tooltip için data-waw-name'i de [role="row"] parent'ına ekle
+      const rowEl = row.closest('[role="row"]');
+      if (rowEl) rowEl.dataset.wawName = name;
     }
   });
 
