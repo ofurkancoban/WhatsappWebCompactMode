@@ -371,7 +371,6 @@ function injectStyles() {
     flex-shrink: 0 !important;
     border: none !important;
   }
-  }
 
   /* SOHBET EKRANI PANELI (Geriye kalan boşluğu kapla) */
   body.waw-compact #waw-chat-pane-col,
@@ -454,6 +453,8 @@ function injectStyles() {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
+  }
+
   /* Avatar HUD Glow */
   body.waw-compact ._ak8q img,
   body.waw-compact [data-testid="cell-frame-container"] img {
