@@ -1089,12 +1089,25 @@ function forceNuclearTheme() {
     }
 
     const cssContent = `
-        /* ABSOLUTE BACKGROUND OVERRIDES */
+        /* ABSOLUTE BACKGROUND OVERRIDES (Base Layers) */
         body, html, #app, #side, #main, #pane-side, .app-wrapper-web,
-        [data-testid="chat-list"], [data-testid="conversation-panel-body"], [data-testid="intro-md-background"],
+        [data-testid="chat-list"], [data-testid="intro-md-background"],
         ._ak9p, ._ak9y {
             background-color: #050508 !important;
             background-image: none !important;
+        }
+
+        /* CYBER-NEON GRID BACKGROUND FOR CHAT AREA */
+        [data-testid="conversation-panel-body"],
+        [data-asset-chat-background-dark],
+        [data-asset-chat-background-light] {
+            background-color: #050508 !important;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px) !important;
+            background-size: 30px 30px !important;
+            background-position: center center !important;
+            opacity: 1 !important;
         }
         
         /* ASSASSINATE NATIVE WHATSAPP VARIABLES */
