@@ -1097,6 +1097,18 @@ function forceNuclearTheme() {
             background-image: none !important;
         }
         
+        /* ASSASSINATE NATIVE WHATSAPP VARIABLES */
+        *, :root, body, #app {
+            --WDS-systems-bubble-surface-outgoing: #0a0e15 !important;
+            --WDS-systems-bubble-surface-incoming: #0e0a15 !important;
+            --outgoing-background: #0a0e15 !important;
+            --incoming-background: #0e0a15 !important;
+            --outgoing-background-rgb: 10, 14, 21 !important;
+            --incoming-background-rgb: 14, 10, 21 !important;
+            --message-out-bg: #0a0e15 !important;
+            --message-in-bg: #0e0a15 !important;
+        }
+        
         /* SIDEBAR PROFILES & SECONDARY PANELS */
         #pane-side, [data-testid="chat-list"], ._ak9p {
             background-color: #08080c !important;
@@ -1109,10 +1121,10 @@ function forceNuclearTheme() {
 
         /* MESSAGE BUBBLES - INCOMING */
         .message-in [data-testid="msg-container"] > div {
-            background-color: rgba(20, 15, 30, 0.9) !important;
+            background-color: #0e0a15 !important;
             border-left: 1px solid rgba(255, 0, 127, 0.7) !important;
             border-radius: 4px 12px 12px 12px !important;
-            box-shadow: 2px 0 10px rgba(255, 0, 127, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 2px 0 10px rgba(255, 0, 127, 0.2), 0 2px 5px rgba(0, 0, 0, 0.5) !important;
         }
         /* Make inner text wrappers transparent to avoid double boxes */
         .message-in .copyable-text[data-pre-plain-text],
@@ -1124,16 +1136,21 @@ function forceNuclearTheme() {
 
         /* MESSAGE BUBBLES - OUTGOING */
         .message-out [data-testid="msg-container"] > div {
-            background-color: rgba(0, 40, 50, 0.9) !important;
+            background-color: #0a0e15 !important;
             border-right: 1px solid rgba(0, 242, 255, 0.7) !important;
             border-radius: 12px 4px 12px 12px !important;
-            box-shadow: -2px 0 10px rgba(0, 242, 255, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: -2px 0 10px rgba(0, 242, 255, 0.2), 0 2px 5px rgba(0, 0, 0, 0.5) !important;
         }
         .message-out .copyable-text[data-pre-plain-text],
         .message-out ._amk4 {
             background-color: transparent !important;
             box-shadow: none !important;
             border: none !important;
+        }
+        
+        /* Ensure any deeply nested native div background is killed */
+        [data-testid="msg-container"] > div > div:first-child {
+            background-color: transparent !important;
         }
         
         /* HIDE DETACHED BUBBLE TAILS */
