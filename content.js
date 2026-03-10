@@ -24,7 +24,7 @@ function injectStyles() {
   st.id = 'waw-styles';
   st.textContent = `
   :root, .dark, .light {
-    --waw-cw: 72px;  
+    --waw-cw: 76px;  
     --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -507,13 +507,10 @@ function injectStyles() {
   body.waw-compact #side ._ak8q,
   body.waw-compact #side [data-testid="cell-frame-container"] {
       display: flex !important;
-      justify-content: left !important;
+      justify-content: center !important;
       align-items: center !important;
       width: auto !important;
-      /* min-width: 48px !important; */
-      /* max-width: 48px !important; */
-      /* height: 48px !important; */
-      /* margin: 4px auto !important; */
+      margin: 0 auto !important;
       padding: 0 !important;
       border-radius: 10px !important;
       box-sizing: border-box !important;
