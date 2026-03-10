@@ -1032,15 +1032,14 @@ function syncSelectedHighlight() {
     selectedEls.forEach(sel => {
         const row = sel.closest('[role="row"]') || sel;
 
-        // İçteki avatar elementini bul (img veya span[data-icon])
-        const innerEl =
-            row.querySelector('img') ||                               // Kayıtlı: gerçek profil resmi
-            row.querySelector('[data-icon="default-contact-refreshed"]'); // Kayıtsız: varsayılan span ikon
+        // ._ak8q veya cell-frame-container: her contact türü için aynı kapsayıcı.
+        // Bu element block-level ve sabit boyutlu olduğundan outline+border-radius çalışır.
+        const cellFrame =
+            row.querySelector('._ak8q') ||
+            row.querySelector('[data-testid="cell-frame-container"]') ||
+            row.querySelector('._ak8i') ;
 
-        // Ring'i inline elementin kendisine değil, block container olan
-        // parentElement'e uygula (border-radius: 50% inline'da çalışmaz)
-        const ringTarget = innerEl?.parentElement || innerEl;
-
+        const ringTarget = cellFrame || row;
         if (ringTarget) {
             ringTarget.classList.add('waw-selected-ring');
         }
