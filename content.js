@@ -1036,6 +1036,7 @@ function syncSelectedHighlight() {
         // kapsayıcı div'i kullanır. İlk çocukDiv = avatar bölgesi.
         // data-testid="avatar-container" veya ._ak8i / ._uixk deneyelim.
         const avatarContainer =
+            row.querySelector('[data-icon="default-contact-refreshed"]') || // Kayıtsız kişi varsayılan ikonunun tam seçicisi
             row.querySelector('[data-testid="avatar-container"]') ||
             row.querySelector('[data-testid*="avatar"]') ||
             row.querySelector('._uixk') ||      // Avatar outer wrap
