@@ -24,8 +24,28 @@ function injectStyles() {
   st.id = 'waw-styles';
   st.textContent = `
   :root {
-    --waw-cw: 68px;  /* 61px'den 68px'e çıkarıldı (Daha dengeli bir kompaktlık) */
+    --waw-cw: 68px;  
     --waw-tr: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* --- GLOBAL THEME VARIABLES --- */
+    --app-background: #0b0e11 !important;
+    --main-panel-background: #111b21 !important;
+    --panel-header-background: rgba(11, 14, 17, 0.7) !important;
+    --panel-header-icon: #aebac1 !important;
+    --primary: #00a884 !important;
+    --primary-strong: #00cc99 !important;
+    --incoming-msg-bg: #202c33 !important;
+    --outgoing-msg-bg: #005c4b !important;
+    --system-message-bg: rgba(24, 24, 27, 0.5) !important;
+    --dropdown-background: rgba(24, 24, 27, 0.9) !important;
+    --border-panel: rgba(255, 255, 255, 0.05) !important;
+    --border-default: transparent !important;
+    --bubble-radius: 16px !important;
+  }
+
+  /* Global Body Background */
+  body {
+    background-color: var(--app-background) !important;
   }
 
   /* =========================================================
@@ -106,15 +126,15 @@ function injectStyles() {
     height: auto !important;
     min-height: 0 !important;
     padding: 12px 10px !important;
-    background-color: rgba(24, 24, 27, 0.5) !important; /* Arka planı biraz daha şeffaf yapalım ki alttaki görsel görünsün */
+    background-color: rgba(11, 14, 17, 0.5) !important; 
     backdrop-filter: blur(25px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid var(--border-panel) !important;
     position: relative !important;
-    overflow: hidden !important; /* Blur taşmasın */
-    gap: 4px !important;
-    box-shadow: none !important;
-    z-index: 1 !important;
+    overflow: hidden !important; 
+    gap: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10 !important;
   }
 
   /* --- DİNAMİK BULANIK ARKA PLAN (Vibrant Header) --- */
@@ -446,7 +466,54 @@ function injectStyles() {
     width: 100% !important;
   }
 
-  /* 6. Tooltip (Hover kısmında isim çıksın) */
+  /* --- 7. MODERN CHAT BUBBLES & MINIMALIST CLEANUP --- */
+  
+  /* Mesaj Balonlarını Optimize Et */
+  [data-testid="msg-container"] > div {
+    border-radius: var(--bubble-radius) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+    border: none !important;
+  }
+  
+  /* Gelen Mesaj Kuyruğunu Kaldır / Köşeleri Yuvarla */
+  .message-in, .message-out {
+    margin-bottom: 4px !important;
+  }
+  .message-in [data-testid="msg-container"] > div {
+    border-top-left-radius: 4px !important;
+  }
+  .message-out [data-testid="msg-container"] > div {
+    border-top-right-radius: 4px !important;
+  }
+
+  /* Chat Arkaplanı - Daha Minimal */
+  body.waw-compact #main > div[data-testid="conversation-panel-body"] {
+    background-color: var(--app-background) !important;
+    background-image: none !important; /* Orijinal WhatsApp desenini kaldır */
+  }
+
+  /* Scrollbar - Modern & İnce */
+  ::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+
+  /* Sidebar Glassmorphism */
+  body.waw-compact #waw-compact-sidebar-col {
+    background-color: rgba(11, 14, 17, 0.8) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-right: 1px solid var(--border-panel) !important;
+  }
+
+  /* 8. Tooltip (Hover kısmında isim çıksın) */
   body.waw-compact [data-waw-name] {
     position: relative !important;
   }
