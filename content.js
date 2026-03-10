@@ -421,6 +421,15 @@ function injectStyles() {
   .waw-topbar-btn.active svg {
       fill: var(--outgoing-background) !important;
   }
+
+  /* USER DIRECT OVERRIDES */
+  body.waw-compact ._ak8h {
+      display: flex !important;
+      flex: none !important;
+      align-items: center !important;
+      padding: 0 var(--chat-spacing) 0 13px !important;
+      margin-top: -1px !important;
+  }
   `;
   document.head.appendChild(st);
 }
