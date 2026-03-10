@@ -310,14 +310,11 @@ function injectStyles() {
   /* Chat listesini daralt (#side) */
   body.waw-compact #side,
   body.waw-compact ._ak9p {
-    width: var(--waw-cw) !important;
-    min-width: var(--waw-cw) !important;
-    max-width: var(--waw-cw) !important;
-    height: 100% !important;
     overflow: hidden !important;
     transition: width var(--waw-tr) !important;
     flex-shrink: 0 !important;
     border: none !important;
+  }
   }
 
   /* SOHBET EKRANI PANELI (Geriye kalan boşluğu kapla) */
@@ -391,19 +388,25 @@ function injectStyles() {
       box-sizing: border-box !important;
   }
 
-  /* Avatarın Kendisi */
+  /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
   body.waw-compact ._ak8q > div:first-child,
-  body.waw-compact [data-testid="cell-frame-container"] > div:first-child {
+  body.waw-compact [data-testid="cell-frame-container"] > div:first-child,
+  body.waw-compact ._ak8q img,
+  body.waw-compact [data-testid="cell-frame-container"] img,
+  body.waw-compact ._ak8q svg,
+  body.waw-compact [data-testid="cell-frame-container"] svg {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 36px !important; /* 41px'den 36px'e çekildi */
+      width: 36px !important; 
       min-width: 36px !important;
       max-width: 36px !important;
       height: 36px !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
+      border-radius: 50% !important;
+      object-fit: cover !important; /* Resmin bozulmasını engeller */
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
