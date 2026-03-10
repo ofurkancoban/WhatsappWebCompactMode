@@ -398,8 +398,14 @@ function injectStyles() {
   /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI GİZLE (Sıkışıklığı Engeller) --- */
   body.waw-compact #waw-compact-sidebar-col header,
   body.waw-compact #side header,
-  body.waw-compact [data-testid="chat-list-search-container"] {
+  body.waw-compact [data-testid="chat-list-search-container"],
+  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
     display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   /* 6. Tooltip (Hover kısmında isim çıksın) */
@@ -744,6 +750,27 @@ function syncCustomTopBar() {
               clone.innerHTML = originalBtn.innerHTML;
           }
       });
+
+      // --- ARAMA KUTUSUNU PROAKTİF GİZLE / STASH'E TAŞI ---
+      syncSearchProactively();
+  }
+
+  function syncSearchProactively() {
+      const dd = document.getElementById('waw-search-dropdown');
+      // Eğer dropdown açık değilse, orijinal arama kutusunu stash'e (gizli yere) hapset
+      if (dd && dd.classList.contains('open')) return;
+
+      const stash = document.getElementById('waw-search-stash');
+      if (!stash) return;
+
+      const nativeSearchContainer = 
+          document.querySelector('[data-testid="chat-list-search-container"]') || 
+          document.querySelector('div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39');
+
+      if (nativeSearchContainer && nativeSearchContainer.parentElement !== stash) {
+          stash.appendChild(nativeSearchContainer);
+          log('Arama kutusu proaktif olarak stashlendi.');
+      }
   }
 
   // --- ÖZEL ARAMA BUTONU VE DROPDOWN MANTIĞI ---
@@ -948,6 +975,15 @@ function bootstrap() {
   document.getElementById('waw-compact-btn')?.remove();
 
   injectStyles();
+  
+  // Stash ve Dropdown yapılarını önden hazırla (Hızlı müdahale için)
+  if (!document.getElementById('waw-search-stash')) {
+      const stash = document.createElement('div');
+      stash.id = 'waw-search-stash';
+      stash.style.display = 'none';
+      document.body.appendChild(stash);
+  }
+  
   startResize();
   startMutation();
   log('Sistem aktif ✓');
