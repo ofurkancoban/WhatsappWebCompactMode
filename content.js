@@ -1138,8 +1138,29 @@ function forceNuclearTheme() {
         
         /* HIDE DETACHED BUBBLE TAILS */
         span[data-testid="tail-in"], 
-        span[data-testid="tail-out"] {
+        span[data-testid="tail-out"],
+        ._amk7 {
             display: none !important;
+        }
+
+        /* QUOTED MESSAGES / REPLIES */
+        ._aju3 {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+            border-radius: 8px !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* SYSTEM MESSAGES (Dates like "Yesterday", Information Pills) */
+        .x1uvtmcs.x4k7w5x, 
+        [data-testid="system-message"] > div,
+        .xyw6214 {
+            background-color: rgba(10, 10, 15, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #a0aab5 !important;
+            border-radius: 12px !important;
+            backdrop-filter: blur(5px) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+            text-shadow: none !important;
         }
 
         /* ICONS & SVG */
