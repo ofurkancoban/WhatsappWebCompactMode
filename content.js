@@ -340,11 +340,9 @@ function injectStyles() {
   }
 
   /* --- HOVER ARKA PLAN KALDIR --- */
-  /* [role="row"] ve tüm alt elementlerin hover arka planlarını kaldır */
-  body.waw-compact #pane-side [role="row"]:hover *,
-  body.waw-compact #pane-side [role="row"]:hover,
-  body.waw-compact [data-testid="chat-list"] [role="row"]:hover,
-  body.waw-compact [data-testid="chat-list"] [role="row"]:hover * {
+  /* Sadece #pane-side sohbet listesinde uygula, drawer (_aigw) háriç */
+  body.waw-compact #pane-side:not(:has(._aigw)) [role="row"]:hover,
+  body.waw-compact #pane-side:not(:has(._aigw)) [role="row"]:hover * {
       background-color: transparent !important;
       background: transparent !important;
   }
@@ -402,11 +400,9 @@ function injectStyles() {
       align-items: center !important;
   }
 
-  /* Seçili sohbet satırının varsayılan gri arka planını kaldır */
-  body.waw-compact #pane-side [aria-selected="true"],
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"],
-  body.waw-compact #pane-side [aria-selected="true"] > div,
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] > div {
+  /* Seçili sohbet satırının varsayılan gri arka planını kaldır - Sadece sohbet listesinde */
+  body.waw-compact #pane-side [aria-selected="true"]:not(._aigw *),
+  body.waw-compact #pane-side [aria-selected="true"]:not(._aigw *) > div {
       background-color: transparent !important;
       background: transparent !important;
   }
