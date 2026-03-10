@@ -24,7 +24,7 @@ function injectStyles() {
   st.id = 'waw-styles';
   st.textContent = `
   :root, .dark, .light {
-    --waw-cw: 76px;  
+    --waw-cw: 90px;  
     --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
