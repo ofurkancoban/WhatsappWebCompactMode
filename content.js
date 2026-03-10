@@ -441,14 +441,14 @@ function injectStyles() {
   /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI) HİZALAMA --- */
   
   /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
-  body.waw-compact [role="row"],
-  body.waw-compact [role="listitem"] {
+  body.waw-compact #side [role="row"],
+  body.waw-compact #side [role="listitem"] {
       width: 100% !important;
   }
 
-  body.waw-compact [role="row"] > div,
-  body.waw-compact [role="listitem"] > div,
-  body.waw-compact [role="listitem"] > div > div {
+  body.waw-compact #side [role="row"] > div,
+  body.waw-compact #side [role="listitem"] > div,
+  body.waw-compact #side [role="listitem"] > div > div {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
@@ -458,7 +458,7 @@ function injectStyles() {
   }
 
   /* Negatif offsetli taşıyıcıları (özel WhatsApp React DOM elementleri) sıfırla */
-  body.waw-compact ._ak72 {
+  body.waw-compact #side ._ak72 {
       display: flex !important;
       justify-content: center !important;
       width: 100% !important;
@@ -469,8 +469,8 @@ function injectStyles() {
   }
   
   /* Seçili Sohbet Zemini (Cell Frame) - Ortalanmış Kutu */
-  body.waw-compact ._ak8q,
-  body.waw-compact [data-testid="cell-frame-container"] {
+  body.waw-compact #side ._ak8q,
+  body.waw-compact #side [data-testid="cell-frame-container"] {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
@@ -485,8 +485,8 @@ function injectStyles() {
   }
 
   /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
-  body.waw-compact ._ak8q > div:first-child,
-  body.waw-compact [data-testid="cell-frame-container"] > div:first-child {
+  body.waw-compact #side ._ak8q > div:first-child,
+  body.waw-compact #side [data-testid="cell-frame-container"] > div:first-child {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
@@ -494,10 +494,10 @@ function injectStyles() {
       width: 100% !important;
   }
 
-  body.waw-compact ._ak8q img,
-  body.waw-compact [data-testid="cell-frame-container"] img,
-  body.waw-compact ._ak8q svg,
-  body.waw-compact [data-testid="cell-frame-container"] svg {
+  body.waw-compact #side ._ak8q img,
+  body.waw-compact #side [data-testid="cell-frame-container"] img,
+  body.waw-compact #side ._ak8q svg,
+  body.waw-compact #side [data-testid="cell-frame-container"] svg {
       display: block !important;
       margin: 0 auto !important;
       width: 40px !important;
@@ -506,20 +506,20 @@ function injectStyles() {
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
-  body.waw-compact ._ak8q > :nth-child(n+2),
-  body.waw-compact [data-testid="cell-frame-container"] > :nth-child(n+2) {
+  body.waw-compact #side ._ak8q > :nth-child(n+2),
+  body.waw-compact #side [data-testid="cell-frame-container"] > :nth-child(n+2) {
       display: none !important;
   }
 
   /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
   
   /* The core text container identified by DOM inspection */
-  body.waw-compact ._ak8l {
+  body.waw-compact #side ._ak8l {
       display: none !important;
   }
 
   /* Force the avatar container to fill the row and center the image */
-  body.waw-compact ._ak8n {
+  body.waw-compact #side ._ak8n {
       width: 100% !important;
       display: flex !important;
       justify-content: center !important;
@@ -529,11 +529,11 @@ function injectStyles() {
   }
 
   /* WhatsApp DOM yapısı değiştiğinde (isimlerin göründüğü o geniş sağ sütun) metin kutularını acımasızca yok et fallback */
-  body.waw-compact ._ak8i,
-  body.waw-compact .x11i5rnm,
-  body.waw-compact ._ak8j,
-  body.waw-compact [data-testid="cell-frame-title"],
-  body.waw-compact [data-testid="chat-subtitle"] {
+  body.waw-compact #side ._ak8i,
+  body.waw-compact #side .x11i5rnm,
+  body.waw-compact #side ._ak8j,
+  body.waw-compact #side [data-testid="cell-frame-title"],
+  body.waw-compact #side [data-testid="chat-subtitle"] {
       display: none !important;
       width: 0 !important;
       height: 0 !important;
@@ -573,7 +573,7 @@ function injectStyles() {
   }
 
   /* USER DIRECT OVERRIDES */
-  body.waw-compact ._ak8h {
+  body.waw-compact #side ._ak8h {
       display: flex !important;
       flex: none !important;
       align-items: center !important;
