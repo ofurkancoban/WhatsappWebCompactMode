@@ -463,7 +463,8 @@ function injectStyles() {
       justify-content: center !important;
       width: 100% !important;
       left: 0 !important;
-      margin: 0 auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
       transform: none !important;
   }
   
@@ -510,7 +511,24 @@ function injectStyles() {
       display: none !important;
   }
 
-  /* WhatsApp DOM yapısı değiştiğinde (isimlerin göründüğü o geniş sağ sütun) metin kutularını acımasızca yok et */
+  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
+  
+  /* The core text container identified by DOM inspection */
+  body.waw-compact ._ak8l {
+      display: none !important;
+  }
+
+  /* Force the avatar container to fill the row and center the image */
+  body.waw-compact ._ak8n {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+  }
+
+  /* WhatsApp DOM yapısı değiştiğinde (isimlerin göründüğü o geniş sağ sütun) metin kutularını acımasızca yok et fallback */
   body.waw-compact ._ak8i,
   body.waw-compact .x11i5rnm,
   body.waw-compact ._ak8j,
