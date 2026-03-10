@@ -599,45 +599,40 @@ function injectStyles() {
   /* Sidebar'a üstten boşluk aç ki avatarın üstünü örtmesin */
   body.waw-compact #side {
       position: relative !important;
-      padding-top: 60px !important; /* Buton için alan aç */
+      padding-top: 60px !important; /* JS ile eklenecek buton için alan aç */
   }
 
-  /* Yeni Sohbet butonunu (Aria veya ikon üzerinden tespit edip) mutlak pozisyona al */
-  body.waw-compact #side header button[title="New chat"],
-  body.waw-compact #side header button[title="Yeni sohbet"],
-  body.waw-compact #side header [aria-label="New chat"],
-  body.waw-compact #side header [aria-label="Yeni sohbet"],
-  body.waw-compact #side header [data-icon="chat"],
-  body.waw-compact #side header [data-icon="new-chat-outline"],
-  body.waw-compact #side header button:has(span[data-icon="new-chat-outline"]),
-  body.waw-compact #side header button:has(title:contains("new-chat-outline")) {
-      display: flex !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      width: 40px !important;
-      height: 40px !important;
-      position: absolute !important;
-      top: 10px !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      background-color: var(--background-default-hover, rgba(255,255,255,0.05)) !important;
-      border-radius: 50% !important;
-      justify-content: center !important;
-      align-items: center !important;
-      z-index: 100 !important;
-      pointer-events: auto !important;
+  /* Kendi enjekte ettiğimiz sabitleştirilmiş Yeni Sohbet butonu */
+  #waw-fixed-new-chat {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: var(--background-default-hover, rgba(255,255,255,0.05));
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      cursor: pointer;
+      color: #00f2ff;
+      transition: background-color 0.2s ease;
   }
   
-  /* İkon rengini vurgula */
-  body.waw-compact #side header [aria-label="New chat"] svg,
-  body.waw-compact #side header [aria-label="Yeni sohbet"] svg,
-  body.waw-compact #side header [data-icon="chat"] svg,
-  body.waw-compact #side header [data-icon="new-chat-outline"] svg,
-  body.waw-compact #side header button:has(span[data-icon="new-chat-outline"]) svg {
-      color: #00f2ff !important; /* Ya da var(--primary) */
-      width: 24px !important;
-      height: 24px !important;
-      fill: currentColor !important;
+  body.waw-compact #waw-fixed-new-chat {
+      display: flex;
+  }
+  
+  #waw-fixed-new-chat:hover {
+      background-color: rgba(255,255,255,0.1);
+  }
+
+  #waw-fixed-new-chat svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
   }
 
   /* USER DIRECT OVERRIDES */
@@ -921,6 +916,57 @@ function annotateRows() {
       row.dataset.wawName = title.textContent.trim();
     }
   });
+
+  injectFixedNewChatButton();
+}
+
+// WhatsApp DOM'undan tamamen bağımsız, güvenilir Yeni Sohbet butonu enjeksiyonu
+function injectFixedNewChatButton() {
+    if (!isCompact) {
+        let btn = document.getElementById('waw-fixed-new-chat');
+        if (btn) btn.style.display = 'none';
+        return;
+    }
+
+    const side = document.getElementById('side') || document.querySelector('._ak9p');
+    if (!side) return;
+
+    let btn = document.getElementById('waw-fixed-new-chat');
+    if (!btn) {
+        btn = document.createElement('div');
+        btn.id = 'waw-fixed-new-chat';
+        btn.setAttribute('title', 'Yeni Sohbet');
+        // WhatsApp standard 'new-chat-outline' SVG
+        btn.innerHTML = `<svg viewBox="0 0 24 24" height="24" width="24" preserveAspectRatio="xMidYMid meet" class=""><title>new-chat-outline</title><path fill="currentColor" d="M11.9,4C7.5,4,4,7.5,4,11.9S7.5,19.8,11.9,19.8S19.8,16.2,19.8,11.9S16.2,4,11.9,4z M11.9,18C8.5,18,5.8,15.3,5.8,11.9S8.5,5.8,11.9,5.8S18,8.5,18,11.9S15.3,18,11.9,18z M12.8,7.3h-1.8v3.6H7.3v1.8h3.6v3.6h1.8v-3.6h3.6V11H12.8V7.3z"></path></svg>`;
+        
+        btn.addEventListener('click', () => {
+             // Orijinal "Yeni Sohbet" butonlarını ara (birden fazla olası yer)
+             const orgBtn = document.querySelector('[aria-label="New chat"]') || 
+                            document.querySelector('[title="New chat"]') || 
+                            document.querySelector('button:has([data-icon="new-chat-outline"])') ||
+                            document.querySelector('span[data-icon="new-chat-outline"]') ||
+                            document.querySelector('[data-icon="chat"]');
+
+             let target = orgBtn;
+             if (target && target.tagName !== 'BUTTON') {
+                 let parentBtn = target.closest('button') || target.closest('[role="button"]');
+                 if (parentBtn) target = parentBtn;
+             }
+             if (target) {
+                 target.click();
+             } else {
+                 console.warn('waw-compact: Orijinal WhatsApp Yeni Sohbet butonu bulunamadı!');
+             }
+        });
+        
+        side.appendChild(btn);
+    } else {
+        // Zaten varsa, ama side içinde değilse oraya taşı (WhatsApp DOM re-render yaparsa kurtarır)
+        if (btn.parentElement !== side) {
+            side.appendChild(btn);
+        }
+        btn.style.display = '';
+    }
 }
 
 // ── Compact Mode Aç/Kapat ───────────────────────────────────────
