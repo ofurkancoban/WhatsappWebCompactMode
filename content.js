@@ -334,7 +334,7 @@ function injectStyles() {
   /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
   body.waw-compact [role="listitem"] > div,
   body.waw-compact [role="listitem"] > div > div {
-      padding: 0 !important;
+      /* padding: 0 !important; */
       margin: 0 !important;
       width: 100% !important;
   }
