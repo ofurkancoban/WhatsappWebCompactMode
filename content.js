@@ -249,9 +249,10 @@ function injectStyles() {
     border: none !important;
   }
 
-  /* --- NEW CHAT / DRAWER GENİŞLETME --- */
+  /* --- NEW CHAT / DRAWER GENİŞLETME VE İSİM DÜZELTME --- */
   /* WhatsApp'ın yan tarafta açtığı "Yeni Sohbet", "Profil" gibi çekmeceleri 
-     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz. */
+     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz ve içindeki isimlerin 
+     düzgün görünmesini sağlıyoruz. */
   body.waw-compact [data-testid="drawer-left"],
   body.waw-compact ._aigw {
       width: 350px !important;
@@ -262,22 +263,49 @@ function injectStyles() {
       z-index: 200 !important;
   }
 
-  /* Çekmece içindeki satırların hizalamasını düzelt (Sidebar'daki ortalama kuralını ez) */
-  body.waw-compact ._aigw div[role="button"] > div,
-  body.waw-compact ._aigw div[role="button"] > div > div {
+  /* Çekmece içindeki satırların hizalamasını SOLA yasla (Sidebar'daki ortalama kuralını ez) */
+  body.waw-compact ._aigw ._ak72 {
+      display: flex !important;
       justify-content: flex-start !important;
       align-items: center !important;
-      text-align: left !important;
+      width: 100% !important;
   }
 
-  /* Çekmece içindeki isimlerin görünmesini sağla */
+  /* Avatar ve metin arasındaki boşluğu koru */
+  body.waw-compact ._aigw ._ak8h {
+      margin-right: 15px !important;
+      flex: none !important;
+      justify-content: center !important;
+  }
+
+  /* Çekmece içindeki tüm metin alanlarını görünür yap ve sola daya */
+  body.waw-compact ._aigw ._ak8l, 
   body.waw-compact ._aigw ._ak8o,
-  body.waw-compact ._aigw ._ak8l {
-      display: block !important;
-      margin-left: 10px !important;
-      flex: 1 !important;
+  body.waw-compact ._aigw ._ak8i,
+  body.waw-compact ._aigw [data-testid="cell-frame-title"] {
+      display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
+      width: auto !important;
+      height: auto !important;
+      text-align: left !important;
+      justify-content: flex-start !important;
+      flex: 1 1 auto !important;
+      overflow: visible !important;
+  }
+
+  /* İsimlerin yanındaki o parçalı görünümü (ellipsis/truncation) kontrollü yap */
+  body.waw-compact ._aigw span[title],
+  body.waw-compact ._aigw ._ak8q + div {
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      display: block !important;
+  }
+
+  /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
+  body.waw-compact #waw-compact-sidebar-col {
+      overflow: visible !important;
   }
 
   /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
