@@ -24,7 +24,7 @@ function injectStyles() {
   st.id = 'waw-styles';
   st.textContent = `
   :root {
-    --waw-cw: 72px;  /* Sadece avatarların görüneceği genişlik */
+    --waw-cw: 61px;  /* 72px'den 61px'e düşürüldü (%85 ölçek) */
     --waw-tr: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -364,26 +364,26 @@ function injectStyles() {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 56px !important;
-      min-width: 56px !important;
-      max-width: 56px !important;
-      height: 56px !important;
-      margin: 8px auto !important; /* Yatayda mükemmel matematiksel ortalama! */
+      width: 48px !important; /* 56px'den 48px'e çekildi */
+      min-width: 48px !important;
+      max-width: 48px !important;
+      height: 48px !important;
+      margin: 6px auto !important; /* Dikey boşluk da biraz daraltıldı */
       padding: 0 !important;
-      border-radius: 14px !important; /* Seçili olduğunda arkasındaki harika yumuşak kutu */
+      border-radius: 12px !important;
       box-sizing: border-box !important;
   }
 
-  /* Avatarın Kendisi (Cell Frame içindeki resim kutusu) */
+  /* Avatarın Kendisi */
   body.waw-compact ._ak8q > div:first-child,
   body.waw-compact [data-testid="cell-frame-container"] > div:first-child {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 48px !important;
-      min-width: 48px !important;
-      max-width: 48px !important;
-      height: 48px !important;
+      width: 41px !important; /* 48px'den 41px'e çekildi */
+      min-width: 41px !important;
+      max-width: 41px !important;
+      height: 41px !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
@@ -395,14 +395,19 @@ function injectStyles() {
       display: none !important;
   }
 
-  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI GİZLE (Sıkışıklığı Engeller) --- */
-  body.pattern-bg-color ._ak9p header, /* WhatsApp'ın kendi header'ı */
+  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
+  body.pattern-bg-color ._ak9p header,
   body.waw-compact #waw-compact-sidebar-col header,
   body.waw-compact #side header,
   body.waw-compact [data-testid="chat-list-search-container"],
-  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
+  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe,
+  body.waw-compact [role="heading"], /* "Chats", "Messages" başlıklarını nükle */
+  body.waw-compact span._ak8l, /* Okunmamış sayısı/tarih gibi yandaki kalıntıları gizle */
+  body.waw-compact ._ak8j {
     display: none !important;
     height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden !important;
     visibility: hidden !important;
     opacity: 0 !important;
