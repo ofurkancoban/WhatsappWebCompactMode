@@ -602,6 +602,31 @@ function injectStyles() {
       padding-top: 60px !important; /* JS ile eklenecek buton için alan aç */
   }
 
+  /* --- 7. SOHBET HEADER'INA BULANIK AVATAR ARKAPLANI --- */
+  body.waw-compact #main header {
+      position: relative;
+      overflow: hidden;
+      background-color: transparent !important; 
+  }
+
+  body.waw-compact #main header::before {
+      content: "";
+      position: absolute;
+      top: -10%; left: -10%; right: -10%; bottom: -10%; 
+      background-image: var(--header-bg-image, none);
+      background-size: cover;
+      background-position: center;
+      filter: blur(25px) brightness(0.6); 
+      z-index: 0;
+      pointer-events: none;
+      transition: background-image 0.3s ease;
+  }
+
+  body.waw-compact #main header > * {
+      position: relative;
+      z-index: 1;
+  }
+
   /* Kendi enjekte ettiğimiz sabitleştirilmiş Yeni Sohbet butonu */
   #waw-fixed-new-chat {
       display: none;
@@ -918,6 +943,25 @@ function annotateRows() {
   });
 
   injectFixedNewChatButton();
+  syncChatHeaderBackground();
+}
+
+// Sohbet header'ına profil resmini bulanık arkaplan olarak ata
+function syncChatHeaderBackground() {
+    if (!isCompact) return;
+    const header = document.querySelector('#main header');
+    if (!header) return;
+    
+    // Header içindeki ilk resmi (avatarı) bul
+    const avatar = header.querySelector('img');
+    if (avatar && avatar.src) {
+        const bgUrl = `url("${avatar.src}")`;
+        if (header.style.getPropertyValue('--header-bg-image') !== bgUrl) {
+            header.style.setProperty('--header-bg-image', bgUrl);
+        }
+    } else {
+        header.style.removeProperty('--header-bg-image');
+    }
 }
 
 // WhatsApp DOM'undan tamamen bağımsız, güvenilir Yeni Sohbet butonu enjeksiyonu
