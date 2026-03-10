@@ -383,6 +383,21 @@ function injectStyles() {
       border-radius: 50% !important;
   }
 
+  /* Geniş kapsam: [role=row] içinde aria-selected olan herhangi bir elemente bağlı img */
+  body.waw-compact #side [aria-selected="true"] img,
+  body.waw-compact #pane-side [aria-selected="true"] img {
+      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
+      outline-offset: 2px !important;
+      border-radius: 50% !important;
+  }
+
+  /* JS class ile de uygulanacak: JS syncSelectedHighlight fonksiyonun atağı class */
+  body.waw-compact .waw-selected-ring {
+      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
+      outline-offset: 2px !important;
+      border-radius: 50% !important;
+  }
+
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
 
   /* --- SEARCH DROPDOWN (Modern Glassy Bar) --- */
@@ -998,6 +1013,29 @@ function annotateRows() {
   injectFixedNewChatButton();
   syncChatHeaderBackground();
   syncTypingStatus();
+  syncSelectedHighlight();
+}
+
+// Seçili chat avatarına daire highlight ekle (JS class injection)
+function syncSelectedHighlight() {
+    if (!isCompact) return;
+
+    // Önce tüm eski ring class'larını temizle
+    document.querySelectorAll('.waw-selected-ring').forEach(el => {
+        el.classList.remove('waw-selected-ring');
+    });
+
+    // aria-selected="true" olan tüm elementleri bul (row veya içindeki div)
+    const selectedEls = document.querySelectorAll(
+        '#pane-side [aria-selected="true"], [data-testid="chat-list"] [aria-selected="true"]'
+    );
+    selectedEls.forEach(sel => {
+        // O elementin içindeki veya kendisinin avatar img'ini bul
+        const img = sel.querySelector('img') || sel.closest('[role="row"]')?.querySelector('img');
+        if (img) {
+            img.classList.add('waw-selected-ring');
+        }
+    });
 }
 
 // "Yazıyor..." durumunu kontrol et ve pulse efekti ekle
