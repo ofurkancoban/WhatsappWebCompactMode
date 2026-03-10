@@ -167,18 +167,35 @@ function injectStyles() {
   body.waw-compact #main > header > div:nth-child(2) {
     flex-direction: column !important;
     order: 2 !important;
+    width: 100% !important;
+    max-width: 200px !important; /* Sidebar genişliğine yakın bir sınır */
+    overflow: hidden !important;
+    text-align: center !important;
   }
   body.waw-compact #main > header span[title] {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
     font-size: 12px !important;
     font-weight: 700 !important;
     color: #ffffff !important;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    line-height: 1.4 !important;
   }
-  /* Status/Last Seen */
-  body.waw-compact #main > header ._aj-8 {
-    font-size: 11px !important; /* Daha küçük */
+  /* Status/Last Seen / Member List */
+  body.waw-compact #main > header ._aj-8,
+  body.waw-compact #main > header [data-testid="chat-subtitle"] {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 10px !important; /* Biraz daha küçülttük */
     color: #94a3b8 !important;
-    margin: 0 !important;
+    margin: 2px 0 0 0 !important; /* Title ile arasına mesafe */
+    text-align: center !important;
   }
 
   /* 3. Buton Grubu */
