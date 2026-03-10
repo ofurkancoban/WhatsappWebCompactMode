@@ -1110,9 +1110,9 @@ function forceNuclearTheme() {
         /* MESSAGE BUBBLES - INCOMING */
         .message-in [data-testid="msg-container"] > div {
             background-color: rgba(20, 15, 30, 0.9) !important;
-            border-left: 2px solid rgba(255, 0, 127, 0.5) !important;
+            border-left: 1px solid rgba(255, 0, 127, 0.7) !important;
             border-radius: 4px 12px 12px 12px !important;
-            box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 2px 0 10px rgba(255, 0, 127, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3) !important;
         }
         /* Make inner text wrappers transparent to avoid double boxes */
         .message-in .copyable-text[data-pre-plain-text],
@@ -1125,15 +1125,21 @@ function forceNuclearTheme() {
         /* MESSAGE BUBBLES - OUTGOING */
         .message-out [data-testid="msg-container"] > div {
             background-color: rgba(0, 40, 50, 0.9) !important;
-            border-right: 2px solid rgba(0, 242, 255, 0.5) !important;
+            border-right: 1px solid rgba(0, 242, 255, 0.7) !important;
             border-radius: 12px 4px 12px 12px !important;
-            box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: -2px 0 10px rgba(0, 242, 255, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3) !important;
         }
         .message-out .copyable-text[data-pre-plain-text],
         .message-out ._amk4 {
             background-color: transparent !important;
             box-shadow: none !important;
             border: none !important;
+        }
+        
+        /* HIDE DETACHED BUBBLE TAILS */
+        span[data-testid="tail-in"], 
+        span[data-testid="tail-out"] {
+            display: none !important;
         }
 
         /* ICONS & SVG */
