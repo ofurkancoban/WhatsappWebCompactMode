@@ -1103,11 +1103,19 @@ function forceNuclearTheme() {
         [data-asset-chat-background-light] {
             background-color: #050508 !important;
             background-image: 
-                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px) !important;
+                linear-gradient(rgba(0, 242, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.08) 1px, transparent 1px) !important;
             background-size: 30px 30px !important;
             background-position: center center !important;
             opacity: 1 !important;
+            z-index: 0 !important;
+        }
+        
+        /* DESTROY NATIVE WHATSAPP DOODLE OVERLAY */
+        ._ahn8, [class*="bg-chat-tile"] {
+            background-image: none !important;
+            opacity: 0 !important;
+            display: none !important;
         }
         
         /* ASSASSINATE NATIVE WHATSAPP VARIABLES */
