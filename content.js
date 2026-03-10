@@ -25,27 +25,34 @@ function injectStyles() {
   st.textContent = `
   :root {
     --waw-cw: 68px;  
-    --waw-tr: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* --- GLOBAL THEME VARIABLES --- */
-    --app-background: #0b0e11 !important;
-    --main-panel-background: #111b21 !important;
-    --panel-header-background: rgba(11, 14, 17, 0.7) !important;
-    --panel-header-icon: #aebac1 !important;
-    --primary: #00a884 !important;
-    --primary-strong: #00cc99 !important;
-    --incoming-msg-bg: #202c33 !important;
-    --outgoing-msg-bg: #005c4b !important;
-    --system-message-bg: rgba(24, 24, 27, 0.5) !important;
-    --dropdown-background: rgba(24, 24, 27, 0.9) !important;
-    --border-panel: rgba(255, 255, 255, 0.05) !important;
-    --border-default: transparent !important;
-    --bubble-radius: 16px !important;
+    /* --- CYBER-NEON HUD PALETTE --- */
+    --app-background: #050505 !important;
+    --main-panel-background: #0a0a0f !important;
+    --panel-header-background: rgba(10, 10, 15, 0.8) !important;
+    --primary: #00f2ff !important; /* Neon Cyan */
+    --accent: #ff007f !important;  /* Neon Magenta */
+    --incoming-msg-bg: rgba(255, 0, 127, 0.1) !important;
+    --outgoing-msg-bg: rgba(0, 242, 255, 0.1) !important;
+    --border-glow: rgba(0, 242, 255, 0.3) !important;
+    --border-glow-alt: rgba(255, 0, 127, 0.3) !important;
+    --bubble-radius: 20px !important;
   }
 
-  /* Global Body Background */
+  /* Futuristic Typography & Global Glow */
   body {
     background-color: var(--app-background) !important;
+    color: #e0e0e0 !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Neon Scrollbar */
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--primary), var(--accent)) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 5px var(--primary) !important;
   }
 
   /* =========================================================
@@ -418,15 +425,24 @@ function injectStyles() {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      width: 36px !important; 
-      min-width: 36px !important;
-      max-width: 36px !important;
-      height: 36px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      border-radius: 50% !important;
-      object-fit: cover !important; /* Resmin bozulmasını engeller */
+  /* Avatar HUD Glow */
+  body.waw-compact ._ak8q img,
+  body.waw-compact [data-testid="cell-frame-container"] img {
+      border: 1px solid var(--border-glow) !important;
+      box-shadow: 0 0 8px var(--border-glow) !important;
+  }
+  
+  /* Active Contact Pulse */
+  body.waw-compact ._ak8q[aria-selected="true"],
+  body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] {
+      border: 1px solid var(--primary) !important;
+      box-shadow: 0 0 15px var(--primary) !important;
+      animation: waw-neon-pulse 2s infinite alternate !important;
+  }
+
+  @keyframes waw-neon-pulse {
+    from { box-shadow: 0 0 5px var(--primary); }
+    to { box-shadow: 0 0 20px var(--primary); }
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
@@ -466,51 +482,48 @@ function injectStyles() {
     width: 100% !important;
   }
 
-  /* --- 7. MODERN CHAT BUBBLES & MINIMALIST CLEANUP --- */
+  /* --- 7. CYBER-NEON LIQUID GLASS BUBBLES --- */
   
-  /* Mesaj Balonlarını Optimize Et */
   [data-testid="msg-container"] > div {
     border-radius: var(--bubble-radius) !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-    border: none !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
   }
   
-  /* Gelen Mesaj Kuyruğunu Kaldır / Köşeleri Yuvarla */
-  .message-in, .message-out {
-    margin-bottom: 4px !important;
-  }
-  .message-in [data-testid="msg-container"] > div {
-    border-top-left-radius: 4px !important;
-  }
+  /* Outgoing (Cyan Glow) */
   .message-out [data-testid="msg-container"] > div {
-    border-top-right-radius: 4px !important;
+    background: var(--outgoing-msg-bg) !important;
+    border-right: 3px solid var(--primary) !important;
+    box-shadow: -5px 0 15px rgba(0, 242, 255, 0.1) !important;
   }
 
-  /* Chat Arkaplanı - Daha Minimal */
+  /* Incoming (Magenta Glow) */
+  .message-in [data-testid="msg-container"] > div {
+    background: var(--incoming-msg-bg) !important;
+    border-left: 3px solid var(--accent) !important;
+    box-shadow: 5px 0 15px rgba(255, 0, 127, 0.1) !important;
+  }
+
+  /* Chat Background - Deep Void */
   body.waw-compact #main > div[data-testid="conversation-panel-body"] {
-    background-color: var(--app-background) !important;
-    background-image: none !important; /* Orijinal WhatsApp desenini kaldır */
+    background: radial-gradient(circle at center, #10101a 0%, #050505 100%) !important;
+    background-image: none !important;
   }
 
-  /* Scrollbar - Modern & İnce */
-  ::-webkit-scrollbar {
-    width: 6px !important;
-    height: 6px !important;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 10px !important;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent !important;
-  }
-
-  /* Sidebar Glassmorphism */
+  /* Sidebar Cyber-Glass */
   body.waw-compact #waw-compact-sidebar-col {
-    background-color: rgba(11, 14, 17, 0.8) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border-right: 1px solid var(--border-panel) !important;
+    background-color: rgba(5, 5, 10, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 1px solid var(--border-glow) !important;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.5) !important;
+  }
+
+  /* Custom Top Bar - Neon Border */
+  #waw-custom-top-bar {
+    border-bottom: 2px solid var(--primary) !important;
+    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2) !important;
   }
 
   /* 8. Tooltip (Hover kısmında isim çıksın) */
