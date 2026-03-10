@@ -466,14 +466,23 @@ function injectStyles() {
 
   /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
   body.waw-compact ._ak8q > div:first-child,
-  body.waw-compact [data-testid="cell-frame-container"] > div:first-child,
+  body.waw-compact [data-testid="cell-frame-container"] > div:first-child {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+  }
+
   body.waw-compact ._ak8q img,
   body.waw-compact [data-testid="cell-frame-container"] img,
   body.waw-compact ._ak8q svg,
   body.waw-compact [data-testid="cell-frame-container"] svg {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
+      display: block !important;
+      margin: 0 auto !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
@@ -515,6 +524,9 @@ function injectStyles() {
 
   /* USER DIRECT OVERRIDES */
   body.waw-compact ._ak8h {
+      display: flex !important;
+      flex: none !important;
+      align-items: center !important;
       margin-top: -1px !important;
   }
   `;
