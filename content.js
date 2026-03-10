@@ -441,11 +441,30 @@ function injectStyles() {
   /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI) HİZALAMA --- */
   
   /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
+  body.waw-compact [role="row"],
+  body.waw-compact [role="listitem"] {
+      width: 100% !important;
+  }
+
+  body.waw-compact [role="row"] > div,
   body.waw-compact [role="listitem"] > div,
   body.waw-compact [role="listitem"] > div > div {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
       padding: 0 !important;
       margin: 0 !important;
       width: 100% !important;
+  }
+
+  /* Negatif offsetli taşıyıcıları (özel WhatsApp React DOM elementleri) sıfırla */
+  body.waw-compact ._ak72 {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+      left: 0 !important;
+      margin: 0 auto !important;
+      transform: none !important;
   }
   
   /* Seçili Sohbet Zemini (Cell Frame) - Ortalanmış Kutu */
