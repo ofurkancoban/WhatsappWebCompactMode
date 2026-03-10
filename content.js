@@ -1159,9 +1159,20 @@ function startMutation() {
   mutationObserver = new MutationObserver(() => {
     if (!isCompact) return;
     clearTimeout(timer);
-    timer = setTimeout(annotateRows, 300);
+    timer = setTimeout(annotateRows, 80); // 300ms'den 80ms'ye indirdi
   });
   mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+  // Sohbete tıklandığında anında highlight güncelle
+  document.addEventListener('click', (e) => {
+    if (!isCompact) return;
+    const row = e.target.closest('[role="row"]') || e.target.closest('[data-testid="cell-frame-container"]');
+    if (row) {
+      // Gecikme yok: tıklama anında highlight sıfırla, 50ms sonra yenişi uygula
+      document.querySelectorAll('.waw-selected-ring').forEach(el => el.classList.remove('waw-selected-ring'));
+      setTimeout(syncSelectedHighlight, 50);
+    }
+  }, { passive: true });
 }
 
 // ── Sayfa Yüklenme Bekleyicisi ─────────────────────────────────
