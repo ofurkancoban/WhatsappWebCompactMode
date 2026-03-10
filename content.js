@@ -380,7 +380,9 @@ function injectStyles() {
   body.waw-compact #pane-side [aria-selected="true"] [data-icon="default-contact-refreshed"],
   body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-contact-refreshed"],
   body.waw-compact #pane-side [aria-selected="true"] [data-icon="default-group-refreshed"],
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-group-refreshed"] {
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-group-refreshed"],
+  body.waw-compact #pane-side [aria-selected="true"] [data-icon="wa-chat-psa"],
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="wa-chat-psa"] {
       display: inline-flex !important;
       border-radius: 50% !important;
       box-shadow: 0 0 0 2.5px rgba(37, 211, 102, 0.85) !important;
