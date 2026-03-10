@@ -1099,9 +1099,9 @@ function forceNuclearTheme() {
 
     const cssContent = `
         /* ABSOLUTE BACKGROUND OVERRIDES */
-        body, html, #app, #side, #main, #pane-side, .app-wrapper-web, .two, .three,
+        body, html, #app, #side, #main, #pane-side, .app-wrapper-web,
         [data-testid="chat-list"], [data-testid="conversation-panel-body"], [data-testid="intro-md-background"],
-        ._ak9p, ._ak9y, ._aigw, ._aigs {
+        ._ak9p, ._ak9y {
             background-color: #050508 !important;
             background-image: none !important;
         }
