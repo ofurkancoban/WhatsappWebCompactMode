@@ -368,10 +368,19 @@ function injectStyles() {
       align-items: center !important;
   }
 
-  /* Default Active Contact Style Minimal Override */
+  /* Seçili Chat - Daire Şeklinde Highlight */
   body.waw-compact ._ak8q[aria-selected="true"],
   body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] {
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 50% !important;
+      outline: 2.5px solid rgba(37, 211, 102, 0.85) !important;
+      outline-offset: 2px !important;
+      background: transparent !important;
+  }
+
+  /* Seçili chatin avatar resminin kendisi de tam yuvarlak görünsün */
+  body.waw-compact ._ak8q[aria-selected="true"] img,
+  body.waw-compact [data-testid="cell-frame-container"][aria-selected="true"] img {
+      border-radius: 50% !important;
   }
 
   /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
