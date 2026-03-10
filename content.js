@@ -368,6 +368,15 @@ function injectStyles() {
       align-items: center !important;
   }
 
+  /* Seçili sohbet satırının varsayılan gri arka planını kaldır */
+  body.waw-compact #pane-side [aria-selected="true"],
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"],
+  body.waw-compact #pane-side [aria-selected="true"] > div,
+  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] > div {
+      background-color: transparent !important;
+      background: transparent !important;
+  }
+
   /* Seçili Chat - Sadece Avatar Elementinı Hedefle (Kayıtlı: img, Kayıtsız: span[data-icon]) */
   /* Kayıtlı kontakt: profil resmi img */
   body.waw-compact #pane-side [aria-selected="true"] img,
