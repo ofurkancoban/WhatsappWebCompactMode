@@ -309,11 +309,12 @@ function injectStyles() {
     left: 0;
     width: 100%;
     height: 54px;
+    z-index: 999999 !important; /* CRITICAL: Must be above WA native header */
     /* Glassmorphism — Neon Glass Effect */
     background-color: rgba(8, 8, 12, 0.92) !important;
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1) !important;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -659,6 +660,19 @@ function injectStyles() {
       --checkbox-mark-color: #00f2ff !important;
   }
 
+  /* --- WhatsApp Splash / Intro Screen --- */
+  div[data-testid="intro-md-background"], 
+  div[data-asset-intro-image-light] {
+      background-color: #050508 !important;
+  }
+  
+  /* Convert the default green splash graphic to Cyber-Neon Cyan */
+  div[data-asset-intro-image-light] + div, 
+  div[data-asset-intro-image-dark] + div,
+  .x1y1aw1k {
+      filter: hue-rotate(180deg) brightness(1.2) drop-shadow(0 0 20px rgba(0, 242, 255, 0.4)) !important;
+  }
+  
   /* Yumuşatılmış Köşeler — Neon Glass Edges */
   .copyable-area,
   [data-testid="conversation-panel-wrapper"],
@@ -1110,9 +1124,9 @@ function forceNuclearTheme() {
     }
 
     // DIRECT INLINE OVERRIDE: Force background on actual DOM elements
-    const bgTargets = '#app, #side, #main, #pane-side, ._ak9p, ._ak9y, .app-wrapper-web, .two, .three, [data-testid="chat-list"], [data-testid="conversation-panel-body"]';
+    const bgTargets = '#app, #side, #main, #pane-side, ._ak9p, ._ak9y, .app-wrapper-web, .two, .three, [data-testid="chat-list"], [data-testid="conversation-panel-body"], [data-testid="intro-md-background"]';
     document.querySelectorAll(bgTargets).forEach(el => {
-        if (el.style.backgroundColor !== '#08080c') {
+        if (el.style.backgroundColor !== '#08080c' && el.style.backgroundColor !== 'rgb(8, 8, 12)') {
             el.style.setProperty('background-color', '#08080c', 'important');
             el.style.setProperty('background-image', 'none', 'important');
         }
