@@ -586,8 +586,9 @@ function injectStyles() {
   body.waw-compact #side header [aria-label="New chat"],
   body.waw-compact #side header [aria-label="Yeni sohbet"],
   body.waw-compact #side header [data-icon="chat"],
-  body.waw-compact #side header [data-waw-label="New-chat"],
-  body.waw-compact #side header [data-waw-label="Yeni-sohbet"] {
+  body.waw-compact #side header [data-icon="new-chat-outline"],
+  body.waw-compact #side header button:has(span[data-icon="new-chat-outline"]),
+  body.waw-compact #side header button:has(title:contains("new-chat-outline")) {
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
@@ -608,7 +609,9 @@ function injectStyles() {
   /* İkon rengini vurgula */
   body.waw-compact #side header [aria-label="New chat"] svg,
   body.waw-compact #side header [aria-label="Yeni sohbet"] svg,
-  body.waw-compact #side header [data-icon="chat"] svg {
+  body.waw-compact #side header [data-icon="chat"] svg,
+  body.waw-compact #side header [data-icon="new-chat-outline"] svg,
+  body.waw-compact #side header button:has(span[data-icon="new-chat-outline"]) svg {
       color: #00f2ff !important; /* Ya da var(--primary) */
       width: 24px !important;
       height: 24px !important;
