@@ -225,33 +225,24 @@ function injectStyles() {
     flex-direction: column !important;
     order: 2 !important;
     width: 100% !important;
-    max-width: 200px !important; /* Sidebar genişliğine yakın bir sınır */
+    max-width: 250px !important;
     overflow: hidden !important;
     text-align: center !important;
+    justify-content: center !important;
   }
   body.waw-compact #main > header span[title] {
-    display: block !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
     color: #ffffff !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
     line-height: 1.4 !important;
   }
   /* Status/Last Seen / Member List */
   body.waw-compact #main > header ._aj-8,
   body.waw-compact #main > header [data-testid="chat-subtitle"] {
-    display: block !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    font-size: 10px !important; /* Biraz daha küçülttük */
+    font-size: 11px !important;
     color: #94a3b8 !important;
-    margin: 2px 0 0 0 !important; /* Title ile arasına mesafe */
+    margin: 4px 0 0 0 !important;
     text-align: center !important;
   }
 
@@ -1117,23 +1108,32 @@ function forceNuclearTheme() {
         }
 
         /* MESSAGE BUBBLES - INCOMING */
-        .message-in [data-testid="msg-container"] > div,
-        [data-testid="msg-container"].message-in > div,
+        .message-in [data-testid="msg-container"] > div {
+            background-color: rgba(20, 15, 30, 0.9) !important;
+            border-left: 2px solid rgba(255, 0, 127, 0.5) !important;
+            border-radius: 4px 12px 12px 12px !important;
+            box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+        /* Make inner text wrappers transparent to avoid double boxes */
         .message-in .copyable-text[data-pre-plain-text],
         .message-in ._amk4 {
-            background-color: rgba(20, 15, 30, 0.9) !important;
-            border-left: 2px solid rgba(255, 0, 127, 0.4) !important;
-            box-shadow: 3px 0 12px rgba(255, 0, 127, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
         /* MESSAGE BUBBLES - OUTGOING */
-        .message-out [data-testid="msg-container"] > div,
-        [data-testid="msg-container"].message-out > div,
+        .message-out [data-testid="msg-container"] > div {
+            background-color: rgba(0, 40, 50, 0.9) !important;
+            border-right: 2px solid rgba(0, 242, 255, 0.5) !important;
+            border-radius: 12px 4px 12px 12px !important;
+            box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
         .message-out .copyable-text[data-pre-plain-text],
         .message-out ._amk4 {
-            background-color: rgba(0, 40, 50, 0.9) !important;
-            border-right: 2px solid rgba(0, 242, 255, 0.4) !important;
-            box-shadow: -3px 0 12px rgba(0, 242, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
         /* ICONS & SVG */
