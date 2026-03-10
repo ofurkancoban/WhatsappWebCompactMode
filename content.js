@@ -396,6 +396,7 @@ function injectStyles() {
   }
 
   /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI GİZLE (Sıkışıklığı Engeller) --- */
+  body.pattern-bg-color ._ak9p header, /* WhatsApp'ın kendi header'ı */
   body.waw-compact #waw-compact-sidebar-col header,
   body.waw-compact #side header,
   body.waw-compact [data-testid="chat-list-search-container"],
@@ -406,6 +407,18 @@ function injectStyles() {
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+
+  /* DROPDOWN İÇİNDEYKEN GÖRÜNÜR YAP (Özel Override) */
+  #waw-search-dropdown [data-testid="chat-list-search-container"],
+  #waw-search-dropdown div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
+    display: flex !important;
+    height: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow: visible !important;
+    width: 100% !important;
   }
 
   /* 6. Tooltip (Hover kısmında isim çıksın) */
@@ -757,8 +770,12 @@ function syncCustomTopBar() {
 
   function syncSearchProactively() {
       const dd = document.getElementById('waw-search-dropdown');
-      // Eğer dropdown açık değilse, orijinal arama kutusunu stash'e (gizli yere) hapset
-      if (dd && dd.classList.contains('open')) return;
+      // Eğer dropdown açıksa veya açılıyorsa (transition) dokunma!
+      if (dd && (dd.classList.contains('open') || dd.querySelector('.x1n2onr6'))) {
+          // Eğer dropdown içinde değilse taşıyabiliriz ama dropdown tıklandığında zaten taşıyor.
+          // O yüzden dropdown varken risk almayalım.
+          return;
+      }
 
       const stash = document.getElementById('waw-search-stash');
       if (!stash) return;
@@ -767,7 +784,7 @@ function syncCustomTopBar() {
           document.querySelector('[data-testid="chat-list-search-container"]') || 
           document.querySelector('div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39');
 
-      if (nativeSearchContainer && nativeSearchContainer.parentElement !== stash) {
+      if (nativeSearchContainer && nativeSearchContainer.parentElement !== stash && !nativeSearchContainer.closest('#waw-search-dropdown')) {
           stash.appendChild(nativeSearchContainer);
           log('Arama kutusu proaktif olarak stashlendi.');
       }
