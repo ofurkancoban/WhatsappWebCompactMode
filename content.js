@@ -1032,21 +1032,17 @@ function syncSelectedHighlight() {
     selectedEls.forEach(sel => {
         const row = sel.closest('[role="row"]') || sel;
 
-        // Avatar container: WhatsApp her contact için (kayıtlı&kayıtsız) aynı
-        // kapsayıcı div'i kullanır. İlk çocukDiv = avatar bölgesi.
-        // data-testid="avatar-container" veya ._ak8i / ._uixk deneyelim.
-        const avatarContainer =
-            row.querySelector('[data-icon="default-contact-refreshed"]') || // Kayıtsız kişi varsayılan ikonunun tam seçicisi
-            row.querySelector('[data-testid="avatar-container"]') ||
-            row.querySelector('[data-testid*="avatar"]') ||
-            row.querySelector('._uixk') ||      // Avatar outer wrap
-            row.querySelector('._ak8i') ||      // Avatar block
-            row.querySelector('._ao3e') ||      // Avatar img wrap
-            row.querySelector('img') ||          // Kayıtlı: gerçek resim
-            row.querySelector('svg');            // Kayıtsız: varsayılan ikon
+        // İçteki avatar elementini bul (img veya span[data-icon])
+        const innerEl =
+            row.querySelector('img') ||                               // Kayıtlı: gerçek profil resmi
+            row.querySelector('[data-icon="default-contact-refreshed"]'); // Kayıtsız: varsayılan span ikon
 
-        if (avatarContainer) {
-            avatarContainer.classList.add('waw-selected-ring');
+        // Ring'i inline elementin kendisine değil, block container olan
+        // parentElement'e uygula (border-radius: 50% inline'da çalışmaz)
+        const ringTarget = innerEl?.parentElement || innerEl;
+
+        if (ringTarget) {
+            ringTarget.classList.add('waw-selected-ring');
         }
     });
 }
