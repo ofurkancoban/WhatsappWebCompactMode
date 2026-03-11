@@ -8,6 +8,7 @@
     {
       "matches": ["https://web.whatsapp.com/*"],
       "js": ["content.js"],
+      "css": ["injected.css"],
       "run_at": "document_idle"
     }
   ],

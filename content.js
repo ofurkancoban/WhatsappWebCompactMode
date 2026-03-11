@@ -14,796 +14,59 @@ const COMPACT_THRESHOLD = 820;
 let isCompact = false;
 let mutationCount = 0;
 let mutationObserver = null;
+let navRailElement = null; // Persistent reference to the navigation rail
 
 function log(...a) { console.log('%c[WAW Compact]', 'color:#00a884;font-weight:bold', ...a); }
 
-// ── CSS Injection (Pure Compact Mode Styles) ─────────────────────
-function injectStyles() {
-  if (document.getElementById('waw-styles')) return;
-  const st = document.createElement('style');
-  st.id = 'waw-styles';
-  st.textContent = `
-  :root, .dark, .light {
-    --waw-cw: 90px;  
-    --waw-tr: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* =========================================================
-     COMPACT MOD (body.waw-compact)
-     ========================================================= */
-
-  /* PENCEREYİ İSTEDİĞİMİZ KADAR DARALTABİLMEK İÇİN KÖK MİNİMUM GENİŞLİKLERİ SIFIRLIYORUZ */
-  html,
-  body.waw-compact,
-  body.waw-compact #app,
-  body.waw-compact #app > div,
-  body.waw-compact #app > div > div,
-  body.waw-compact .two,
-  body.waw-compact .three {
-    min-width: 0 !important;
-    max-width: 100% !important;
-    opacity: 1 !important; /* WhatsApp'ın dar ekranda arayüzü 'karartmak' (fade) için kullandığı atomic sınıfları ez! */
-  }
-  
-  html, body.waw-compact {
-    overflow-x: hidden !important;
-  }
-
-  /* Mesaj balonlarının ve formun olduğu taşıyıcıları (Sağ Taraf) ESNEMEYE ZORLUYORUZ */
-  body.waw-compact #waw-chat-pane-col,
-  body.waw-compact #main,
-  body.waw-compact #main > div,
-  body.waw-compact #main > footer {
-    min-width: 0 !important;
-    max-width: 100% !important;
-    width: auto !important;
-    opacity: 1 !important;
-  }
-
-  /* --- CHAT HEADER REDESIGN (Vertical Stack) --- */
-  body.waw-compact #main > header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: auto !important;
-    min-height: 200px !important; /* Biraz daha genişletelim ferahlasın */
-    padding: 30px 20px !important;
-    background-color: rgba(24, 24, 27, 0.6) !important; /* Daha solid bir zemin */
-    backdrop-filter: blur(30px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    position: relative !important;
-    gap: 16px !important;
-    box-shadow: none !important;
-  }
-
-  /* Ana Header */
-  /* WhatsApp'ın kendi çocuk elementlerindeki arka planları ve maskeleri temizle */
-  body.waw-compact #main > header > div {
-    justify-content: center !important;
-  }
-
-  body.waw-compact #main > header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: auto !important;
-    min-height: 200px !important;
-    padding: 30px 20px !important;
-    position: relative !important;
-    gap: 16px !important;
-    z-index: 10 !important;
-  }
-
-  /* Çocuk elementlerin genişliğini ve pozisyonunu düzelt */
-  body.waw-compact #main > header > div {
-    display: flex !important;
-    width: auto !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    justify-content: center !important;
-    align-items: center !important;
-    position: static !important;
-  }
-
-  /* 1. Profil Resmi */
-  body.waw-compact #main > header [data-testid="chat-head-button"] {
-    transform: scale(0.8) !important;
-    margin: 0 !important;
-    border-radius: 50% !important;
-    overflow: hidden !important;
-    order: 1 !important;
-  }
-  
-  body.waw-compact #main > header [data-testid="chat-head-button"] img,
-  body.waw-compact #main > header [data-testid="chat-head-button"] svg {
-    display: block !important;
-  }
-
-  /* 2. İsim ve Numara Alanı */
-  body.waw-compact #main > header > div:nth-child(2) {
-    flex-direction: column !important;
-    order: 2 !important;
-    width: 100% !important;
-    max-width: 250px !important;
-    overflow: hidden !important;
-    text-align: center !important;
-    justify-content: center !important;
-  }
-  body.waw-compact #main > header span[title] {
-    line-height: 1.4 !important;
-  }
-  /* Status/Last Seen / Member List */
-  body.waw-compact #main > header ._aj-8,
-  body.waw-compact #main > header [data-testid="chat-subtitle"] {
-    margin: 4px 0 0 0 !important;
-    text-align: center !important;
-  }
-
-  /* 3. Buton Grubu */
-  body.waw-compact #main > header > div:last-child {
-    gap: 15px !important;
-    margin-top: 2px !important;
-    order: 3 !important;
-  }
-  body.waw-compact #main > header [role="button"] {
-    transition: all 0.2s !important;
-  }
-  body.waw-compact #main > header [role="button"]:hover {
-    transform: scale(1.05) !important;
-  }
-
-
-  /* --- 1. UYGULAMANIN ANA WRAPPER'INI AŞAĞI İT --- */
-  /* Üste asacağımız Özel Navigasyon Barı için 54px yer açıyoruz */
-  /* Güçlü position ayarı ile %100 height sorunlarını aşarız */
-  body.waw-compact #app {
-    position: absolute !important;
-    top: 54px !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: auto !important; /* height yerine top/bottom kullanıyoruz */
-    box-sizing: border-box !important;
-  }
-
-  /* WhatsApp'ın ORİJİNAL dikey Navigasyon Sütununu GİZLE (JS id atar) */
-  body.waw-compact #waw-nav-col-hidden {
-    display: none !important;
-    width: 0 !important;
-    min-width: 0 !important;
-    max-width: 0 !important;
-    flex: 0 0 0 !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
-  #waw-custom-topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 54px;
-    z-index: 999999 !important; /* CRITICAL: Must be above WA native header */
-    background-color: var(--panel-header-background, #202c33); /* Standard WA color */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 8px;
-    box-sizing: border-box;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none; /* Firefox */
-  }
-  #waw-custom-topbar::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-  }
-
-  /* İçindeki klon butonlar */
-  #waw-custom-topbar .waw-topbar-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px; /* 40px'den 34px'e çekildi */
-    height: 34px;
-    margin: 0 4px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    position: relative;
-    flex-shrink: 0;
-  }
-  
-  #waw-custom-topbar .waw-topbar-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
-  /* Klonlanmış ikonların ve bildirim baloncuklarının (badge) WhatsApp'ın orijinal 
-     CSS kurallarıyla kendi yerlerini bulması için iç yapıya müdahale etmiyoruz! 
-     Sadece tıklamaların üst butona geçmesini sağlıyoruz. */
-  #waw-custom-topbar .waw-topbar-btn * {
-    pointer-events: none !important;
-  }
-
-  /* --- 3. SOHBET LİSTESİ SÜTUNU (En Sola Yaslı, Daraltılmış) --- */
-  body.waw-compact #waw-compact-sidebar-col {
-    flex: 0 0 var(--waw-cw) !important;
-    width: var(--waw-cw) !important;
-    min-width: var(--waw-cw) !important;
-    max-width: var(--waw-cw) !important;
-    border: none !important; /* Dikey çizgiyi kaldırdık! */
-    overflow: hidden !important;
-  }
-
-  /* Chat listesini daralt (#side) */
-  body.waw-compact #side,
-  body.waw-compact ._ak9p {
-    overflow: hidden !important;
-    flex-shrink: 0 !important;
-    border: none !important;
-  }
-
-  /* --- NEW CHAT / DRAWER GENİŞLETME --- */
-  /* WhatsApp'ın yan tarafta açtığı "Yeni Sohbet", "Profil" gibi çekmeceleri 
-     sidebar'ın dar 72px yapısından kurtarıp genişletiyoruz. */
-  body.waw-compact [data-testid="drawer-left"],
-  body.waw-compact ._aigw {
-      width: 450px !important;
-      min-width: 450px !important;
-      max-width: 450px !important;
-      flex: 0 0 450px !important;
-      transition: width 0.3s ease !important;
-      z-index: 200 !important;
-  }
-
-  /* Çekmece içindeki satırların hizalamasını düzelt (Sidebar'daki ortalama kuralını ez) */
-  body.waw-compact ._aigw div[role="button"] > div,
-  body.waw-compact ._aigw div[role="button"] > div > div {
-      justify-content: flex-start !important;
-      align-items: center !important;
-      text-align: left !important;
-  }
-
-  /* Çekmece içindeki isimlerin görünmesini sağla */
-  body.waw-compact ._aigw ._ak8o,
-  body.waw-compact ._aigw ._ak8l {
-      display: block !important;
-      margin-left: 10px !important;
-      flex: 1 !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-  }
-
-  /* Drawer açıkken sidebar'ın arkada kalmasını ama drawer'ın üstte binmesini sağla */
-  body.waw-compact #waw-compact-sidebar-col {
-      overflow: visible !important;
-  }
-
-  /* SOHBET EKRANI PANELI (Geriye kalan boşluğu kapla) */
-  body.waw-compact #waw-chat-pane-col,
-  body.waw-compact #main {
-      flex: 1 1 0 !important;
-      min-width: 0 !important;
-      overflow: hidden !important;
-      border: none !important;
-  }
-
-  /* --- WHATSAPP'IN Orijinal Arayüz Ayırıcılarını (Ghost Lines) YOK ET --- */
-  /* 1. Sayfanın Ortasındaki Çizgi (Atomic Sınıflar ve Taşıyıcılar) */
-  body.waw-compact .two > div,
-  body.waw-compact .three > div,
-  body.waw-compact .x1iyjqo2,
-  body.waw-compact .xjdofhw {
-      border-left: none !important;
-      border-right: none !important;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-left-width: 0 !important;
-      border-right-width: 0 !important;
-  }
-  
-  /* 2. Avatarların Sağındaki Çizgi */
-  body.waw-compact #side,
-  body.waw-compact ._aigw {
-      border-right: none !important;
-      border-left: none !important;
-  }
-
-  /* Ana ayırıcı tutamakları (Karanlık ekrana yol açan ._aigs silindi, sadece resize iptal) */
-  body.waw-compact [data-testid="sidebar-resize-handle"] {
-      display: none !important;
-      pointer-events: none !important;
-  }
-
-  /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI VE HIGHLIGHTER'I) HİZALAMA --- */
-  
-  /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI VE HIGHLIGHTER'I) HİZALAMA --- */
-  
-  /* Tüm listelerde sağ/sol gereksiz scroll/taşıntıları nükle */
-  body.waw-compact #pane-side,
-  body.waw-compact [data-testid="chat-list"] {
-      overflow-x: hidden !important;
-  }
-
-  /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
-  body.waw-compact [role="listitem"] > div,
-  body.waw-compact [role="listitem"] > div > div {
-      /* padding: 0 !important; */
-      margin: 0 !important;
-      width: 100% !important;
-  }
-
-  /* --- HOVER ARKA PLAN KALDIR --- */
-  /* Sadece #pane-side sohbet listesinde uygula, drawer (_aigw) háriç */
-  body.waw-compact #pane-side:not(:has(._aigw)) [role="row"]:hover,
-  body.waw-compact #pane-side:not(:has(._aigw)) [role="row"]:hover * {
-      background-color: transparent !important;
-      background: transparent !important;
-  }
-
-  /* JS Floating Tooltip Stili */
-  #waw-tooltip {
-      position: fixed;
-      z-index: 999999;
-      padding: 5px 11px;
-      background: rgba(28, 28, 32, 0.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 500;
-      font-family: inherit;
-      white-space: nowrap;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.45);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-  }
-  #waw-tooltip.visible {
-      opacity: 1;
-  }
-  
-  /* Seçili Sohbet Zemini (Cell Frame) - Bunu kusursuz bir KARE BALON (Bubble) yapıyoruz!
-     Sütun 72px. Biz bu arkaplan kutusunu 56px yapıp "margin: auto" ile GÖBEKTEN ortalıyoruz */
-  body.waw-compact ._ak8q, body.waw-compact [data-testid="cell-frame-container"] {
-      display: flex !important;
-      justify-content: left !important;
-      align-items: center !important;
-      width: auto !important;
-      /* min-width: 42px !important; */
-      /* max-width: 42px !important; */
-      /* height: 42px !important; */
-      /* margin: 4px auto !important; */
-      padding: 0 !important;
-      border-radius: 10px !important;
-      box-sizing: border-box !important;
-      overflow: visible !important; /* Pulse efektinin görünmesi için */
-  }
-
-  /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
-  body.waw-compact ._ak8q > div:first-child,
-  body.waw-compact [data-testid="cell-frame-container"] > div:first-child,
-  body.waw-compact ._ak8q img,
-  body.waw-compact [data-testid="cell-frame-container"] img,
-  body.waw-compact ._ak8q svg,
-  body.waw-compact [data-testid="cell-frame-container"] svg {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-  }
-
-  /* Seçili sohbet satırının varsayılan gri arka planını kaldır - Sadece sohbet listesinde */
-  body.waw-compact #pane-side [aria-selected="true"]:not(._aigw *),
-  body.waw-compact #pane-side [aria-selected="true"]:not(._aigw *) > div {
-      background-color: transparent !important;
-      background: transparent !important;
-  }
-
-  /* Seçili Chat - Sadece Avatar Elementinı Hedefle (Kayıtlı: img, Kayıtsız: span[data-icon]) */
-  /* Kayıtlı kontakt: profil resmi img */
-  body.waw-compact #pane-side [aria-selected="true"] img,
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] img {
-      box-shadow: 0 0 0 5px rgb(183 183 183) !important;
-      border-radius: 50% !important;
-  }
-
-  /* Kayıtsız kontakt: varsayılan ikon span */
-  body.waw-compact #pane-side [aria-selected="true"] [data-icon="default-contact-refreshed"],
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-contact-refreshed"],
-  body.waw-compact #pane-side [aria-selected="true"] [data-icon="default-group-refreshed"],
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="default-group-refreshed"],
-  body.waw-compact #pane-side [aria-selected="true"] [data-icon="wa-chat-psa"],
-  body.waw-compact [data-testid="chat-list"] [aria-selected="true"] [data-icon="wa-chat-psa"] {
-      display: inline-flex !important;
-      border-radius: 50% !important;
-      box-shadow: 0 0 0 5px rgb(183 183 183) !important;
-      overflow: hidden !important;
-  }
-
-  /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
-
-  /* --- SEARCH DROPDOWN (Modern Glassy Bar) --- */
-  #waw-search-dropdown {
-      position: fixed;
-      top: -100px; /* Hidden initially */
-      left: 0;
-      width: 100%;
-      height: 64px;
-      z-index: 999998;
-      background-color: rgba(24, 24, 27, 0.85) !important;
-      backdrop-filter: blur(25px) saturate(200%);
-      -webkit-backdrop-filter: blur(25px) saturate(200%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 20px;
-      box-sizing: border-box;
-      transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
-      opacity: 0;
-      pointer-events: none;
-  }
-  #waw-search-dropdown.open {
-      top: 54px;
-      opacity: 1;
-      pointer-events: auto;
-  }
-  /* --- SEARCH DROPDOWN (Native Element Container) --- */
-  #waw-search-dropdown {
-      position: fixed;
-      top: -100px; /* Hidden initially */
-      left: 0;
-      width: 100%;
-      height: 64px;
-      z-index: 999998;
-      background-color: rgba(24, 24, 27, 0.4) !important; /* Mesajlaşma ekranı üstünde çok hafif karartma */
-      backdrop-filter: blur(25px) saturate(200%);
-      -webkit-backdrop-filter: blur(25px) saturate(200%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 20px;
-      box-sizing: border-box;
-      transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
-      opacity: 0;
-      pointer-events: none;
-  }
-  #waw-search-dropdown.open {
-      top: 54px;
-      opacity: 1;
-      pointer-events: auto;
-  }
-  .waw-search-inner {
-      width: 100%;
-      max-width: 600px;
-      position: relative;
-      /* Orijinal kutunun kendi stili kalsın diye tüm özel background/borderları kaldırdık */
-  }
-
-  /* Orijinal kutuyu dropdown içinde biraz daha ferah gösterelim */
-  .waw-search-inner > div {
-      width: 100% !important;
-  }
-
-  /* Orijinaldeki büyüteç ikonunu gizleme (bizim dropdown butonumuz zaten arama butonu) */
-  /* Ama kullanıcı "orijinali kalsın" dediği için artık hiçbir şeyi gizlemiyoruz. */
-
-  /* Native arama kutusu gizliyken saklanacak yer */
-  #waw-search-stash {
-      display: none !important;
-  }
-  
-  /* Aktif Arama Butonu Vurgusu */
-  .waw-topbar-btn.active {
-      background-color: rgba(14, 165, 233, 0.2) !important;
-      color: var(--outgoing-background) !important;
-  }
-  .waw-topbar-btn.active svg {
-      fill: var(--outgoing-background) !important;
-  }
-
-  /* --- 3. SOHBET LİSTESİ SÜTUN YÖNETİMİ --- */
-  body.waw-compact #waw-compact-sidebar-col {
-    flex: 0 0 var(--waw-cw) !important;
-    width: var(--waw-cw) !important;
-    min-width: var(--waw-cw) !important;
-    max-width: var(--waw-cw) !important;
-    overflow: hidden !important;
-  }
-
-  body.waw-compact #side,
-  body.waw-compact ._ak9p {
-    overflow: hidden !important;
-    transition: width var(--waw-tr) !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* --- 4. SOHBET LİSTESİ SATIRLARINI (AVATARLARI) HİZALAMA --- */
-  
-  /* Ana Satır Taşıyıcılarındaki Sola Kaydıran GİZLİ padding'leri SIFIRLA */
-  body.waw-compact #side [role="row"],
-  body.waw-compact #side [role="listitem"] {
-      width: 100% !important;
-  }
-
-  body.waw-compact #side [role="row"] > div,
-  body.waw-compact #side [role="listitem"] > div,
-  body.waw-compact #side [role="listitem"] > div > div {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      width: 100% !important;
-  }
-
-  /* Negatif offsetli taşıyıcıları (özel WhatsApp React DOM elementleri) sıfırla */
-  body.waw-compact #side ._ak72 {
-      display: flex !important;
-      justify-content: center !important;
-      width: 100% !important;
-      left: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      transform: none !important;
-  }
-  
-  /* Seçili Sohbet Zemini (Cell Frame) - Ortalanmış Kutu */
-  body.waw-compact #side ._ak8q,
-  body.waw-compact #side [data-testid="cell-frame-container"] {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      width: auto !important;
-      margin: 0 auto !important;
-      padding: 0 !important;
-      border-radius: 10px !important;
-      box-sizing: border-box !important;
-  }
-
-  /* Avatarın Kendisi ve İçerici Elemanlar (SVG/IMG) */
-  body.waw-compact #side ._ak8q > div:first-child,
-  body.waw-compact #side [data-testid="cell-frame-container"] > div:first-child {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 0 auto !important;
-      width: 100% !important;
-  }
-
-  body.waw-compact #side ._ak8q img,
-  body.waw-compact #side [data-testid="cell-frame-container"] img,
-  body.waw-compact #side ._ak8q svg,
-  body.waw-compact #side [data-testid="cell-frame-container"] svg {
-      display: block !important;
-      margin: 0 auto !important;
-      width: 40px !important;
-      height: 40px !important;
-      border-radius: 50% !important;
-  }
-
-  /* Avatar Dışındaki Mesaj/İsim Özeti Gizle */
-  body.waw-compact #side ._ak8q > :nth-child(n+2),
-  body.waw-compact #side [data-testid="cell-frame-container"] > :nth-child(n+2) {
-      display: none !important;
-  }
-
-  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
-  
-  /* The core text container identified by DOM inspection */
-  body.waw-compact #side ._ak8l {
-      display: none !important;
-  }
-
-  /* Force the avatar container to fill the row and center the image */
-  body.waw-compact #side ._ak8n {
-      width: 100% !important;
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 0 !important;
-      padding: 0 !important;
-  }
-
-  /* WhatsApp DOM yapısı değiştiğinde (isimlerin göründüğü o geniş sağ sütun) metin kutularını acımasızca yok et fallback */
-  body.waw-compact #side ._ak8i,
-  body.waw-compact #side .x11i5rnm,
-  body.waw-compact #side ._ak8j,
-  body.waw-compact #side [data-testid="cell-frame-title"],
-  body.waw-compact #side [data-testid="chat-subtitle"] {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      opacity: 0 !important;
-      overflow: hidden !important;
-  }
-
-  /* --- 5. GEREKSİZ LİSTE BAŞLIKLARINI VE ETİKETLERİ GİZLE --- */
-  body.pattern-bg-color ._ak9p header,
-  body.waw-compact [data-testid="chat-list-search-container"],
-  body.waw-compact div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe,
-  body.waw-compact [role="heading"], /* "Chats", "Messages" başlıklarını nükle */
-  body.waw-compact span._ak8l, /* Okunmamış sayısı/tarih gibi yandaki kalıntıları gizle */
-  body.waw-compact ._ak8j {
-    display: none !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
-  /* Sol panelin header'ını özellikle açığa çıkarıyoruz (İçindeki "Yeni Sohbet" butonu için) */
-  body.waw-compact #waw-compact-sidebar-col header,
-  body.waw-compact #side header {
-      display: flex !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      height: 60px !important; 
-      justify-content: center !important;
-      align-items: center !important;
-      background: transparent !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      min-height: 0 !important;
-  }
-
-  /* Header içindeki 'Yeni Sohbet' BUTONU HARİÇ her şeyi (Profil resmi, menü vs.) gizle */
-  body.waw-compact #side header > *:not(:has([data-icon="new-chat-outline"])):not(:has([aria-label="New chat"])):not(:has([title="New chat"])) {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-  }
-
-  /* DROPDOWN İÇİNDEYKEN GÖRÜNÜR YAP (Özel Override) */
-  #waw-search-dropdown [data-testid="chat-list-search-container"],
-  #waw-search-dropdown div.x1n2onr6.x11uqc5h.x9f619.x78zum5.x1okw0bk.xl2dz39.xexx8yu.x18d9i69.x73uwhe {
-    display: flex !important;
-    height: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    overflow: visible !important;
-    width: 100% !important;
-  }
-
-  /* --- 6. "YENİ SOHBET" BUTONUNU SİDEBAR'IN EN ÜSTÜNE SABİTLEME --- */
-  
-  /* Sidebar'a üstten boşluk aç ki avatarın üstünü örtmesin */
-  body.waw-compact #side {
-      position: relative !important;
-      padding-top: 60px !important; /* JS ile eklenecek buton için alan aç */
-  }
-
-  /* --- 7. SOHBET HEADER'INA BULANIK AVATAR ARKAPLANI --- */
-  body.waw-compact #main header {
-      position: relative;
-      overflow: hidden;
-      background-color: transparent !important; 
-  }
-
-  body.waw-compact #main header::before {
-      content: "";
-      position: absolute;
-      top: -10%; left: -10%; right: -10%; bottom: -10%; 
-      background-image: var(--header-bg-image, none);
-      background-size: cover;
-      background-position: center;
-      filter: blur(12px) brightness(0.65); 
-      z-index: 0;
-      pointer-events: none;
-      transition: background-image 0.3s ease;
-  }
-
-  body.waw-compact #main header > * {
-      position: relative;
-      z-index: 1;
-  }
-
-  /* Kendi enjekte ettiğimiz sabitleştirilmiş Yeni Sohbet butonu */
-  #waw-fixed-new-chat {
-      display: none;
-      position: absolute;
-      top: 10px;
-      left: 40%;
-      transform: translateX(-50%);
-      width: 55px;
-      height: 55px;
-      background-color: var(--background-default-hover, rgba(255, 255, 255, 0.05));
-      border-radius: 50%;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      cursor: pointer;
-      color: #ffffff;
-      transition: background-color 0.2s ease;
-  }
-  
-  body.waw-compact #waw-fixed-new-chat {
-      display: flex;
-  }
-  
-  #waw-fixed-new-chat:hover {
-      background-color: rgba(255,255,255,0.1);
-  }
-
-  #waw-fixed-new-chat svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-  }
-
-  /* USER DIRECT OVERRIDES */
-  body.waw-compact #side ._ak8h {
-      display: flex !important;
-      flex: none !important;
-      align-items: center !important;
-      margin-top: -1px !important;
-  }
-
-  /* Typing Pulse Effect */
-  @keyframes waw-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-  }
-
-  .waw-typing-pulse {
-    animation: waw-pulse 1.5s infinite !important;
-    border-radius: 50% !important;
-  }
-  `;
-  document.head.appendChild(st);
-}
-
-// ── İsimleri Hover İçin Atama & Layout ID'lerini Bulma ─────────────
+// ── Navigasyon ve Layout Yardımcıları ───────────────────────────
 
 // Navigasyon Sütununu Yapısal Değil "Fiziksel" Olarak Bul (Kusursuz Yöntem)
 function getFarLeftColumn() {
-  const icon = document.querySelector('span[data-icon="settings-outline"]') || 
-               document.querySelector('span[data-icon="settings"]') || 
-               document.querySelector('[aria-label="Settings"]') || 
-               document.querySelector('[aria-label="Ayarlar"]') ||
-               document.querySelector('[aria-label="Chats"]') || 
-               document.querySelector('[aria-label="Sohbetler"]') ||
-               document.querySelector('span[data-icon="chat-outline"]') ||
-               document.querySelector('span[data-icon="chat"]');
-  if (!icon) return null;
+    if (navRailElement && document.body.contains(navRailElement)) return navRailElement;
 
-  let p = icon.parentElement;
-  while (p && p !== document.body) {
-      // Navigasyon menüsü her zaman incedir (40-100px) ve oldukça uzundur (ekranın yarısından büyük)
-      if (p.clientWidth > 40 && p.clientWidth < 100 && p.clientHeight > window.innerHeight * 0.5) {
-          return p;
-      }
-      p = p.parentElement;
-  }
-  return null;
+    const side = document.querySelector('#side') || document.querySelector('._ak9p');
+    if (!side) return null;
+
+    // WhatsApp'ın ana düzen kapsayıcısı genellikle .two veya .three class'ına sahiptir.
+    const container = side.closest('.two, .three') || side.parentElement?.parentElement;
+    if (!container) return null;
+
+    // Rail genellikle ilk çocuktur (eğer varsa)
+    const firstChild = container.children[0];
+    if (firstChild && firstChild !== side.parentElement) {
+        // İçinde Ayarlar veya Profil ikonu var mı kontrol et
+        const hasNavIcon = firstChild.querySelector('[data-icon*="settings"], [data-icon*="chat"], [data-icon*="status"], [aria-label*="Settings"], [aria-label*="Ayarlar"]');
+        if (hasNavIcon) {
+            navRailElement = firstChild;
+            if (!navRailElement.classList.contains('waw-nav-rail')) {
+                navRailElement.classList.add('waw-nav-rail');
+            }
+            return navRailElement;
+        }
+    }
+
+    // Fallback: Ayarlar ikonundan yukarı çık
+    const settingsIcon = document.querySelector('[data-icon*="settings"], [aria-label*="Settings"], [aria-label*="Ayarlar"]');
+    if (settingsIcon) {
+        let p = settingsIcon.parentElement;
+        while (p && p !== document.body) {
+            if (p.parentElement === container) {
+                navRailElement = p;
+                if (!navRailElement.classList.contains('waw-nav-rail')) {
+                    navRailElement.classList.add('waw-nav-rail');
+                }
+                return navRailElement;
+            }
+            p = p.parentElement;
+        }
+    }
+
+    return null;
 }
 
 function syncCustomTopBar() {
   if (!isCompact) {
-      const b = document.getElementById('waw-custom-topbar');
-      if (b) b.style.display = 'none';
-      
-      const hiddenCol = document.getElementById('waw-nav-col-hidden');
-      if (hiddenCol) {
-          hiddenCol.style.display = '';
-          hiddenCol.id = ''; // Restore original
-      }
+      restoreOriginalLayout();
       return;
   }
 
@@ -811,8 +74,13 @@ function syncCustomTopBar() {
   const col = getFarLeftColumn();
 
   if (col) {
-      if (col.id !== 'waw-nav-col-hidden') col.id = 'waw-nav-col-hidden';
-      col.style.display = 'none';
+      if (!col.classList.contains('waw-nav-rail')) {
+          col.classList.add('waw-nav-rail');
+      }
+      // CSS is handling the hiding via .waw-nav-rail and body.waw-compact
+      // but ensure no transition-breaking inline styles are present
+      col.style.display = ''; 
+      col.style.visibility = '';
 
       // Custom bar oluştur / göster
       let topBar = document.getElementById('waw-custom-topbar');
@@ -839,8 +107,19 @@ function syncCustomTopBar() {
       
       buttons.forEach((originalBtn, idx) => {
           let label = originalBtn.getAttribute('aria-label') || originalBtn.getAttribute('title') || originalBtn.querySelector('span[data-icon]')?.getAttribute('data-icon') || 'btn-' + idx;
+          
+          const lowerLabel = label.toLowerCase();
+          
+          // WhatsApp logosunu üst barda İSTEMİYORUZ.
           let safeLabel = label.trim().replace(/['"\s]/g, '-');
           try { safeLabel = CSS.escape(safeLabel); } catch(e) {}
+
+          // WhatsApp logosunu üst barda İSTEMİYORUZ.
+          if (lowerLabel.includes('whatsapp') || lowerLabel.includes('logo')) {
+              const existingClone = topBar.querySelector(`[data-waw-label="${safeLabel}"]`);
+              if (existingClone) existingClone.remove();
+              return;
+          }
 
           let clone = topBar.querySelector(`[data-waw-label="${safeLabel}"]`);
 
@@ -850,7 +129,6 @@ function syncCustomTopBar() {
               clone.setAttribute('data-waw-label', safeLabel);
               
               clone.addEventListener('click', () => {
-                  // Her tıklamada DOM'daki orijinal elementi yeniden bul (React destroy etmiş olabilir)
                   const activeCol = getFarLeftColumn();
                   if (activeCol) {
                       const currentBtn = Array.from(activeCol.querySelectorAll('[role="button"], [role="tab"], button')).find((b, idx2) => {
@@ -862,36 +140,38 @@ function syncCustomTopBar() {
                       if (currentBtn) {
                           currentBtn.click();
                       } else {
-                          originalBtn.click(); // Fallback
+                          originalBtn.click();
                       }
                   } else {
-                      originalBtn.click(); // Fallback
+                      originalBtn.click();
                   }
               });
               
-              // Sağ gruplama (Settings / Profil). Bunlardan ilkine marginLeft:auto atarsak sağa itilirler.
               const t = label.toLowerCase();
               if (t.includes('setting') || t.includes('ayarlar') || t.includes('profile') || t.includes('profil') || t.includes('default-user')) {
                   if (!topBar.querySelector('.waw-pushed-right')) {
-                      clone.style.marginLeft = 'auto'; // Sadece ilk sağa geçene auto ver
+                      clone.style.marginLeft = 'auto';
                       clone.classList.add('waw-pushed-right');
                   }
               }
               
-              // İkinci sıraya (Sohbetler'den hemen sonraya) eklemek için insertBefore mantığı
               const existingButtons = topBar.querySelectorAll('.waw-topbar-btn');
               if (existingButtons.length === 1) {
-                  // İlk butondan sonra "Search" butonu gelecek, biz bunu manuel tetikleyeceğiz
                   createSpecialSearchButton(topBar);
               }
               topBar.appendChild(clone);
           }
           
-          // WhatsApp'ın SVG'sini direkt kopyala (nokta veya okundu verisi varsa anında geçer)
           if (clone.innerHTML !== originalBtn.innerHTML) {
               clone.innerHTML = originalBtn.innerHTML;
           }
       });
+
+      // --- Üst Bar En Sağa "More Vert" Butonu Proxy Olarak Ekle ---
+      createSpecialMoreButton(topBar);
+
+      // --- LİSTE ÜSTÜ BUTON GRUBU OLUŞTUR (Sadece New Chat) ---
+      createListHeaderButtons();
 
       // --- ARAMA KUTUSUNU PROAKTİF GİZLE / STASH'E TAŞI ---
       syncSearchProactively();
@@ -918,6 +198,133 @@ function syncCustomTopBar() {
           log('Arama kutusu proaktif olarak stashlendi.');
       }
   }
+
+// ── Tam Restorasyon (Orijinal Hale Dönüş) ───────────────────────
+function restoreOriginalLayout() {
+    log('Orijinal yerleşime dönülüyor...');
+
+    // 1. Custom Elementleri Gizle/Temizle
+    const topBar = document.getElementById('waw-custom-topbar');
+    if (topBar) {
+        topBar.style.display = 'none';
+        topBar.innerHTML = ''; // Butonları temizle ki tekrar açıldığında sıfırdan gelsin
+    }
+
+    const dd = document.getElementById('waw-search-dropdown');
+    if (dd) {
+        dd.classList.remove('open');
+        const sBtn = document.querySelector('[data-waw-special="search"]');
+        if (sBtn) sBtn.classList.remove('active');
+    }
+
+    const tip = document.getElementById('waw-tooltip');
+    if (tip) tip.classList.remove('visible');
+
+    // 2. Arama Kutusunu Eski Yerine Koy
+    const stash = document.getElementById('waw-search-stash');
+    const nativeSearchContainer = 
+        document.querySelector('[data-testid="chat-list-search-container"]') || 
+        (stash && stash.firstElementChild);
+
+    if (nativeSearchContainer) {
+        const side = document.querySelector('#side') || document.querySelector('._ak9p');
+        if (side) {
+            // Arama kutusunun orijinal yerini bularak geri koy
+            const searchPlace = side.querySelector('._ai04') || 
+                                side.querySelector('[data-testid="chat-list-search-container"]') ||
+                                side.firstElementChild;
+            if (searchPlace && !searchPlace.contains(nativeSearchContainer)) {
+                side.insertBefore(nativeSearchContainer, side.children[1] || null);
+            }
+        }
+    }
+
+    // 3. Gizlenen Navigasyon Sütununu Geri Getir
+    const hiddenCol = navRailElement || 
+                      document.querySelector('.waw-nav-rail') ||
+                      document.getElementById('waw-nav-col-hidden') ||
+                      getFarLeftColumn();
+                      
+    if (hiddenCol) {
+        hiddenCol.style.display = '';
+        hiddenCol.style.visibility = '';
+        hiddenCol.style.width = '';
+        hiddenCol.style.opacity = '';
+        hiddenCol.style.pointerEvents = '';
+        hiddenCol.style.flex = '';
+        hiddenCol.style.margin = '';
+        hiddenCol.style.padding = '';
+        if (hiddenCol.id === 'waw-nav-col-hidden') hiddenCol.removeAttribute('id');
+        hiddenCol.removeAttribute('data-waw-nav-col');
+        // Class kalsın, CSS body.waw-compact olmadığı sürece bir şey yapmaz
+    }
+
+    // 4. "More" Butonu ve Diğer Opacity Değerlerini Sıfırla
+    const moreSelector = '[data-icon="menu"], [aria-label="Menu"], [title="Menu"], [aria-label="Menü"], [title="Menü"]';
+    const originalMore = document.querySelector(`#side header ${moreSelector}`) || 
+                         document.querySelector(`._ak9p header ${moreSelector}`);
+    if (originalMore) {
+        originalMore.style.opacity = '1';
+        originalMore.style.pointerEvents = 'auto';
+        originalMore.style.position = '';
+        originalMore.style.width = '';
+        originalMore.style.height = '';
+        originalMore.style.overflow = '';
+        originalMore.style.zIndex = '';
+    }
+
+    // 5. Filtre Butonlarını Geri Getir
+    const sideCol = document.getElementById('waw-compact-sidebar-col') || document.querySelector('#side, ._ak9p')?.parentElement;
+    if (sideCol) {
+        const hiddenFilters = sideCol.querySelectorAll('[style*="display: none"]');
+        hiddenFilters.forEach(el => {
+            const text = el.textContent.toLowerCase().trim();
+            if (text === 'all' || text === 'tümü' || text === 'unread' || text === 'okunmayanlar' || 
+                text === 'favourites' || text === 'favoriler' || text === 'groups' || text === 'gruplar' ||
+                (el.clientHeight > 0 && el.clientHeight < 60)) {
+                el.style.display = '';
+            }
+        });
+        if (sideCol.id === 'waw-compact-sidebar-col') sideCol.removeAttribute('id');
+    }
+
+    // 6. Pane IDs Temizle
+    const mainPaneCol = document.getElementById('waw-chat-pane-col');
+    if (mainPaneCol) mainPaneCol.removeAttribute('id');
+
+    // 7. Pulse ve Ring Class'larını Temizle
+    document.querySelectorAll('.waw-typing-pulse, .waw-selected-ring').forEach(el => {
+        el.classList.remove('waw-typing-pulse', 'waw-selected-ring');
+    });
+    document.querySelectorAll('.waw-typing-pulse-img').forEach(el => {
+        el.classList.remove('waw-typing-pulse-img');
+    });
+
+    log('Restorasyon tamamlandı ✓');
+
+    // WhatsApp'ın kendi render döngüsüyle çakışmamak için kısa bir süre sonra tekrar kontrol edelim
+    setTimeout(() => {
+        const side = document.querySelector('#side') || document.querySelector('._ak9p');
+        
+        // Arama kutusu kontrolü
+        if (side && !side.querySelector('[data-testid="chat-list-search-container"]')) {
+            const stash = document.getElementById('waw-search-stash');
+            const search = document.querySelector('[data-testid="chat-list-search-container"]') || (stash && stash.firstElementChild);
+            if (search) side.insertBefore(search, side.children[1] || null);
+        }
+
+        // Navigasyon Rail kontrolü (Ekstra Agresif)
+        const rail = navRailElement || document.querySelector('.waw-nav-rail') || getFarLeftColumn();
+        if (rail) {
+            rail.style.display = '';
+            rail.style.visibility = '';
+            rail.style.opacity = '';
+            rail.style.pointerEvents = '';
+            rail.style.width = '';
+            rail.style.flex = '';
+        }
+    }, 500);
+}
 
   // --- ÖZEL ARAMA BUTONU VE DROPDOWN MANTIĞI ---
   function createSpecialSearchButton(parent) {
@@ -993,6 +400,66 @@ function syncCustomTopBar() {
       }
   }
 
+  function createSpecialMoreButton(parent) {
+      const moreSelector = '[data-icon="menu"], [aria-label="Menu"], [title="Menu"], [aria-label="Menü"], [title="Menü"]';
+      const originalMore = document.querySelector(`#side header ${moreSelector}`) || 
+                           document.querySelector(`._ak9p header ${moreSelector}`);
+
+      if (!originalMore) return;
+
+      let proxy = parent.querySelector('[data-waw-special="more-proxy"]');
+      if (!proxy) {
+          proxy = document.createElement('div');
+          proxy.className = 'waw-topbar-btn';
+          proxy.setAttribute('data-waw-special', 'more-proxy');
+          proxy.setAttribute('title', 'Menü');
+          parent.appendChild(proxy);
+
+          proxy.addEventListener('click', (e) => {
+              const currentOriginal = document.querySelector(`#side header ${moreSelector}`) || 
+                                      document.querySelector(`._ak9p header ${moreSelector}`);
+              if (currentOriginal) {
+                  currentOriginal.click();
+              }
+          });
+      }
+
+      if (proxy.innerHTML !== originalMore.innerHTML) {
+          proxy.innerHTML = originalMore.innerHTML;
+      }
+      
+      if (originalMore.style.opacity !== '0.01') {
+          originalMore.style.opacity = '0.01';
+          originalMore.style.pointerEvents = 'none';
+          originalMore.style.position = 'absolute';
+          originalMore.style.width = '1px';
+          originalMore.style.height = '1px';
+          originalMore.style.overflow = 'hidden';
+          originalMore.style.zIndex = '-1';
+      }
+  }
+
+  function createListHeaderButtons() {
+      // Artık gerek yok, her şey üst barda toplandı.
+      const listHeader = document.getElementById('waw-list-header-btns');
+      if (listHeader) listHeader.remove();
+  }
+
+  function cleanOriginalButtonStyle(el) {
+      el.style.display = 'flex';
+      el.style.alignItems = 'center';
+      el.style.justifyContent = 'center';
+      el.style.margin = '0';
+      el.style.padding = '10px';
+      el.style.background = 'none';
+      el.style.width = 'auto';
+      el.style.height = 'auto';
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+      el.style.position = 'static';
+      el.style.zIndex = 'auto';
+  }
+
   // 2. Chat List Sütununu 72px yap ve filtre tablarını gizle
   const side = document.querySelector('#side') || document.querySelector('._ak9p');
   if (side && side.parentElement) {
@@ -1044,7 +511,6 @@ function annotateRows() {
     }
   });
 
-  injectFixedNewChatButton();
   syncChatHeaderBackground();
   syncTypingStatus();
   syncSelectedHighlight();
@@ -1064,9 +530,10 @@ function syncSelectedHighlight() {
     );
 
     selectedEls.forEach(sel => {
-        // Saf CSS zaten gerekli styling'i handle ediyor.
-        // Burada JS ile ekstra bir şey yapmaya gerek yok.
-        // (Fonksiyon yalnızca eski class'ları temizlemek için burada)
+        const img = sel.querySelector('img');
+        if (img && img.parentElement) {
+            img.parentElement.classList.add('waw-selected-ring');
+        }
     });
 }
 
@@ -1074,27 +541,57 @@ function syncSelectedHighlight() {
 function syncTypingStatus() {
     if (!isCompact) return;
     
+    // 1. Sidebar Rows
     const rows = document.querySelectorAll('#pane-side [role="row"], [data-testid="chat-list"] [role="row"]');
     rows.forEach(row => {
-        // Status/Mesaj elementi (._ak8j WhatsApp'ın mesaj önizleme sınıfı)
-        const statusElem = row.querySelector('._ak8j'); 
-        // Avatar resmi
-        const avatarImg = row.querySelector('img._ao3e') || row.querySelector('img');
+        const statusElem = row.querySelector('._ak8j') || row.querySelector('._ak8l');
+        const avatarImg = row.querySelector('img');
         
         if (statusElem && avatarImg) {
+            const avatarTarget = avatarImg.parentElement; // Parent Anchor
             const text = statusElem.textContent.toLowerCase();
-            // "yazıyor..." veya "typing..." kontrolü
-            const isTyping = text.includes('typing') || text.includes('yazıyor');
+            const isTyping = text.includes('typing') || text.includes('yazıyor') || 
+                             text.includes('recording') || text.includes('kaydediyor');
             
             if (isTyping) {
-                if (!avatarImg.classList.contains('waw-typing-pulse')) {
-                    avatarImg.classList.add('waw-typing-pulse');
+                if (!avatarTarget.classList.contains('waw-typing-pulse')) {
+                    avatarTarget.classList.add('waw-typing-pulse');
+                    avatarImg.classList.add('waw-typing-pulse-img');
                 }
             } else {
-                avatarImg.classList.remove('waw-typing-pulse');
+                avatarTarget.classList.remove('waw-typing-pulse');
+                avatarImg.classList.remove('waw-typing-pulse-img');
             }
         }
     });
+
+    // 2. Chat Header
+    const header = document.querySelector('#main header');
+    if (header) {
+        // Status element broader detection (WhatsApp updates classes frequently)
+        const headerStatus = header.querySelector('[data-testid="chat-subtitle"]') || 
+                             header.querySelector('._aj-8') ||
+                             header.querySelector('span.x1rg5ohu') ||
+                             header.querySelector('.y304m08c');
+        const headerImg = header.querySelector('img');
+        
+        if (headerStatus && headerImg) {
+            const headerTarget = headerImg.parentElement; // Immediate Parent
+            const text = headerStatus.textContent.toLowerCase();
+            const isTyping = text.includes('typing') || text.includes('yazıyor') || 
+                             text.includes('recording') || text.includes('kaydediyor');
+            
+            if (isTyping) {
+                if (!headerTarget.classList.contains('waw-typing-pulse')) {
+                    headerTarget.classList.add('waw-typing-pulse');
+                    headerImg.classList.add('waw-typing-pulse-img');
+                }
+            } else {
+                headerTarget.classList.remove('waw-typing-pulse');
+                headerImg.classList.remove('waw-typing-pulse-img');
+            }
+        }
+    }
 }
 
 // Sohbet header'ına profil resmini bulanık arkaplan olarak ata
@@ -1115,54 +612,7 @@ function syncChatHeaderBackground() {
     }
 }
 
-// WhatsApp DOM'undan tamamen bağımsız, güvenilir Yeni Sohbet butonu enjeksiyonu
-function injectFixedNewChatButton() {
-    if (!isCompact) {
-        let btn = document.getElementById('waw-fixed-new-chat');
-        if (btn) btn.style.display = 'none';
-        return;
-    }
 
-    const side = document.getElementById('side') || document.querySelector('._ak9p');
-    if (!side) return;
-
-    let btn = document.getElementById('waw-fixed-new-chat');
-    if (!btn) {
-        btn = document.createElement('div');
-        btn.id = 'waw-fixed-new-chat';
-        btn.setAttribute('title', 'Yeni Sohbet');
-        // Orijinal (Kullanıcının talep ettiği) 'new-chat-outline' SVG
-        btn.innerHTML = `<span aria-hidden="true" data-icon="new-chat-outline" class="xxk0z11 xvy4d1p"><svg viewBox="0 0 24 24" height="24" width="24" preserveAspectRatio="xMidYMid meet" class="" fill="none"><title>new-chat-outline</title><path d="M9.53277 12.9911H11.5086V14.9671C11.5086 15.3999 11.7634 15.8175 12.1762 15.9488C12.8608 16.1661 13.4909 15.6613 13.4909 15.009V12.9911H15.4672C15.9005 12.9911 16.3181 12.7358 16.449 12.3226C16.6659 11.6381 16.1606 11.0089 15.5086 11.0089H13.4909V9.03332C13.4909 8.60007 13.2361 8.18252 12.8233 8.05119C12.1391 7.83391 11.5086 8.33872 11.5086 8.991V11.0089H9.49088C8.83941 11.0089 8.33411 11.6381 8.55097 12.3226C8.68144 12.7358 9.09947 12.9911 9.53277 12.9911Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M0.944298 5.52617L2.99998 8.84848V17.3333C2.99998 18.8061 4.19389 20 5.66665 20H19.3333C20.8061 20 22 18.8061 22 17.3333V6.66667C22 5.19391 20.8061 4 19.3333 4H1.79468C1.01126 4 0.532088 4.85997 0.944298 5.52617ZM4.99998 8.27977V17.3333C4.99998 17.7015 5.29845 18 5.66665 18H19.3333C19.7015 18 20 17.7015 20 17.3333V6.66667C20 6.29848 19.7015 6 19.3333 6H3.58937L4.99998 8.27977Z" fill="currentColor"></path></svg></span>`;
-        
-        btn.addEventListener('click', () => {
-             // Orijinal "Yeni Sohbet" butonlarını ara (birden fazla olası yer)
-             const orgBtn = document.querySelector('[aria-label="New chat"]') || 
-                            document.querySelector('[title="New chat"]') || 
-                            document.querySelector('button:has([data-icon="new-chat-outline"])') ||
-                            document.querySelector('span[data-icon="new-chat-outline"]') ||
-                            document.querySelector('[data-icon="chat"]');
-
-             let target = orgBtn;
-             if (target && target.tagName !== 'BUTTON') {
-                 let parentBtn = target.closest('button') || target.closest('[role="button"]');
-                 if (parentBtn) target = parentBtn;
-             }
-             if (target) {
-                 target.click();
-             } else {
-                 console.warn('waw-compact: Orijinal WhatsApp Yeni Sohbet butonu bulunamadı!');
-             }
-        });
-        
-        side.appendChild(btn);
-    } else {
-        // Zaten varsa, ama side içinde değilse oraya taşı (WhatsApp DOM re-render yaparsa kurtarır)
-        if (btn.parentElement !== side) {
-            side.appendChild(btn);
-        }
-        btn.style.display = '';
-    }
-}
 
 // ── Compact Mode Aç/Kapat ───────────────────────────────────────
 function setCompact(on) {
@@ -1173,6 +623,7 @@ function setCompact(on) {
     annotateRows();
     log('Compact mod AKTİF');
   } else {
+    restoreOriginalLayout();
     log('Compact mod KAPALI');
   }
 }
@@ -1193,7 +644,8 @@ function startMutation() {
     clearTimeout(timer);
     timer = setTimeout(annotateRows, 80); // 300ms'den 80ms'ye indirdi
   });
-  mutationObserver.observe(document.body, { childList: true, subtree: true });
+  const target = document.getElementById('app') || document.body;
+  mutationObserver.observe(target, { childList: true, subtree: true });
 
   // Sohbete tıklandığında anında highlight güncelle
   document.addEventListener('click', (e) => {
@@ -1253,13 +705,6 @@ function waitReady(cb, ms = 30000) {
 function bootstrap() {
   log('Sistem başlatılıyor...');
   
-  // Önceki overlay'leri, butonları temizle
-  document.getElementById('waw-overlay')?.remove();
-  document.getElementById('waw-drawer')?.remove();
-  document.getElementById('waw-compact-btn')?.remove();
-
-  injectStyles();
-  
   // Stash ve Dropdown yapılarını önden hazırla (Hızlı müdahale için)
   if (!document.getElementById('waw-search-stash')) {
       const stash = document.createElement('div');
@@ -1276,3 +721,54 @@ function bootstrap() {
 
 log('Bekleniyor...');
 waitReady(bootstrap);
+// --- POPUP / MENU FIXER ---
+function startMenuObserver() {
+    const observer = new MutationObserver((mutations) => {
+        if (!document.body.classList.contains('waw-compact')) return;
+        
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) { // ELEMENT_NODE
+                    if (node.getAttribute('role') === 'application' || 
+                        node.getAttribute('role') === 'dialog' || 
+                        node.querySelector('[style*="transform-origin"]') ||
+                        node.classList.contains('x1qjc9v5')) {
+                        
+                        const rect = node.getBoundingClientRect();
+                        const topBar = document.getElementById('waw-custom-topbar');
+                        const topOffset = topBar ? topBar.offsetHeight : 60;
+
+                        node.style.zIndex = '2000001';
+                        node.style.position = 'fixed';
+                        node.style.top = topOffset + 'px';
+                        
+                        // Dinamik yerleşim: ekranın ortasından biraz sağa
+                        const app = document.getElementById('app');
+                        const containerWidth = app ? app.offsetWidth : 500;
+                        const screenMid = window.innerWidth / 2;
+                        const leftPos = screenMid + (containerWidth / 4);
+
+                        node.style.left = leftPos + 'px';
+                        node.style.right = 'auto';
+                        node.style.transform = 'none';
+                        node.style.display = 'block';
+                        node.style.visibility = 'visible';
+                        node.style.opacity = '1';
+
+                        const innerMenu = node.querySelector('.x1qjc9v5, ._ak9v, ._ak9w');
+                        if (innerMenu) {
+                            innerMenu.style.transform = 'none';
+                            innerMenu.style.opacity = '1';
+                            innerMenu.style.visibility = 'visible';
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: false });
+}
+
+// Global başlatma
+startMenuObserver();
