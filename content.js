@@ -656,9 +656,28 @@ function syncSelectedHighlight() {
     );
 
     selectedEls.forEach(sel => {
-        const img = sel.querySelector('img');
-        if (img && img.parentElement) {
-            img.parentElement.classList.add('waw-selected-ring');
+        // Öncelik: Profil resmi olanlar (<img ...>)
+        const avatarImg = sel.querySelector('img');
+        if (avatarImg && avatarImg.parentElement) {
+            avatarImg.parentElement.classList.add('waw-selected-ring');
+        } else {
+            // Alternatif: Resmi olmayan / Unsaved numaralar veya Gruplar (<svg ...>)
+            const defaultAvatarSvg = sel.querySelector('[data-testid="default-user"]') || 
+                                     sel.querySelector('[data-icon="default-contact-refreshed"] svg') ||
+                                     sel.querySelector('[data-icon="default-group-refreshed"] svg') ||
+                                     sel.querySelector('[data-icon="wa-chat-psa"] svg') ||
+                                     sel.querySelector('._ak8h svg') ||
+                                     sel.querySelector('[data-testid="avatar"] svg') ||
+                                     sel.querySelector('svg'); // En son çare
+                                     
+            if (defaultAvatarSvg) {
+                // SVG'yi direkt saran data-icon'lu span'ı (veya en yakın span'ı) hedefliyoruz.
+                // Çünkü injected.css içerisinde "span.waw-selected-ring" için özel boyut/flex kurallarımız var.
+                const iconSpan = defaultAvatarSvg.closest('span[data-icon]') || defaultAvatarSvg.closest('span');
+                if (iconSpan) {
+                    iconSpan.classList.add('waw-selected-ring');
+                }
+            }
         }
     });
 }
@@ -743,6 +762,13 @@ function syncChatHeaderBackground() {
 // ── Compact Mode Aç/Kapat ───────────────────────────────────────
 function setCompact(on) {
   if (on === isCompact) return;
+  
+  // Script çok erken çalışırsa body yüklü olmayabilir, güvenliğe al
+  if (!document.body) {
+      requestAnimationFrame(() => setCompact(on));
+      return;
+  }
+
   isCompact = on;
   document.body.classList.toggle('waw-compact', on);
   if (on) {

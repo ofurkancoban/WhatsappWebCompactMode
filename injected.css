@@ -564,6 +564,20 @@ body.waw-compact .waw-selected-ring {
    box-shadow: 0 0 0 5px rgb(183 183 183) !important;
 }
 
+/* Kapsayıcısı olmayan, varsayılan SVG'lere de düzgün ring oturması için flex ayarı */
+body.waw-compact span.waw-selected-ring {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    width: 49px !important;
+    height: 49px !important;
+}
+body.waw-compact span.waw-selected-ring svg {
+    border-radius: 50% !important;
+    display: block !important;
+}
+
 body.waw-compact .waw-typing-pulse::after {
   content: "" !important;
   position: absolute !important;
