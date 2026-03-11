@@ -41,6 +41,11 @@ body.waw-compact #main > footer {
   opacity: 1 !important;
 }
 
+/* Chat ekranı içeriğini küçült (sığmayan butonlar için) */
+body.waw-compact #main {
+  zoom: 0.85;
+}
+
 /* --- CHAT HEADER REDESIGN --- */
 body.waw-compact #main > header {
   display: flex !important;
@@ -185,7 +190,7 @@ body.waw-compact div[style*="--x-transformOrigin"] {
   opacity: 1 !important;
 }
 
-body.waw-compact .x1280gxy:not([role="menu"]) {
+body.waw-compact .x1280gxy:not([role="menu"]):not([role="button"]) {
     background-color: var(--WDS-surface-default);
     padding-left: 15px;
     width: 90%;
