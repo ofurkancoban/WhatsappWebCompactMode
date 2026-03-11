@@ -732,17 +732,9 @@ function syncChatHeaderBackground() {
         const bgUrl = `url("${avatar.src}")`;
         if (header.style.getPropertyValue('--header-bg-image') !== bgUrl) {
             header.style.setProperty('--header-bg-image', bgUrl);
-            
-            // NEW: Duvar kağıdı desenini (doodles) renklendir
-            getDominantColor(avatar).then(color => {
-                if (color) {
-                    document.body.style.setProperty('--waw-doodle-color', color);
-                }
-            });
         }
     } else {
         header.style.removeProperty('--header-bg-image');
-        document.body.style.removeProperty('--waw-doodle-color');
     }
 }
 
@@ -756,6 +748,17 @@ function setCompact(on) {
   if (on) {
     annotateRows();
     log('Compact mod AKTİF');
+    startMutation();
+    initEventListeners();
+    
+    // Uygulama ilk açıldığında boş durum için fallback renk (Yeşil) atayalım,
+    // sohbete tıklandığında dinamik olarak değişecek.
+    document.body.style.setProperty('--waw-doodle-layer', 'rgba(30, 215, 96, 0.08)');
+    document.body.classList.add('waw-bg-dark');
+    
+    setTimeout(() => {
+        syncCustomTopBar();
+    }, 100);
   } else {
     restoreOriginalLayout();
     log('Compact mod KAPALI');
@@ -792,7 +795,17 @@ function initEventListeners() {
     // 'pointerdown' kullanıyoruz çünkü WhatsApp mobil/modern etkileşimlerde 'click' veya 'mousedown' durdurabiliyor.
     window.addEventListener('pointerdown', (e) => {
         if (!isCompact) return;
+        
+        // Sadece sol tıklamaları kabul et (0: sol, 1: orta, 2: sağ)
+        if (e.button !== 0) return;
+
         const target = e.target;
+        
+        // SADECE sol taraftaki sohbet listesine (sidebar) tıklanırsa çalış!
+        // Chat içindeki tıklamaların arkaplanı değiştirmesini engeller.
+        const inSidebar = target.closest('#pane-side') || target.closest('[data-testid="chat-list"]');
+        if (!inSidebar) return;
+
         const row = target.closest('[role="row"]') || 
                     target.closest('[role="gridcell"]') ||
                     target.closest('._ak8q') || 
@@ -802,7 +815,8 @@ function initEventListeners() {
         
         if (row) {
             log('Pointerdown algılandı:', row.dataset.wawName || 'Bilinmeyen Sohbet');
-            // 1. Renk anında (Sidebar avatarından al)
+            
+            // 1. Profil resminden dinamik rengi hesapla ve arkaplana uygula
             const sideAvatar = row.querySelector('img');
             if (sideAvatar) {
                 syncColorImmediately(sideAvatar);
@@ -817,19 +831,22 @@ function initEventListeners() {
         }
     }, { capture: true, passive: true });
 
-    // Hover anında pre-cache yap ki tıklandığında renk hazır olsun
+    // Hover anında pre-cache yap ki tıklandığında renk hazır olsun (Sadece sidebar için)
     document.addEventListener('mouseover', (e) => {
         if (!isCompact) return;
         const target = e.target;
+        const inSidebar = target.closest('#pane-side') || target.closest('[data-testid="chat-list"]');
+        if (!inSidebar) return;
+        
         const row = target.closest('[role="row"]') || target.closest('._ak8q') || target.closest('._agum');
         if (row && !row.dataset.wawPrecached) {
             const img = row.querySelector('img');
-            if (img) {
-                getDominantColor(img);
-                row.dataset.wawPrecached = 'true';
+            if (img && img.complete) {
+                getDominantColor(img); 
+                row.dataset.wawPrecached = "true";
             }
         }
-    }, { capture: true, passive: true });
+    }, { passive: true });
 }
 
 // ── Floating Tooltip ───────────────────────────────────────────
