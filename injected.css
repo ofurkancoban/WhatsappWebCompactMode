@@ -49,6 +49,8 @@ body.waw-compact #main > header {
   justify-content: center !important;
   height: auto !important;
   min-height: 150px !important;
+  min-width: 280px !important; /* Adjusted from 410px for better responsiveness */
+  width: auto !important;  
   background-color: rgba(24, 24, 27, 0.6) !important;
   backdrop-filter: blur(30px) saturate(180%) !important;
   position: relative !important;
@@ -247,6 +249,11 @@ body.waw-compact #app {
   box-sizing: border-box !important;
 }
 
+body.waw-compact #main {
+    background-color: var(--waw-doodle-layer, transparent) !important;
+    transition: background-color 0.4s ease-out !important;
+}
+
 body.waw-compact .waw-nav-rail {
   width: 0 !important;
   min-width: 0 !important;
@@ -275,9 +282,10 @@ body.waw-compact #waw-custom-topbar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 8px;
+  justify-content: center;
+  padding: 0 4px;
   box-sizing: border-box;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 
 /* Hidden by default, shown via body.waw-compact */
@@ -286,17 +294,23 @@ body.waw-compact #waw-custom-topbar {
 }
 
 body.waw-compact #waw-custom-topbar .waw-topbar-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  margin: 0 4px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  position: relative;
-  flex-shrink: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 34px !important;
+  margin: 0 4px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s !important;
+  position: static !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+}
+
+body.waw-compact #waw-custom-topbar .waw-topbar-btn > span {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 body.waw-compact #waw-custom-topbar .waw-topbar-btn:hover {
@@ -582,4 +596,54 @@ body.waw-compact [title="Profile details"] > div,
 body.waw-compact ._ak8q,
 body.waw-compact [data-testid="cell-frame-container"] { 
   overflow: visible !important; 
+}
+
+/* --- CHAT WALLPAPER PERSISTENCE --- */
+body.waw-compact #main > div[data-asset-chat-background-dark],
+body.waw-compact #main > div[data-asset-chat-background-light],
+body.waw-compact #main > div[data-asset-chat-background] {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: block !important;
+    opacity: 1 !important;
+    z-index: 0 !important;
+    background-color: transparent !important; /* Force transparency to show doodles */
+}
+
+/* --- DYNAMIC DOODLE COLOR --- */
+/* Base doodle settings (Rescaled) */
+body.waw-compact .x10l6tqk[data-asset-chat-background-dark="true"],
+body.waw-compact .x10l6tqk[data-asset-chat-background-light="true"] {
+    background-color: transparent !important;
+    background-size: 300px !important; /* Doodles'ı küçült (rescale) */
+    transition: filter 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* 1. If the extracted dynamic background is DARK -> Make white doodles slightly dimmed/subtle */
+body.waw-compact.waw-bg-dark .x10l6tqk[data-asset-chat-background-dark="true"],
+body.waw-compact.waw-bg-dark .x10l6tqk[data-asset-chat-background-light="true"] {
+    opacity: 0.25 !important; 
+    filter: brightness(0.7) !important;
+}
+
+/* 2. If the extracted dynamic background is LIGHT -> Darken the doodles dramatically (invert them) */
+body.waw-compact.waw-bg-light .x10l6tqk[data-asset-chat-background-dark="true"],
+body.waw-compact.waw-bg-light .x10l6tqk[data-asset-chat-background-light="true"] {
+    opacity: 0.40 !important; 
+    filter: invert(1) brightness(0.4) !important; 
+}
+
+
+/* Ensure any internal WhatsApp chat backgrounds are transparent so our #main color shows */
+body.waw-compact #main > div[data-asset-chat-background-dark] > div.x10l6tqk,
+body.waw-compact #main > div[data-asset-chat-background-light] > div.x10l6tqk,
+body.waw-compact [data-testid="chat-background"] {
+    background-color: transparent !important;
+}
+
+/* Clean up any previous ugly overlays */
+body.waw-compact .x10l6tqk[data-asset-chat-background-dark="true"]::after,
+body.waw-compact .x10l6tqk[data-asset-chat-background-light="true"]::after {
+    display: none !important;
 }

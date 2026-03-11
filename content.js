@@ -15,10 +15,104 @@ let isCompact = false;
 let mutationCount = 0;
 let mutationObserver = null;
 let navRailElement = null; // Persistent reference to the navigation rail
+const colorCache = new Map(); // Cache for profile picture colors
+const sharedCanvas = document.createElement('canvas');
+const sharedCtx = sharedCanvas.getContext('2d', { willReadFrequently: true });
+sharedCanvas.width = 16;
+sharedCanvas.height = 16;
 
 function log(...a) { console.log('%c[WAW Compact]', 'color:#00a884;font-weight:bold', ...a); }
 
+// ULTRA-GLOBAL DEBUG
+window.addEventListener('pointerdown', (e) => {
+    if (document.body.classList.contains('waw-compact')) {
+        log('Pointerdown (GLOBAL):', e.target.tagName, e.target.className);
+    }
+}, { capture: true, passive: true });
+
 // ── Navigasyon ve Layout Yardımcıları ───────────────────────────
+
+// Profil resminden baskın rengi çıkar (CORS-safe ve Hızlı)
+async function getDominantColor(source) {
+    if (!source) return null;
+    const src = typeof source === 'string' ? source : source.src;
+    if (!src) return null;
+    if (colorCache.has(src)) return colorCache.get(src);
+
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = src;
+        
+        img.onload = () => {
+            try {
+                sharedCtx.clearRect(0, 0, 16, 16);
+                sharedCtx.drawImage(img, 0, 0, 16, 16);
+                const data = sharedCtx.getImageData(0, 0, 16, 16).data;
+                let r = 0, g = 0, b = 0, count = 0;
+                for (let i = 0; i < data.length; i += 4) {
+                    r += data[i]; g += data[i+1]; b += data[i+2]; count++;
+                }
+                const color = `rgb(${Math.round(r/count)}, ${Math.round(g/count)}, ${Math.round(b/count)})`;
+                colorCache.set(src, color);
+                log('Renk çıkarıldı:', src.substring(0, 30), '->', color);
+                resolve(color);
+            } catch (e) {
+                log('CORS Hatası veya Analiz Başarısız:', src.substring(0, 50));
+                resolve(null);
+            }
+        };
+        img.onerror = () => {
+            log('Resim yükleme hatası:', src.substring(0, 50));
+            resolve(null);
+        };
+    });
+}
+
+// Rengi ANINDA uygula (Debounce beklemeden)
+async function syncColorImmediately(img) {
+    if (!img) return;
+    const color = await getDominantColor(img);
+    if (color) {
+        // color is "rgb(r, g, b)"
+        const match = color.match(/\d+/g);
+        if (match && match.length === 3) {
+            const r = parseInt(match[0]);
+            const g = parseInt(match[1]);
+            const b = parseInt(match[2]);
+            
+            // Calculate luminance to determine if background is light or dark
+            // Formula: (0.299*R + 0.587*G + 0.114*B)
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+            
+            if (luminance < 128) {
+                // Background is DARK -> Doodles should be LIGHT
+                document.body.classList.remove('waw-bg-light');
+                document.body.classList.add('waw-bg-dark');
+            } else {
+                // Background is LIGHT -> Doodles should be DARK
+                document.body.classList.remove('waw-bg-dark');
+                document.body.classList.add('waw-bg-light');
+            }
+            
+            // Set the background tint (using user's chosen 0.75 opacity for strong effect)
+            document.body.style.setProperty('--waw-doodle-layer', `rgba(${r}, ${g}, ${b}, 0.75)`);
+        }
+    } else {
+        document.body.style.setProperty('--waw-doodle-layer', 'transparent');
+        document.body.classList.remove('waw-bg-light', 'waw-bg-dark');
+    }
+}
+
+// Sidebar'daki diğer kişilerin renklerini önceden hafızaya al
+function preCacheColors() {
+    const avatars = document.querySelectorAll('#pane-side img, [data-testid="chat-list"] img');
+    avatars.forEach(img => {
+        if (img.complete && img.naturalWidth > 0) {
+            getDominantColor(img);
+        }
+    });
+}
 
 // Navigasyon Sütununu Yapısal Değil "Fiziksel" Olarak Bul (Kusursuz Yöntem)
 function getFarLeftColumn() {
@@ -148,12 +242,6 @@ function syncCustomTopBar() {
               });
               
               const t = label.toLowerCase();
-              if (t.includes('setting') || t.includes('ayarlar') || t.includes('profile') || t.includes('profil') || t.includes('default-user')) {
-                  if (!topBar.querySelector('.waw-pushed-right')) {
-                      clone.style.marginLeft = 'auto';
-                      clone.classList.add('waw-pushed-right');
-                  }
-              }
               
               const existingButtons = topBar.querySelectorAll('.waw-topbar-btn');
               if (existingButtons.length === 1) {
@@ -165,7 +253,41 @@ function syncCustomTopBar() {
           if (clone.innerHTML !== originalBtn.innerHTML) {
               clone.innerHTML = originalBtn.innerHTML;
           }
+
+          // CLEAN CLONED STYLES: Prevent overflow from original absolute/fixed styles
+          clone.style.position = 'static'; // Use static to stay in flex
+          clone.style.left = 'auto';
+          clone.style.top = 'auto';
+          clone.style.transform = 'none';
+          clone.style.margin = '0 5px';
+          clone.style.padding = '0';
+          clone.style.display = 'flex';
+          clone.style.width = '34px';
+          clone.style.height = '34px';
+          clone.style.flex = '0 0 auto';
+          
+          // Remove any problematic classes that might have fixed positions
+          clone.classList.remove('x10l6tqk', 'xh8yej3', 'x1g42fcv', 'x1y1aw1k', 'xw2cs43', 'x1qv4bc5', 'xw4jn90');
+
+          const svg = clone.querySelector('svg');
+          if (svg) {
+              svg.style.width = '24px';
+              svg.style.height = '24px';
+              svg.style.position = 'static';
+              svg.style.transform = 'none';
+              svg.style.margin = '0';
+          }
       });
+
+      // --- SCALE DOWN IF TOO MANY ICONS ---
+      const iconCount = topBar.querySelectorAll('.waw-topbar-btn').length;
+      if (iconCount > 8) {
+          topBar.style.gap = '2px';
+          topBar.querySelectorAll('.waw-topbar-btn').forEach(b => {
+              b.style.margin = '0 2px';
+              b.style.width = '30px';
+          });
+      }
 
       // --- Üst Bar En Sağa "More Vert" Butonu Proxy Olarak Ekle ---
       createSpecialMoreButton(topBar);
@@ -514,6 +636,10 @@ function annotateRows() {
   syncChatHeaderBackground();
   syncTypingStatus();
   syncSelectedHighlight();
+  
+  // Arka planda renkleri hafızaya al (lag önlemek için)
+  if (mutationCount % 5 === 0) preCacheColors();
+  mutationCount++;
 }
 
 // Seçili chat avatarına daire highlight ekle (JS class injection)
@@ -606,9 +732,17 @@ function syncChatHeaderBackground() {
         const bgUrl = `url("${avatar.src}")`;
         if (header.style.getPropertyValue('--header-bg-image') !== bgUrl) {
             header.style.setProperty('--header-bg-image', bgUrl);
+            
+            // NEW: Duvar kağıdı desenini (doodles) renklendir
+            getDominantColor(avatar).then(color => {
+                if (color) {
+                    document.body.style.setProperty('--waw-doodle-color', color);
+                }
+            });
         }
     } else {
         header.style.removeProperty('--header-bg-image');
+        document.body.style.removeProperty('--waw-doodle-color');
     }
 }
 
@@ -639,24 +773,63 @@ function startResize() {
 function startMutation() {
   if (mutationObserver) return;
   let timer;
+  
   mutationObserver = new MutationObserver(() => {
     if (!isCompact) return;
+    
     clearTimeout(timer);
-    timer = setTimeout(annotateRows, 80); // 300ms'den 80ms'ye indirdi
+    timer = setTimeout(() => {
+        annotateRows();
+        syncCustomTopBar();
+    }, 80); 
   });
   const target = document.getElementById('app') || document.body;
   mutationObserver.observe(target, { childList: true, subtree: true });
+}
 
-  // Sohbete tıklandığında anında highlight güncelle
-  document.addEventListener('click', (e) => {
-    if (!isCompact) return;
-    const row = e.target.closest('[role="row"]') || e.target.closest('[data-testid="cell-frame-container"]');
-    if (row) {
-      // Gecikme yok: tıklama anında highlight sıfırla, 50ms sonra yenişi uygula
-      document.querySelectorAll('.waw-selected-ring').forEach(el => el.classList.remove('waw-selected-ring'));
-      setTimeout(syncSelectedHighlight, 50);
-    }
-  }, { passive: true });
+function initEventListeners() {
+    // Sohbete tıklandığında (veya basıldığında) anında highlight ve RENK güncelle
+    // 'pointerdown' kullanıyoruz çünkü WhatsApp mobil/modern etkileşimlerde 'click' veya 'mousedown' durdurabiliyor.
+    window.addEventListener('pointerdown', (e) => {
+        if (!isCompact) return;
+        const target = e.target;
+        const row = target.closest('[role="row"]') || 
+                    target.closest('[role="gridcell"]') ||
+                    target.closest('._ak8q') || 
+                    target.closest('[data-testid="cell-frame-container"]') || 
+                    target.closest('[data-testid="list-item"]') ||
+                    target.closest('._agum');
+        
+        if (row) {
+            log('Pointerdown algılandı:', row.dataset.wawName || 'Bilinmeyen Sohbet');
+            // 1. Renk anında (Sidebar avatarından al)
+            const sideAvatar = row.querySelector('img');
+            if (sideAvatar) {
+                syncColorImmediately(sideAvatar);
+            }
+
+            // 2. Highlight'ı biraz sonra güncelle ki WhatsApp'ın seçimi tamamlansın
+            setTimeout(syncSelectedHighlight, 80);
+            
+            // 3. Header delay'ini önlemek için tıklar tıklamaz header sync'i çalıştır
+            setTimeout(syncCustomTopBar, 10);
+            setTimeout(syncCustomTopBar, 150); // Fallback for delayed loads
+        }
+    }, { capture: true, passive: true });
+
+    // Hover anında pre-cache yap ki tıklandığında renk hazır olsun
+    document.addEventListener('mouseover', (e) => {
+        if (!isCompact) return;
+        const target = e.target;
+        const row = target.closest('[role="row"]') || target.closest('._ak8q') || target.closest('._agum');
+        if (row && !row.dataset.wawPrecached) {
+            const img = row.querySelector('img');
+            if (img) {
+                getDominantColor(img);
+                row.dataset.wawPrecached = 'true';
+            }
+        }
+    }, { capture: true, passive: true });
 }
 
 // ── Floating Tooltip ───────────────────────────────────────────
@@ -716,6 +889,7 @@ function bootstrap() {
   startResize();
   startMutation();
   initTooltip();
+  initEventListeners();
   log('Sistem aktif ✓');
 }
 
