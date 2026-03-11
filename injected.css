@@ -572,10 +572,29 @@ body.waw-compact span.waw-selected-ring {
     border-radius: 50% !important;
     width: 49px !important;
     height: 49px !important;
+    overflow: visible !important;
+    box-shadow: 0 0 0 5px rgb(183 183 183) !important;
 }
 body.waw-compact span.waw-selected-ring svg {
     border-radius: 50% !important;
     display: block !important;
+}
+
+/* SALT CSS: JS'e backup olarak, aria-selected olan satırların içindeki 
+   data-icon span'larine dogrudan ring uygula */
+body.waw-compact #pane-side [aria-selected="true"] span[data-icon="default-contact-refreshed"],
+body.waw-compact #pane-side [aria-selected="true"] span[data-icon="default-group-refreshed"],
+body.waw-compact #pane-side [aria-selected="true"] span[data-icon="wa-chat-psa"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    width: 49px !important;
+    height: 49px !important;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+    box-shadow: 0 0 0 5px rgb(183 183 183) !important;
 }
 
 body.waw-compact .waw-typing-pulse::after {

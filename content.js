@@ -777,14 +777,22 @@ function setCompact(on) {
     startMutation();
     initEventListeners();
     
-    // Uygulama ilk açıldığında boş durum için fallback renk (Yeşil) atayalım,
-    // sohbete tıklandığında dinamik olarak değişecek.
+    // Başlangıç fallback rengi (Yeşil) — ilk açılış için
     document.body.style.setProperty('--waw-doodle-layer', 'rgba(30, 215, 96, 0.08)');
     document.body.classList.add('waw-bg-dark');
-    
+
+    // Kompakt moda geçildiğinde açık olan sohbetin rengini hemen yeniden uygula
     setTimeout(() => {
+        const activeAvatar = document.querySelector('#pane-side [aria-selected="true"] img') ||
+                             document.querySelector('[data-testid="chat-list"] [aria-selected="true"] img') ||
+                             document.querySelector('#main header img');
+        if (activeAvatar) {
+            syncColorImmediately(activeAvatar);
+        }
+        syncSelectedHighlight();
         syncCustomTopBar();
-    }, 100);
+    }, 200);
+  
   } else {
     restoreOriginalLayout();
     log('Compact mod KAPALI');
