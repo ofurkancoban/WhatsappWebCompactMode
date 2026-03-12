@@ -53,17 +53,57 @@ body.waw-compact #main > header {
   align-items: center !important;
   justify-content: center !important;
   height: auto !important;
-  min-height: 150px !important;
-  min-width: 280px !important; /* Adjusted from 410px for better responsiveness */
-  width: auto !important;  
-  background-color: rgba(24, 24, 27, 0.6) !important;
+  min-height: 240px !important;
+  min-width: 280px !important;
+  width: 100% !important;
+  background-color: transparent !important;
   backdrop-filter: blur(30px) saturate(180%) !important;
-  position: relative !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   z-index: 10 !important;
   padding: 20px 10px 10px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-image: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   gap: 12px !important;
   box-sizing: border-box !important;
+  overflow: hidden !important;
+  padding-bottom: 40px !important;
+  -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%) !important;
+  mask-image: linear-gradient(to bottom, black 78%, transparent 100%) !important;
+}
+
+/* Header profil resmi bula nık arkaplan katmanı - header sınırları içinde */
+body.waw-compact #main > header::before {
+  content: "";
+  position: absolute;
+  top: -10%; left: -10%; right: -10%; bottom: -10%;
+  background-image: var(--header-bg-image, none);
+  background-size: cover;
+  background-position: center;
+  filter: blur(12px) brightness(0.65);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+  transition: background-image 0.5s ease, opacity 0.5s ease;
+}
+
+/* Altında hafif gölge - mesajlara geçiş (arkaplan yok, sadece shadow) */
+body.waw-compact #main > header::after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
+  z-index: 9;
+  pointer-events: none;
 }
 
 body.waw-compact #main > header > div {
@@ -80,8 +120,10 @@ body.waw-compact #main > header > div {
 body.waw-compact #main > header [data-testid="chat-head-button"],
 body.waw-compact #main > header [data-testid="chat-head-button"] > div,
 body.waw-compact #main > header [data-testid="avatar"] {
-  width: 60px !important;
-  height: 60px !important;
+  width: 71px !important;
+  height: 71px !important;
+  min-width: 71px !important;
+  min-height: 71px !important;
   transform: none !important;
   margin: 0 !important;
   border-radius: 50% !important;
@@ -89,10 +131,26 @@ body.waw-compact #main > header [data-testid="avatar"] {
   order: 1 !important;
 }
 
+/* Profile details button container — avatar'ı kesen parent */
+body.waw-compact #main > header div[role="button"][title="Profile details"],
+body.waw-compact #main > header div[role="button"][title="Profile details"] > div {
+  width: 71px !important;
+  height: 71px !important;
+  min-width: 71px !important;
+  min-height: 71px !important;
+  border-radius: 50% !important;
+  overflow: visible !important;
+}
+
 body.waw-compact #main > header [data-testid="chat-head-button"] img,
-body.waw-compact #main > header [data-testid="avatar"] img {
-  width: 60px !important;
-  height: 60px !important;
+body.waw-compact #main > header [data-testid="avatar"] img,
+body.waw-compact #main > header div[role="button"][title="Profile details"] img {
+  width: 71px !important;
+  height: 71px !important;
+  min-width: 71px !important;
+  min-height: 71px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
 }
 
 body.waw-compact #main > header > div:nth-child(2) {
@@ -546,7 +604,37 @@ body.waw-compact #main header::before {
   background-size: cover;
   background-position: center;
   filter: blur(12px) brightness(0.65); 
+  opacity: 0.55;
   z-index: 0;
+}
+
+/* Profil resmi olmayan (kaydedilmemis numara, grup vs.) headerlar icin fallback arkaplan */
+body.waw-compact #main header.waw-header-no-avatar::before {
+  content: "";
+  position: absolute;
+  top: -20%; left: -20%; right: -20%; bottom: -20%;
+  background: radial-gradient(
+    ellipse at 50% 20%,
+    rgba(120, 140, 160, 0.55) 0%,
+    rgba(60, 80, 100, 0.35) 40%,
+    rgba(20, 25, 30, 0.0) 100%
+  );
+  filter: blur(8px) brightness(0.85);
+  z-index: 0;
+}
+
+/* No-avatar headerda hafif bir alt glow ekle (yayilma efekti icin) */
+body.waw-compact #main header.waw-header-no-avatar {
+  box-shadow: 0 12px 40px rgba(60, 80, 100, 0.35) !important;
+}
+
+/* Mesaj listesini header'ın arkasından başlat - header absolute olduğu için */
+body.waw-compact [data-testid="conversation-panel-messages"] {
+  padding-top: 250px !important;
+  margin-top: 0 !important;
+  z-index: 1 !important;
+  position: relative !important;
+  box-sizing: border-box !important;
 }
 
 @keyframes waw-ripple {
