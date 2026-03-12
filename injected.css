@@ -773,3 +773,36 @@ body.waw-compact .x10l6tqk[data-asset-chat-background-dark="true"]::after,
 body.waw-compact .x10l6tqk[data-asset-chat-background-light="true"]::after {
     display: none !important;
 }
+
+/* ================================================================
+   DYNAMIC BUBBLE COLORS — profil renginden türetilen balon renkleri
+   ================================================================ */
+
+/* --- INCOMING (Gelen) mesaj balonları --- */
+body.waw-compact .message-in ._amk4,
+body.waw-compact ._1-FMR,
+body.waw-compact .message-in [data-testid="msg-container"] {
+  background-color: var(--waw-bubble-incoming, var(--incoming-background)) !important;
+  border-radius: 7.5px !important;
+  backdrop-filter: blur(8px) saturate(140%) !important;
+  transition: background-color 0.4s ease !important;
+}
+
+/* Gelen mesajın içindeki metin arkaplanını (eğer varsa) şeffaf yap */
+body.waw-compact .message-in .copyable-text,
+body.waw-compact .message-in ._11JPr {
+  background-color: transparent !important;
+}
+
+/* Bubble tail (ok işareti) renklensin */
+body.waw-compact .message-in .tail-in,
+body.waw-compact .message-in [data-testid="msg-container"] svg {
+  color: var(--waw-bubble-incoming, var(--incoming-background)) !important;
+}
+
+/* --- OUTGOING (Gönderilen) mesaj balonları — profil rengiyle uyumlu glow --- */
+body.waw-compact .message-out ._amk6,
+body.waw-compact .message-out [data-testid="msg-container"] {
+  box-shadow: 0 4px 12px var(--waw-bubble-incoming, rgba(0,168,132,0.15)) !important;
+  transition: box-shadow 0.4s ease !important;
+}

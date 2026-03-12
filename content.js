@@ -320,6 +320,7 @@ function syncCustomTopBar() {
           log('Arama kutusu proaktif olarak stashlendi.');
       }
   }
+} // <--- End of syncCustomTopBar()
 
 // ── Tam Restorasyon (Orijinal Hale Dönüş) ───────────────────────
 function restoreOriginalLayout() {
@@ -611,7 +612,7 @@ function restoreOriginalLayout() {
           mainPane.parentElement.id = 'waw-chat-pane-col';
       }
   }
-}
+
 
 function annotateRows() {
   syncCustomTopBar();
