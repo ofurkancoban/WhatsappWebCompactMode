@@ -78,7 +78,7 @@ body.waw-compact #main > header {
   mask-image: linear-gradient(to bottom, black 78%, transparent 100%) !important;
 }
 
-/* Header profil resmi bula nık arkaplan katmanı - header sınırları içinde */
+/* Header profil resmi bulanık arkaplan katmanı - header sınırları içinde */
 body.waw-compact #main > header::before {
   content: "";
   position: absolute;
@@ -90,7 +90,7 @@ body.waw-compact #main > header::before {
   opacity: 0.55;
   z-index: 0;
   pointer-events: none;
-  transition: background-image 0.5s ease, opacity 0.5s ease;
+  transition: background-image 0.15s ease, opacity 0.15s ease;
 }
 
 /* Altında hafif gölge - mesajlara geçiş (arkaplan yok, sadece shadow) */
@@ -238,10 +238,10 @@ body.waw-compact div[contenteditable="false"] + div > div[role="application"],
 body.waw-compact div[role="dialog"] div[style*="transform-origin"],
 body.waw-compact div[style*="--x-transformOrigin"] {
   z-index: 2000000 !important;
-  top: 60px !important;
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(100px) !important;
+  top: 60px;
+  left: 50%;
+  right: auto;
+  transform: translateX(100px);
   position: fixed !important;
   display: block !important;
   visibility: visible !important;
@@ -255,10 +255,10 @@ body.waw-compact .x1280gxy:not([role="menu"]):not([role="button"]) {
 }
 
 body.waw-compact div.x1qjc9v5.x9f619.x78zum5.xdt5ytf.x129bwdz.x1trrmfo.xt7fyls.x1tiyuxx {
-    bottom: 80px !important; 
-    top: auto !important;
-    left: 50% !important;
-    transform: translateX(0px) !important;
+    bottom: 80px; 
+    top: auto;
+    left: 50%;
+    transform: translateX(0px);
     max-height: 70vh !important;
     z-index: 2000000 !important;
 }
@@ -310,6 +310,7 @@ body.waw-compact #app {
   max-width: 820px !important;
   height: auto !important;
   box-sizing: border-box !important;
+  background-color: transparent !important;
 }
 
 body.waw-compact #main {
@@ -398,8 +399,43 @@ body.waw-compact #side,
 body.waw-compact ._ak9p {
   overflow: hidden !important;
   flex-shrink: 0 !important;
-  border: none !important;
   width: 100% !important;
+  
+  /* Premium Glassmorphism */
+  background-color: var(--waw-doodle-layer, rgba(255, 255, 255, 0.05)) !important;
+  background-image: linear-gradient(
+    180deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.03) 100%
+  ) !important;
+  
+  backdrop-filter: blur(40px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+  
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset -1px 0 0 0 rgba(255, 255, 255, 0.05), 
+              0 0 15px rgba(0, 0, 0, 0.05) !important;
+  
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease !important;
+}
+
+/* Dark mode refinement for high-end glass sidebar */
+body.waw-compact.dark #side {
+  background-color: var(--waw-doodle-layer, rgba(15, 15, 15, 0.4)) !important;
+  background-image: linear-gradient(
+    180deg, 
+    rgba(255, 255, 255, 0.03) 0%, 
+    rgba(0, 0, 0, 0.1) 100%
+  ) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Opaque layers removal inside sidebar to let glass show */
+body.waw-compact #side > div,
+body.waw-compact #side ._ak9p,
+body.waw-compact #side [data-testid="chat-list"],
+body.waw-compact #side #pane-side {
+    background-color: transparent !important;
 }
 
 /* --- DRAWER --- */
@@ -451,16 +487,20 @@ body.waw-compact [data-testid="sidebar-resize-handle"] {
 }
 
 /* --- CHAT LIST ROWS --- */
-body.waw-compact #pane-side,
-body.waw-compact [data-testid="chat-list"] {
-  overflow-x: hidden !important;
-  padding-bottom: 80px !important;
+body.waw-compact [role="listitem"],
+body.waw-compact [role="row"],
+body.waw-compact [role="gridcell"],
+body.waw-compact ._ak8j,
+body.waw-compact ._ak8k,
+body.waw-compact ._ak8q {
+    background-color: transparent !important;
 }
 
 body.waw-compact [role="listitem"] > div,
 body.waw-compact [role="listitem"] > div > div {
   margin: 0 !important;
   width: 100% !important;
+  background-color: transparent !important;
 }
 
 body.waw-compact #pane-side:not(:has(._aigw)) [role="row"]:hover,
@@ -596,17 +636,6 @@ body.waw-compact #side header > *:not(:has([data-icon="new-chat-outline"])):not(
 }
 
 /* --- BLURRED HEADER BG --- */
-body.waw-compact #main header::before {
-  content: "";
-  position: absolute;
-  top: -10%; left: -10%; right: -10%; bottom: -10%; 
-  background-image: var(--header-bg-image, none);
-  background-size: cover;
-  background-position: center;
-  filter: blur(12px) brightness(0.65); 
-  opacity: 0.55;
-  z-index: 0;
-}
 
 /* Profil resmi olmayan (kaydedilmemis numara, grup vs.) headerlar icin fallback arkaplan */
 body.waw-compact #main header.waw-header-no-avatar::before {
@@ -774,35 +803,17 @@ body.waw-compact .x10l6tqk[data-asset-chat-background-light="true"]::after {
     display: none !important;
 }
 
-/* ================================================================
-   DYNAMIC BUBBLE COLORS — profil renginden türetilen balon renkleri
-   ================================================================ */
-
-/* --- INCOMING (Gelen) mesaj balonları --- */
-body.waw-compact .message-in ._amk4,
-body.waw-compact ._1-FMR,
-body.waw-compact .message-in [data-testid="msg-container"] {
-  background-color: var(--waw-bubble-incoming, var(--incoming-background)) !important;
-  border-radius: 7.5px !important;
-  backdrop-filter: blur(8px) saturate(140%) !important;
-  transition: background-color 0.4s ease !important;
-}
-
-/* Gelen mesajın içindeki metin arkaplanını (eğer varsa) şeffaf yap */
-body.waw-compact .message-in .copyable-text,
-body.waw-compact .message-in ._11JPr {
-  background-color: transparent !important;
-}
-
-/* Bubble tail (ok işareti) renklensin */
-body.waw-compact .message-in .tail-in,
-body.waw-compact .message-in [data-testid="msg-container"] svg {
-  color: var(--waw-bubble-incoming, var(--incoming-background)) !important;
-}
-
-/* --- OUTGOING (Gönderilen) mesaj balonları — profil rengiyle uyumlu glow --- */
-body.waw-compact .message-out ._amk6,
-body.waw-compact .message-out [data-testid="msg-container"] {
-  box-shadow: 0 4px 12px var(--waw-bubble-incoming, rgba(0,168,132,0.15)) !important;
-  transition: box-shadow 0.4s ease !important;
+/* --- CLEAN UI: Hiding unwanted elements --- */
+/* 1. Chat list filters (All, Unread,vb.) */
+body.waw-compact [aria-label="chat-list-filters"],
+/* 2. Specific footer/banner containers (Targeted safely within sidebar area) */
+body.waw-compact #side div:has(> span[data-icon="lock-outline"]),
+body.waw-compact #side div:has(> span[data-icon="wa-square-icon"]),
+body.waw-compact #side div:has(> div > span[data-icon="lock-outline"]),
+body.waw-compact #side div:has(> div > span[data-icon="wa-square-icon"]),
+body.waw-compact #pane-side div:has(> span[data-icon="lock-outline"]),
+body.waw-compact #pane-side div:has(> span[data-icon="wa-square-icon"]),
+body.waw-compact #pane-side div:has(> div > span[data-icon="lock-outline"]),
+body.waw-compact #pane-side div:has(> div > span[data-icon="wa-square-icon"]) {
+  display: none !important;
 }
